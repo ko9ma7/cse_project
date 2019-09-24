@@ -43,7 +43,7 @@ class Function3:
                         "memo": 0,
                         "tagged": 0,
                         "nowTime": 0,
-                        "screenshot": 0,
+                        # "screenshot": 0,
                     }
             },
         ])

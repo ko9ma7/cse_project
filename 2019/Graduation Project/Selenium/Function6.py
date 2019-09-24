@@ -41,7 +41,7 @@ class Function6:
                         "memo": 0,
                         # "tagged": 1,
                         "nowTime": 0,
-                        "screenshot": 0,
+                        # "screenshot": 0,
                     }
             },
         ])
