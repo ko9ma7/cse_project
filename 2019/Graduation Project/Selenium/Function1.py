@@ -90,8 +90,11 @@ class Function1:
                 "memo": data['memo'],
                 "tagged": data['tagged'],
                 "nowTime": data['nowTime'],
-                "screenshot": data['screenshot'],
+                # "screenshot": data['screenshot'],
             }
 
             index += 1
             newCollection.insert_one(upload_data)
+
+f1 = Function1()
+f1.create_integrated_collection('시연용 프로젝트')

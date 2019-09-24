@@ -1,15 +1,19 @@
 {
 	"user_name" : "Myunghwa Ji",
 	"user_email" : "jmh@example.com",
-	"curr_url" : "https://banksalad.com/contents/%EA%B0%80%EC%83%81%ED%99%94%ED%8F%90-%EA%B0%9C%EB%85%90-%EC%99%84%EB%B2%BD-%EC%A0%95%EB%A6%AC-A-to-Z-1%EB%B6%80-WYTtp",
+	"curr_url" : "https://www.lcg.com/int/ko/analysis-education/trading-guides/introduction-to-trading/what-are-cryptocurrencies/",
 	"prev_url" : "https://www.google.com/search?q=%EA%B0%80%EC%83%81%ED%99%94%ED%8F%90&oq=%EA%B0%80%EC%83%81%ED%99%94%ED%8F%90&aqs=chrome..69i57j0l4j69i60.1814j0j4&sourceid=chrome&ie=UTF-8",
 	"paths" : [
-		"banksalad.com",
-		"/contents",
-		"/%EA%B0%80%EC%83%81%ED%99%94%ED%8F%90-%EA%B0%9C%EB%85%90-%EC%99%84%EB%B2%BD-%EC%A0%95%EB%A6%AC-A-to-Z-1%EB%B6%80-WYTtp"
+		"www.lcg.com",
+		"/int/",
+		"/ko",
+		"/analysis-education",
+		"/trading-guides",
+		"/introduction-to-trading",
+		"/what-are-cryptocurrencies"
 	],
 	"level" : 2,
-	"memo" : "뱅크 샐러드에서 말하는 가상화폐란 1",
+	"memo" : "LCG에서 말하는 가상화폐란 1",
 	"tagged" : "False",
 	"project_name" : "시연용 프로젝트"
 }

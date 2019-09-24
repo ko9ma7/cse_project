@@ -61,7 +61,7 @@ def adjust_column_width(ws):
         ws.column_dimensions[col_name].width = adjust_width
 
 # 엑셀에 크롤링된 데이터 저장 함수
-def crawl_saveExcel(user_name, user_email, curr_url, prev_url, pageList, relativeKeywordList, level, paths, keyword, sub_keyword, pageContents, memo, screenshot, tagged, nowTime):
+def crawl_saveExcel(user_name, user_email, curr_url, prev_url, pageList, relativeKeywordList, level, paths, keyword, sub_keyword, pageContents, memo, tagged, nowTime):
 
     # 현재 날짜
     now = datetime.datetime.now()

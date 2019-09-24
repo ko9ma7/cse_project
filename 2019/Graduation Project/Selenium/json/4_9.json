@@ -1,15 +1,19 @@
 {
 	"user_name" : "Myunghwa Ji",
 	"user_email" : "jmh@example.com",
-	"curr_url" : "https://banksalad.com/contents/%EA%B0%80%EC%83%81%ED%99%94%ED%8F%90-%EA%B1%B0%EB%9E%98%EC%86%8C-%EB%B9%84%EA%B5%90%EB%B6%84%EC%84%9D-7BYW3",
-	"prev_url" : "https://banksalad.com/contents/%EA%B0%80%EC%83%81%ED%99%94%ED%8F%90-%EA%B0%9C%EB%85%90-%EC%99%84%EB%B2%BD-%EC%A0%95%EB%A6%AC-A-to-Z-1%EB%B6%80-WYTtp",
+	"curr_url" : "https://www.lcg.com/int/ko/analysis-education/trading-guides/introduction-to-trading/what-is-forex/",
+	"prev_url" : "https://www.lcg.com/int/ko/analysis-education/trading-guides/introduction-to-trading/what-are-cryptocurrencies/",
 	"paths" : [
-		"banksalad.com",
-		"/contents",
-		"/%EA%B0%80%EC%83%81%ED%99%94%ED%8F%90-%EA%B1%B0%EB%9E%98%EC%86%8C-%EB%B9%84%EA%B5%90%EB%B6%84%EC%84%9D-7BYW3"
+		"www.lcg.com",
+		"/int",
+		"/ko",
+		"/analysis-education",
+		"/trading-guides",
+		"/introduction-to-trading",
+		"/what-is-forex"
 	],
 	"level" : 3,
-	"memo" : "뱅크 샐러드에서 말하는 가상화폐란 2",
+	"memo" : "LCG에서 말하는 가상화폐란 2",
 	"tagged" : "False",
 	"project_name" : "시연용 프로젝트"
 }
