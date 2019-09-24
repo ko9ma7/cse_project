@@ -24,7 +24,7 @@ def store_mongoDB(user_name, user_email, curr_url, prev_url, pageList, relativeK
         "memo": memo,
         "tagged": tagged,
         "nowTime": nowTime,
-        "screenshot": screenshot,
+        # "screenshot": screenshot,
     }
 
     collection.insert_one(crawl_info)

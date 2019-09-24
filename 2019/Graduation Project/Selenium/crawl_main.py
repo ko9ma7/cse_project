@@ -52,7 +52,7 @@ def main(jsonFile):
         pageContents = []
         sub_keyword = []
         tagged = tagged
-        screenshot = crawl_parseScreenshot.parseScreenshot(driver, user_name, keyword)
+        # screenshot = crawl_parseScreenshot.parseScreenshot(driver, user_name, keyword)
         nowTime = datetime.now()
 
     # 홈페이지인 경우
@@ -78,18 +78,18 @@ def main(jsonFile):
 
         tagged = tagged
         memo = memo
-        screenshot = crawl_parseScreenshot.parseScreenshot(driver, user_name, keyword)
+        # screenshot = crawl_parseScreenshot.parseScreenshot(driver, user_name, keyword)
         nowTime = datetime.now()
 
     # 추출된 아이템들을 몽고 DB에 저장
-    crawl_saveMongoDB.store_mongoDB(user_name, user_email, curr_url, prev_url, pageList, relativeKeywordList, level, paths, keyword, sub_keyword, pageContents, memo, screenshot, tagged, nowTime, project_name)
+    crawl_saveMongoDB.store_mongoDB(user_name, user_email, curr_url, prev_url, pageList, relativeKeywordList, level, paths, keyword, sub_keyword, pageContents, memo, tagged, nowTime, project_name)
 
     # 추출된 아이템들을 엑셀에 저장
     crawl_saveExcel.make_excel(user_name, keyword)
-    crawl_saveExcel.crawl_saveExcel(user_name, user_email, curr_url, prev_url, pageList, relativeKeywordList, level, paths, keyword, sub_keyword, pageContents, memo, screenshot, tagged, str(nowTime))
+    crawl_saveExcel.crawl_saveExcel(user_name, user_email, curr_url, prev_url, pageList, relativeKeywordList, level, paths, keyword, sub_keyword, pageContents, memo, tagged, str(nowTime))
 
     # 드라이버 연결 끊기
     driver.close()
 
 if __name__ == '__main__':
-    main('C:\Users\battl\PycharmProjects\ComputerScienceEngineering\2019\Graduation Project\Selenium\json\1_1.json')
+    main('C:/Users/battl/PycharmProjects/ComputerScienceEngineering/2019/Graduation Project/Selenium/json/1_2.json')

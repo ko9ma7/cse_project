@@ -36,7 +36,7 @@ def make_excel(user_name, keyword):
     sheet1.cell(row=1, column=12).value = 'memo'
     sheet1.cell(row=1, column=13).value = 'tags'
     sheet1.cell(row=1, column=14).value = 'nowTime'
-    sheet1.cell(row=1, column=15).value = 'screenshot'
+    # sheet1.cell(row=1, column=15).value = 'screenshot'
 
     work_book.save(filename=excel_file_name)
     work_book.close()
@@ -95,7 +95,7 @@ def crawl_saveExcel(user_name, user_email, curr_url, prev_url, pageList, relativ
         "memo": memo,
         "tagged": tagged,
         "nowTime": nowTime,
-        "screenshot": screenshot,
+        # "screenshot": screenshot,
     }
 
     crawl_info_values = list(crawl_info.values())
@@ -130,11 +130,11 @@ def crawl_saveExcel(user_name, user_email, curr_url, prev_url, pageList, relativ
         elif idx == 6:
             sheet1.cell(row=excel_row, column=excel_column).value = info_values
 
-        # 스크린 샷(14)인 경우(문자열 형태)
-        elif idx == 14:
-            png_loc = 'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/2019/Graduation Project/Selenium/screenshot/' + user_name + '_' + keyword + '.png'
-            png = openpyxl.drawing.image.Image(png_loc)
-            sheet1.add_image(png, 'P2')
+        # # 스크린 샷(14)인 경우(문자열 형태)
+        # elif idx == 14:
+        #     png_loc = 'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/2019/Graduation Project/Selenium/screenshot/' + user_name + '_' + keyword + '.png'
+        #     png = openpyxl.drawing.image.Image(png_loc)
+        #     sheet1.add_image(png, 'P2')
 
         # 사용자명, 이메일, 현재 페이지, 이전 페이지, 키워드, 메모, 태그, 추출 시간인 경우(문자열 형태)
         else:
