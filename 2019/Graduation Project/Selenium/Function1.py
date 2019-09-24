@@ -95,6 +95,3 @@ class Function1:
 
             index += 1
             newCollection.insert_one(upload_data)
-
-f1 = Function1()
-f1.create_integrated_collection('시연용 프로젝트')
