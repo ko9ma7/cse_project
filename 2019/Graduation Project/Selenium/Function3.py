@@ -52,7 +52,6 @@ class Function3:
         self.result_origin_keyword = ""
 
     def find_keyword(self, user, lv, prev):
-
         for data in self.dataList:
             object_id = data['_id']
             user_name = data['user_name']
@@ -75,9 +74,11 @@ class Function3:
                 continue
 
     def return_origin_keyword(self, find_node_id):
-
         for data in self.dataList:
             if str(data['_id']) == find_node_id:
                 return self.result_origin_keyword_path_id.append(data['_id']), self.find_keyword(data['user_name'], data['level'], data['prev_url'])
             else:
                 continue
+
+    def return_result(self):
+        return self.result_origin_keyword_path_id
