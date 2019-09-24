@@ -1,0 +1,14 @@
+{
+	"user_name" : "Myunghwa Ji",
+	"user_email" : "jmh@example.com",
+	"curr_url" : "https://www.google.com/search?q=%EC%A6%9D%EA%B0%95%ED%98%84%EC%8B%A4&oq=%EC%A6%9D%EA%B0%95%ED%98%84%EC%8B%A4&aqs=chrome..69i57j0l3j69i60j69i61.1830j0j4&sourceid=chrome&ie=UTF-8",
+	"prev_url" : "https://www.google.com/",
+	"paths" : [
+		"www.google.com",
+		"증강현실"
+	],
+	"level" : 1,
+	"memo" : "증강현실에 대해서",
+	"tagged" : "False",
+	"project_name" : "시연용 프로젝트"
+}

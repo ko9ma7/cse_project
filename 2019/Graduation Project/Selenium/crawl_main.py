@@ -92,4 +92,4 @@ def main(jsonFile):
     driver.close()
 
 if __name__ == '__main__':
-    main()
+    main('C:\Users\battl\PycharmProjects\ComputerScienceEngineering\2019\Graduation Project\Selenium\json\1_1.json')

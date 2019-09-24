@@ -1,0 +1,16 @@
+{
+	"user_name" : "Myunghwa Ji",
+	"user_email" : "jmh@example.com",
+	"curr_url" : "https://ettrends.etri.re.kr/ettrends/164/0905002196/",
+	"prev_url" : "https://www.google.com/search?q=%EC%A6%9D%EA%B0%95%ED%98%84%EC%8B%A4&oq=%EC%A6%9D%EA%B0%95%ED%98%84%EC%8B%A4&aqs=chrome..69i57j0l3j69i60j69i61.1830j0j4&sourceid=chrome&ie=UTF-8",
+	"paths" : [
+		"ettrends.etri.re.kr",
+		"/ettrends",
+		"/164",
+		"/0905002196"
+	],
+	"level" : 2,
+	"memo" : "Etri가 말하는 증강현실",
+	"tagged" : "False",
+	"project_name" : "시연용 프로젝트"
+}
