@@ -47,13 +47,14 @@ class Function6:
         ])
 
     def recommend_path_node(self):
-        recommend_node = []
+        recommend_node_id = []
+        recommend_node_level = []
 
         for data in self.dataList:
             object_id = data['_id']
             tagged = data['tagged']
             visit_rate = float(data['visit_rate'])
-            level = float(data['level'])
+            level = data['level']
 
             if tagged == 'True':
                 recommend_value_tagged = 1
@@ -61,8 +62,8 @@ class Function6:
                 recommend_value_tagged = 0
 
             recommend_value_total = 0.5 * float(recommend_value_tagged) + 0.5 * visit_rate
+            if level == 1 or recommend_value_total >= float(1 / level):
+                recommend_node_id.append(object_id)
+                recommend_node_level.append(level)
 
-            if recommend_value_total >= float(1 / level):
-                recommend_node.append(object_id)
-
-        return recommend_node
+        return recommend_node_id, recommend_node_level
