@@ -1,8 +1,17 @@
-JMH_CSE_Project
-================
+## JMH_CSE_Project
 
-링크는 다음
-[블로그 주소](https://www.google.com)
+### __profile__
+Koreatech Computer Science Engineering Senior
+
+### [my_blog_link](https://battlesun99.blogspot.com/)
+
+
+
+Activity List
+* First Project
+* Second Project
+* Third Project
+
 
 목록
 * 깃 튜토리얼
