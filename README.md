@@ -12,7 +12,7 @@
 2. activity list
 
    + Freshman : C
-   + Sophomore : C++/Java/Python
+   + Sophomore : C++ / Java / Python
    + Junior : Data Structure/Linux/Computer Graphics/Database System/OOP
    + Senior : Algorithm/Data Analysis/Inforsec
 <br/>
