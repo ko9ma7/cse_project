@@ -3,7 +3,7 @@
 > Everything comes to him who hustles while he waits. - Thomas A. Edison -
 <br/>
 
-#### 1. profile
+##### 1. profile
 
    + Koreatech Computer Science Engineering Senior
    + [my_blog_link](https://battlesun99.blogspot.com/)
