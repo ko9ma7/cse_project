@@ -1,34 +1,19 @@
 ## JMH_CSE_Project
 
-### __profile__
-Koreatech Computer Science Engineering Senior
+> Everything comes to him who hustles while he waits. - Thomas A. Edison -
 
-### [my_blog_link](https://battlesun99.blogspot.com/)
+1. profile
+* Koreatech Computer Science Engineering Senior
+* [my_blog_link](https://battlesun99.blogspot.com/)
 
 
 
-Activity List
+2. Activity List
 * First Project
 * Second Project
 * Third Project
 
 
-목록
-* 깃 튜토리얼
-  * 깃
-  * 깃
-    * 깃
-    * 깃
- 
  
 인용구문
 > '공부'
-
-테이블 작성
-
-이름|영어|정보
----|---|---
-ㅇㅇ|ㅇㅇ|ㅇㅇ
-323|23|23
-강조
-**하이**
