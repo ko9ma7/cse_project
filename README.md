@@ -6,6 +6,7 @@
 1. profile
    + Koreatech Computer Science Engineering Senior
    + [my_blog_link](https://battlesun99.blogspot.com/)
+<br/>
 
 2. activity list
    + Freshman : C
@@ -15,3 +16,5 @@
 
 3. project list
    + graduation project
+
+4. experience list
