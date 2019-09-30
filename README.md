@@ -13,8 +13,8 @@
 
    + Freshman : C
    + Sophomore : C++ / Java / Python
-   + Junior : Data Structure/Linux/Computer Graphics/Database System/OOP
-   + Senior : Algorithm/Data Analysis/Inforsec
+   + Junior : Data Structure / Linux / Computer Graphics / Database System / OOP
+   + Senior : Algorithm / Data Analysis / Inforsec
 <br/>
 
 3. project list
