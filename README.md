@@ -1,8 +1,6 @@
-## JMH_GIT
+## JMH_CSE_Project
 
 > Everything comes to him who hustles while he waits. - Thomas A. Edison -
-
-
 
 1. profile
    + Koreatech Computer Science Engineering Senior
@@ -11,6 +9,10 @@
 
 
 2. activity list
-   + First Project
-   + Second Project
-   + Third Project
+   + Freshman : C
+   + Sophomore : C++/Java/Python
+   + Junior : Data Structure/Linux/Computer Graphics/Database System/OOP
+   + Senior : Algorithm/Data Analysis/Inforsec
+   
+3. project list
+   + graduation project
