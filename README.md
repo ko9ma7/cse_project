@@ -5,7 +5,7 @@
 
 #### 1. profile
 
-   - Koreatech Computer Science Engineering Senior
+   * Koreatech Computer Science Engineering Senior
    + [my_blog_link](https://battlesun99.blogspot.com/)
 <br/>
 
