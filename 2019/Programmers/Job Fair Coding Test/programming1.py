@@ -41,7 +41,8 @@ def solution(goods, boxes):
     boxes = sorted(boxes)
 
     df = pd.DataFrame(columns=boxes, index=goods)
-    print(df)
+
+    available_count = 0
 
     # 물건의 개수가 박스의 개수보다 클 경우
     if len(goods) > len(boxes):
@@ -51,8 +52,6 @@ def solution(goods, boxes):
                     df.loc[g, b] = 1
                 else:
                     df.loc[g, b] = 0
-
-        print()
         print(df)
 
     # 물건의 개수가 박스의 개수와 같을 경우
@@ -61,10 +60,8 @@ def solution(goods, boxes):
             for b in boxes:
                 if b >= g:
                     df.loc[g, b] = 1
-                    print('goods: ', g, 'boxes: ', b)
                 else:
                     df.loc[g, b] = 0
-
         print(df)
 
     # 물건의 개수가 박스의 개수보다 작을 경우
@@ -73,14 +70,11 @@ def solution(goods, boxes):
             for idx, b in enumerate(boxes):
                 if b >= g:
                     df.loc[g, b] = 1
-                    print('goods: ', g, 'boxes: ', b)
                 else:
                     df.loc[g, b] = 0
-
-        print()
         print(df)
 
 
-goods = [5, 3, 7, 1, 3, 12]
-boxes = [3, 7, 6, 3, 4, 12, 23]
+goods = [5, 3, 4, 1, 4, 12, 6, 8]
+boxes = [2, 2, 2, 2]
 solution(goods, boxes)
