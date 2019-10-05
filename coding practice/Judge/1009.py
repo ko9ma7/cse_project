@@ -13,3 +13,60 @@
     32bit signed ingeger 정수가 주어졌을때 서로 다른 엔디언으로 바꿔 10진수 형태로 출력하라.
 '''
 
+# Step_1. 입력된 정수를 엔디언으로 바꾼다(빅엔디언이든 리틀엔디언이든 상관없음).
+# Step_2. 만약, 빅엔디언으로 변환했다면 리틀엔디언 형태로 변환한다(순서를 거꾸로 해주면 된다).
+# Step_3. 다시 정수로 변환홰준다.
+
+import re
+T = int(input())
+
+result = []
+for i in range(T):
+    before_int = int(input())
+
+    # Step_1
+    if before_int > 0:
+        after_big = re.sub('0x', '', str(hex(before_int)))
+
+        if len(after_big) != 8:
+            div = 8 - len(after_big)
+            for j in range(div):
+                after_big = '0' + after_big
+
+        first = after_big[:2]
+        second = after_big[2:4]
+        third = after_big[4:6]
+        fourth = after_big[6:]
+
+        # Step_2
+        first, fourth = fourth, first
+        second, third = third, second
+
+        after_small = '0x' + first + second + third + fourth
+
+    else:
+        after_big = re.sub('-0x', '', str(hex(before_int)))
+
+        if len(after_big) != 8:
+            div = 8 - len(after_big)
+            for j in range(div):
+                after_big = '0' + after_big
+
+        first = after_big[:2]
+        second = after_big[2:4]
+        third = after_big[4:6]
+        fourth = after_big[6:]
+
+        # Step_2
+        first, fourth = fourth, first
+        second, third = third, second
+
+        after_small = '-0x' + first + second + third + fourth
+
+    # Step_3
+    after_int = int(after_small, 16)
+
+    result.append(after_int)
+
+for r in result:
+    print(r)
