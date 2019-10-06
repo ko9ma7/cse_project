@@ -15,3 +15,14 @@
     # 출력
         각 테스트 케이스에 해당하는 가장 마지막에 떨어지는 개미의 시간을 출력 해 주세요. 가장 끝에 도달하면 바로 떨어진다고 가정해도 됩니다.
 '''
+
+T = int(input())
+
+for i in range(T):
+    N, L = map(int, input().split())
+
+    P = []
+    for j in range(N):
+        P.append(list(map(int, input().split())))
+
+    # stick을 그림으로 표현하기
