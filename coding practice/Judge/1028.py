@@ -8,11 +8,18 @@
     한 색깔의 공만 남기기 위해서는 최소 몇 번의 턴이 필요할까요?
 '''
 
-T = int(input())
+RGB = list('RGGGBBGGB')
 
-RGB = []
-for i in range(T):
-    RGB.append(input())
+index = 0
+count = 0
+RGB_count = []
+while index == len(RGB):
+    if RGB[index] == RGB[index+1]:
+        count += 1
+    else:
+        count += 1
+        RGB_count.append(count)
+        count = 0
+    index += 1
 
-for rgb in RGB:
-    rgb = list(rgb)
+print(RGB_count)
