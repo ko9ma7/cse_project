@@ -5,16 +5,32 @@
     첫째 줄에 N이 주어진다. N은 항상 3의 제곱꼴인 수이다. (3, 9, 27, ...) (N=3k, 1 ≤ k < 8)
 '''
 
-def recursive(N):
-    x = N
-    y = N
-    arr = [[0]*N for i in range(N)]
+class Re:
+    def __init__(self, N):
+        self.arr = [[' ']*N for i in range(N)]
 
-    print(arr)
+    def recursive(self, N, x, y):
+        if N == 1:
+            self.arr[x][y] = '*'
+        else:
+            div = N//3
+            for i in range(3):
+                for j in range(3):
+                    if i == 1 and j == 1:
+                        pass
+                    else:
+                        print(div, x+(div*i), y+(div*j))
+                        self.recursive(div, x+(div*i), y+(div*j))
 
-    if x != 1 and y != 1:
-        arr[x][y] = 1
-    else:
-        arr[x][y] = 0
+    def getArr(self):
+        return self.arr
 
-recursive(3)
+N = int(input())
+re = Re(N)
+re.recursive(N, 0, 0)
+arr = re.getArr()
+
+for i in range(N):
+    for j in range(N):
+        print(arr[i][j], end='')
+    print()
