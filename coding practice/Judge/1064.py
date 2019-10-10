@@ -16,51 +16,29 @@
         각 테스트 케이스에 해당하는 가장 마지막에 떨어지는 개미의 시간을 출력 해 주세요. 가장 끝에 도달하면 바로 떨어진다고 가정해도 됩니다.
 '''
 
-# T = int(input())
-#
-# for i in range(T):
-#     N, L = map(int, input().split())
-#
-#     P = []
-#     for j in range(N):
-#         P.append(list(map(int, input().split())))
-#
-#     # stick을 그림으로 표현하기
+T = int(input())
 
-a = 3
-b = 5
-c = 8
+for t in range(T):
+    N, L = map(int, input().split())
 
-a_flag = 1
-b_flag = -1
-c_flag = 1
+    stick = []
 
-P = [0, 0, 2, 0, 4, 0, 0, 7, 0, 0]
-count = [0, 0, 1, 0, 1, 0, 0, 1, 0, 0]
-sum_P = 0
-for i in range(len(count)):
-    sum_P += count[i]
+    for n in range(N):
+        P, D = map(int, input().split())
+        if D == 1:
+            stick.append(P-1)
+        elif D == -1:
+            stick.append(-(P-1))
 
-while sum_P != 0:
-    if a_flag == 1 or b_flag == 1 or c_flag == 1:
-        P[a-1] += 1
-        P[b-1] += 1
-        P[c-1] += 1
-        count[a-1] = 0
-        count[a] += 1
-        count[b-1] = 0
-        count[b] += 1
-        count[c-1] = 0
-        count[c] += 1
-    else:
-        P[a - 1] -= 1
-        P[b - 1] -= 1
-        P[c - 1] -= 1
-        count[a-1] = 0
-        count[a-2] += 1
-        count[b-1] = 0
-        count[b-2] += 1
-        count[c-1] = 0
-        count[c-2] += 1
+    max = 0
+    len = 0
+    for s in stick:
+        if s > 0:
+            len = (L-1) - s
+        else:
+            len = -s
 
-    sum_P = count[a] + count[b] + count[c]
+        if max < len:
+            max = len
+
+    print(max)
