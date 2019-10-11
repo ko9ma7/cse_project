@@ -101,10 +101,10 @@ def crawl_saveExcel(user_name, user_email, curr_url, prev_url, pageList, relativ
     crawl_info_values = list(crawl_info.values())
 
     for idx, info_values in enumerate(crawl_info_values):
-        # 페이지 리스트(4), 경로(7), 서브 키워드(9), 본문 요약(10)인 경우(리스트 형태)
-        # 페이지 리스트(4)와 경로(7), 서브 키워드(9), 본문 요약(10)의 경우는 검색 페이지와 홈페이지인 경우 추출이 안될 수 있기 때문에
+        # 페이지 리스트(4), 서브 키워드(9), 본문 요약(10)인 경우(리스트 형태)
+        # 페이지 리스트(4)와 서브 키워드(9), 본문 요약(10)의 경우는 검색 페이지와 홈페이지인 경우 추출이 안될 수 있기 때문에
         # 빈 리스트를 고려해주어야 한다.
-        if idx == 4 or idx == 7 or idx == 9 or idx == 10:
+        if idx == 4 or idx == 9 or idx == 10:
             if info_values == []:
                 sheet1.cell(row=excel_row, column=excel_column).value = ''
             else:
@@ -126,9 +126,16 @@ def crawl_saveExcel(user_name, user_email, curr_url, prev_url, pageList, relativ
                     sheet1.cell(row=excel_row, column=excel_column).value = r
                     excel_row += 1
 
-        # 레벨의 경우(상수 형태)
+        # 레벨(6)의 경우(상수 형태)
         elif idx == 6:
             sheet1.cell(row=excel_row, column=excel_column).value = info_values
+
+        # 경로(7)의 경우(배열 형태)
+        elif idx == 7:
+            if info_values == []:
+                sheet1.cell(row=excel_row, column=excel_column).value = ''
+            else:
+                sheet1.cell(row=excel_row, column=excel_column).value = ', '.join(info_values)
 
         # # 스크린 샷(14)인 경우(문자열 형태)
         # elif idx == 14:

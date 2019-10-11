@@ -12,9 +12,12 @@ def parseRelativeKeyword(driver):
             text = r.get_attribute('text')
             href = r.get_attribute('href')
 
+            if '.' in text:
+                text = text.replace('.', '-')
+
             relativeKeyword[text] = href
 
     except NoSuchElementException:
-        print("연관 키워드가 페이지 내에 없습니다")
+        pass
 
     return relativeKeyword
