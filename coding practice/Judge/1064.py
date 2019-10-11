@@ -21,24 +21,16 @@ T = int(input())
 for t in range(T):
     N, L = map(int, input().split())
 
-    stick = []
-
+    length = 0
+    max = 0
     for n in range(N):
         P, D = map(int, input().split())
         if D == 1:
-            stick.append(P-1)
+            length = L - P
         elif D == -1:
-            stick.append(-(P-1))
+            length = -P
 
-    max = 0
-    len = 0
-    for s in stick:
-        if s > 0:
-            len = (L-1) - s
-        else:
-            len = -s
-
-        if max < len:
-            max = len
+        if max <= abs(length):
+            max = abs(length)
 
     print(max)
