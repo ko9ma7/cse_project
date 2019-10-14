@@ -27,22 +27,58 @@
     주의) 각 줄의 마지막에 공백이 있으면 안됨을 유의해주세요.
 '''
 
-from pythonds3 import Stack
+class Queue:
+    def __init__(self):
+        self.items = []
+
+    def isEmpy(self):
+        return self.items == []
+
+    def enqueue(self, item):
+        self.items.insert(0, item)
+
+    def dequeue(self):
+        return self.items.pop()
+
+    def size(self):
+        return len(self.items)
 
 T = int(input())
 for t in range(T):
     R, C = map(int, input().split())
 
     arr = [[int(c) for c in input().split()] for r in range(R)]
-    print(arr)
 
-    stack = Stack()
+    queue = Queue()
+    for r in range(R):
+        zero_cnt = 0
+        for c in range(C):
+            if arr[r][c] == 0:
+                zero_cnt += 1
+            else:
+                queue.enqueue(arr[r][c])
 
-    stack.push(c for c in range(C) for r in range(R) if c != 0)
-    value = []
-    while stack.is_empty():
-        value.append(stack.pop())
+        for c in range(C):
+            if c < C - zero_cnt:
+                arr[r][c] = queue.dequeue()
+            else:
+                arr[r][c] = 0
 
-    if len(value) != len(C):
-        while
-        value.append(0)
+    for c in range(C):
+        zero_cnt = 0
+        for r in range(R):
+            if arr[r][c] == 0:
+                zero_cnt += 1
+            else:
+                queue.enqueue(arr[r][c])
+
+        for r in range(R):
+            if r < R - zero_cnt:
+                arr[r][c] = queue.dequeue()
+            else:
+                arr[r][c] = 0
+
+    for r in range(R):
+        for c in range(C):
+            print(arr[r][c], end = ' ')
+        print()
