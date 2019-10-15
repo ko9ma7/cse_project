@@ -21,9 +21,9 @@
 
 3. coding practice
 
-   + BOJ(https://www.acmicpc.net/)
-   + Judge(https://judge.koreatech.ac.kr/)
-   + Programmers(https://programmers.co.kr/)
+   + [BOJ](https://www.acmicpc.net/)
+   + [Judge](https://judge.koreatech.ac.kr/)
+   + [Programmers](https://programmers.co.kr/)
 <br/>
 
 4. project list
