@@ -19,10 +19,17 @@
    + Senior : Algorithm / Data Analysis / Inforsec / SOP
 <br/>
 
-3. project list
+3. coding practice
+
+   + BOJ(https://www.acmicpc.net/)
+   + Judge(https://judge.koreatech.ac.kr/)
+   + Programmers(https://programmers.co.kr/)
+<br/>
+
+4. project list
 
    + graduation project
    + data analysis project
 <br/>
 
-4. experience list
+5. experience list
