@@ -5,7 +5,7 @@ class Stack {
 	final int MAX_STACK_SIZE = 100;
 	private int top;
 	private int[] data = new int[MAX_STACK_SIZE];
-	
+
 	// create constructor
 	public Stack() { top = -1; }
 	// check stack is empty
@@ -46,7 +46,7 @@ class Stack {
 public class Main {
 	public static void main(String[] args) {
 		Stack stack = new Stack();
-		
+
 		for (int n = 1; n <= 5; n++) stack.push(n);
 		System.out.println("size: " + stack.size());
 		stack.display();

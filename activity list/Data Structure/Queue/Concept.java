@@ -5,7 +5,7 @@ class Queue {
 	private int front;
 	private int rear;
 	private int[] data = new int[MAX_QUEUE_SIZE];
-	
+
 	// create constructor
 	public Queue() { front = rear = 0; }
 	// check queue is empty
@@ -18,7 +18,7 @@ class Queue {
 		System.exit(1);
 	}
 	// push the value in queue
-	public void enqueue(int value) { 
+	public void enqueue(int value) {
 		if (isFull()) error("Queue is Full");
 		rear = (rear + 1) % MAX_QUEUE_SIZE;
 		data[rear] = value;
@@ -47,7 +47,7 @@ class Queue {
 public class Main {
 	public static void main(String[] args) {
 		Queue queue = new Queue();
-		
+
 		for (int n = 1; n <= 20; n++) { if (n % 2 == 0) queue.enqueue(n); }
 		queue.display();
 	}

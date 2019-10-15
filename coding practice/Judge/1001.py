@@ -1,5 +1,5 @@
 '''
-    1001. KOREATECH
+    1001.cpp. KOREATECH
 
     한국기술교육대학교는 영문 이름으로 Korea University Of Technology and Education 입니다.
     2011년 부터 영문 브랜드 명으로 KOREATECH을 사용하고 있습니다. 참고 : 위키백과

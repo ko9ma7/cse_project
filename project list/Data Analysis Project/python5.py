@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 # 내장 random 모듈로 walk 구하기
 position = 0
 walk = [position] # walk는 계단을 오르거나(+1) 내려간(-1) 값의 누적합
-steps = 1000
+steps = 1000.cpp
 for i in range(steps):
     step = 1 if random.randint(0, 1) else -1
     position += step
@@ -15,7 +15,7 @@ for i in range(steps):
 plt.plot(walk[:100])
 
 # numpy로 walk 구하기
-nsteps = 1000
+nsteps = 1000.cpp
 draws = np.random.randint(0, 2, size=nsteps)
 steps = np.where(draws > 0, 1, -1) # draw의 값이 양수이면 1을 반환, 양수가 아니면 -1을 반환
 walk = steps.cumsum() # 일차원 배열의 누적합

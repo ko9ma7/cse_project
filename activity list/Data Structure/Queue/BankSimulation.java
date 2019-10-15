@@ -2,14 +2,14 @@ import java.util.Scanner;
 import java.util.Random;
 
 class Customer {
-	private int id;       
+	private int id;
 	private int tArrival; // customer arrive time
 	private int tService; // customer service time
-	
+
 	public int getID() { return id; }
 	public int getTA() { return tArrival; }
 	public int getTS() { return tService; }
-	
+
 	// create constructor
 	public Customer(int i, int tArr, int tServ) {
 		id = i;
@@ -23,7 +23,7 @@ class CustomerQueue {
 	private int front;
 	private int rear;
 	private Customer[] data = new Customer[MAX_QUEUE_SIZE];
-	
+
 	// create constructor
 	public CustomerQueue() { front = rear = 0; }
 	// check queue is empty
@@ -36,7 +36,7 @@ class CustomerQueue {
 		System.exit(1);
 	}
 	// push the value in queue
-	public void enqueue(Customer value) { 
+	public void enqueue(Customer value) {
 		if (isFull()) error("Queue is Full");
 		rear = (rear + 1) % MAX_QUEUE_SIZE;
 		data[rear] = value;
@@ -65,34 +65,34 @@ class CustomerQueue {
 class BankSimulator {
 	int nSimulation;
 	double probArrival;
-	int tMaxService; 
+	int tMaxService;
 	int totalWaitTime;
 	int nCustomers;
 	int nServedCustomers;
 	CustomerQueue que = new CustomerQueue();
 	Random rand = new Random();
-	
+
 	// create random digit
 	double Random() { return rand.nextDouble(); }
     // is there any new customer?
 	boolean IsNewCustomer() { return Random() > probArrival; }
-	// calculate service time 
+	// calculate service time
 	int RandServiceTime() { return (int)(tMaxService * Random()) + 1; }
-	
+
 	// push new arrival customer in queue
 	void InsertCustomer(int arrivalTime) {
 		Customer a = new Customer(++nCustomers, arrivalTime, RandServiceTime());
 		System.out.printf("  customer %d visit (Service Time: %d min)\n", a.getID(), a.getTS());
 		que.enqueue(a);
 	}
-	
+
 	// create constructor
 	public BankSimulator() {
 		nCustomers = 0;
 		totalWaitTime = 0;
 		nServedCustomers = 0;
 	}
-	
+
 	// input simulation parameter
 	void readSimulationParameters() {
 		Scanner sc = new Scanner(System.in);
@@ -101,7 +101,7 @@ class BankSimulator {
 		System.out.print("Max Service Time per one customer (ex: 5) = "); tMaxService = sc.nextInt();
 		System.out.print("=================================================================\n");
 	}
-	
+
 	// operate simulation
 	void run() {
 		int clock = 0;
@@ -109,7 +109,7 @@ class BankSimulator {
 		while (clock < nSimulation) {
 			clock++;
 			System.out.printf("current clock = %d\n", clock);
-			
+
 			if (IsNewCustomer()) InsertCustomer(clock);
 			if (serviceTime > 0) serviceTime--;
 			else {
@@ -118,11 +118,11 @@ class BankSimulator {
 				nServedCustomers++;
 				totalWaitTime += clock - a.getTA();
 				System.out.printf("  customer %d service start (waiting time: %d min)\n", a.getID(), clock - a.getTA());
-				serviceTime = a.getTS() - 1; 
+				serviceTime = a.getTS() - 1;
 			}
 		}
 	}
-	
+
 	// print result of simulation
 	void printStat() {
 		System.out.println("=================================================================\n");
