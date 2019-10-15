@@ -22,6 +22,7 @@
 3. project list
 
    + graduation project
+   + data analysis project
 <br/>
 
 4. experience list
