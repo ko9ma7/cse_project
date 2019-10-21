@@ -16,6 +16,8 @@
         모두 이동하는 최소 이동거리를 구해주세요.
 '''
 
+# 중요 개념
+# 최소 좌표부터 최대 좌표 사이의 중간 값을 구하면 최소 이동거리를 구할 수 있다.
 N = int(input())
 
 dis = []
@@ -27,3 +29,24 @@ if N == 1:
 elif N == 2:
     print(abs(dis[0][0] - dis[1][0]) + abs(dis[0][1] - dis[1][1]))
 else:
+    x_dis = []
+    y_dis = []
+
+    for d in dis:
+        x_dis.append(d[0])
+        y_dis.append(d[1])
+
+    x_dis = sorted(x_dis)
+    y_dis = sorted(y_dis)
+
+    # x와 y의 중간 값
+    mid_x = x_dis[len(x_dis)//2]
+    mid_y = y_dis[len(y_dis)//2]
+
+    x_sum = 0
+    y_sum = 0
+    for d in dis:
+        x_sum += abs(mid_x-d[0])
+        y_sum += abs(mid_y-d[1])
+
+    print(x_sum + y_sum)

@@ -23,35 +23,33 @@ X, Y = map(int, input().split())
 
 block = [list(map(int, input().split())) for y in range(Y)]
 
-l_r = 0
-f_b = 0
-up = 0
+result = 0
+# 일단 모든 블록의 면을 합치기
+for i in range(Y):
+    for j in range(X):
+        # 블록이 0이 아닌 경우에 대해선
+        if block[i][j] != 0:
+            # 앞, 뒤, 오른쪽, 왼쪽 4방면을 고려
+            result += 4 * block[i][j]
+            # 위를 고려
+            result += 1
 
-# left & right
-for y in range(Y):
-    ans = 0
-    for x in range(X):
-        if ans < block[y][x]:
-            ans = block[y][x]
-    l_r += ans
-l_r = l_r * 2
+# 오른쪽, 왼쪽인 경우에 대해 블록이 연속적이지 않은 경우
+for i in range(Y):
+    for j in range(X-1):
+        # 다음 블록이 클 수록
+        if block[i][j] < block[i][j+1]:
+            result -= 2 * block[i][j]
+        else:
+            result -= 2 * block[i][j+1]
 
-# front & back
-for x in range(X):
-    ans = 0
-    for y in range(Y):
-        if ans < block[y][x]:
-            ans = block[y][x]
-    f_b += ans
-f_b = f_b * 2
+# 앞쪽, 뒤쪽인 경우에 대해 블록이 연속적이지 않은 경우
+for j in range(X):
+    for i in range(Y-1):
+        # 다음 블록이 클 수록
+        if block[i][j] < block[i+1][j]:
+            result -= 2 * block[i][j]
+        else:
+            result -= 2 * block[i+1][j]
 
-# up
-for y in range(Y):
-    for x in range(X):
-        if block[y][x] > 0:
-            up += 1
-
-print(l_r)
-print(f_b)
-print(up)
-print(l_r + f_b + up)
+print(result)
