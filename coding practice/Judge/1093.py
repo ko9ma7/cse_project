@@ -31,23 +31,19 @@
         만약 이길 수 없는 경우 -1을 출력 해 주세요.
 '''
 
-# 제출 x
 T = int(input())
 
 for t in range(T):
     N, K = map(int, input().split())
 
     result = 0
-    if N == 1:
-        result = -1
-    elif K == N-1 or K == N:
-        result = N-1
+    # 상대방은 무조건 N번째를 불러야 재성이가 이길 수 있기 때문에, 재성이는 무조건 N-1번째를 불러야 한다.
+    # 재성이가 무조건 이길 수 있는 방법은 상대방의 숫자와 자신의 숫자의 개수를 K+1로 맞추면 이길 수 있다.
+    # 따라서 N-1번째 수를 K+1로 나누었을 때 떨어지면 상대방이 이길 수 있는 경우가 생기지만,
+    # 나누어 떨어지지 않으면 재성이는 그 나머지만큼의 개수를 먼저 부르면 이길 수 있다.
+    if (N-1) % (K+1) != 0:
+        result = (N-1) % (K+1)
     else:
-        target = [n for n in range(N-2, 0, -1)]
-        for i in range(0, len(target), K):
-            result = target[i]
-            if result == K:
-                result = -1
-                break
+        result = -1
 
     print(result)

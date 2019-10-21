@@ -14,9 +14,11 @@ for t in range(T):
     integers = list(map(int, input().split()))
     n = integers.pop(0)
 
-    max = 0
-    if n == 0 or n == 1:
-        max = 0
+    ans = 0
+    if n == 0:
+        ans = 0
+    elif n == 1:
+        ans = 1
     else:
         cnt = 1
         for i in range(len(integers)-1):
@@ -25,7 +27,7 @@ for t in range(T):
             else:
                 cnt = 1
 
-            if max < cnt:
-                max = cnt
+            if ans < cnt:
+                ans = cnt
 
-        print(max)
+    print(ans)
