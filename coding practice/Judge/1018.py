@@ -25,6 +25,13 @@
         각 테스트 케이스당 한줄에 하나씩 최소 거리를 출력 해 주세요.
 '''
 
+# 접근법: 예를 들어, A = 'koder', B = 'topcoder'라 한다면,
+# 문자열 A를 문자열 B의 한 글자씩 앞에서부터 비교를 한다.
+# B1 = 'topco', B2 = 'opcod', B3 = 'pcode', B4 = 'coder'와 같이
+# A와 B1~B4까지 비교해가며 가장 많이 같은 경우를 생각해 주면 된다.
+
+# 문자열 A와 B의 서로 다른 문자의 개수 반환 함수(문자열의 최소 거리)
+# 주어진 문제의 조건 중 A <= B
 def same_len(A, B):
     cnt = 0
     for i in range(len(A)):
@@ -36,7 +43,10 @@ T = int(input())
 for t in range(T):
     A, B = input().split()
     ans = []
+
     sub = len(B) - len(A) + 1
+    # A와 B의 길이가 같다면 sub = 1이므로, for문은 한 번만 돌게 된다.
     for i in range(sub):
         ans.append(same_len(A, B[i:i+len(A)]))
+
     print(min(ans))
