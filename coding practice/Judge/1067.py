@@ -13,6 +13,8 @@
         대 소문자는 무시해도 됩니다. (즉 aA를 만들 수 있으면 길이 2인 팰린드롬을 만들 수 있습니다)
 '''
 
+# 짝수만 이루어져있으면 모두 합치면 되지만, 중간에 홀수인 경우가 있을 경우
+# 짝수개만큼만 남기고, 1을 더해준다(만약 남은 값이 1이 있다면).
 import string
 T = int(input())
 
@@ -22,15 +24,25 @@ for t in range(T):
 
     alpha = list(string.ascii_lowercase)
 
-    sum = 0
-    isOne = False
+    even = []
+    odd = []
     for a in alpha:
-        if ans.count(a) >= 2:
-            sum += 2
-        if ans.count(a) == 1:
-            isOne = True
+        if ans.count(a) == 0:
+            pass
+        elif ans.count(a) % 2 == 0:
+            even.append(ans.count(a))
+        else:
+            if ans.count(a) > 1:
+                even.append(ans.count(a) - ans.count(a) % 2)
+                odd.append(ans.count(a) % 2)
+            else:
+                odd.append(ans.count(a))
 
-    if isOne:
+    sum = 0
+    for e in even:
+        sum += e
+
+    if odd != []:
         sum += 1
 
     print(sum)

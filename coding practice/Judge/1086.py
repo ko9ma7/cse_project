@@ -28,14 +28,23 @@ def CustomHash(s):
     hash = 5381
     for x in s:
         hash = ((hash << 5) + hash) + ord(x)
-        print(hash)
+
     return (hash & 0x7FFFFFFF)
 
 T = int(input())
 
 for t in range(T):
     s = input()
+    origin = s
 
-    Hash = CustomHash(s)
-    print(0x7FFFFFFF)
-    print(Hash)
+    num = 1
+    while True:
+        s = s + ' ' + str(num)
+        Hash = CustomHash(s)
+        if Hash % 10000 == 0:
+            break
+        else:
+            num += 1
+            s = origin
+
+    print(num)
