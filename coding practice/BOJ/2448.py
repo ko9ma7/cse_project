@@ -5,17 +5,18 @@
     첫째 줄에 N이 주어진다. N은 항상 3×2k 수이다. (3, 6, 12, 24, 48, ...) (k ≤ 10)
 '''
 
-def Re(N):
-    if N == 3:
-        for x in range(N):
-            for i in range(N-x-1):
-                print(' ', end='')
-            for y in range(2*x+1):
-                if x == 1 and y == 1:
-                    print(' ', end='')
-                else:
-                    print('*', end='')
-            print()
+import math
+DB = ['  *   ', ' * *  ', '***** ']
 
+def recursive(shift):
+    for i in range(len(DB)):
+        DB.append(DB[i] + DB[i])
+        DB[i] = "   " * shift + DB[i] + "   " * shift
 
-Re(3)
+n = int(input())
+k = int(math.log(int(n//3), 2))
+for i in range(k):
+    recursive(int(pow(2, i)))
+
+for i in range(n):
+    print(DB[i])
