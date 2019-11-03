@@ -14,3 +14,43 @@
     # 출력
         각 테스트 케이스 마다 가장 많이 주울 수 있는 돈의 액수를 출력 해 주세요.
 */
+
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+int main(void) {
+	cin.tie(NULL);
+	cout.tie(NULL);
+	ios_base::sync_with_stdio(false);
+
+	int T, N;
+	cin >> T;
+
+	while (T--) {
+		cin >> N;
+
+		int result = 0;
+		int dp[30001];
+		int coin[1001];
+
+		for (int n = 1; n <= N; n++) cin >> coin[n];
+
+		dp[0] = 0;
+		dp[1] = coin[1];
+		dp[2] = coin[1] + coin[2];
+
+		if (N > 2) {
+			for (int i = 3; i <= N; i++) {
+			    // dp의 의미: 현재 i번째 위치에서 가질 수 있는 최대 동전의 합
+				dp[i] = max(dp[i - 3] + coin[i - 1] + coin[i], max(dp[i - 2] + coin[i], dp[i - 1]));
+			}
+			cout << dp[N] << "\n";
+		}
+		else {
+			cout << dp[N] << "\n";
+		}
+	}
+
+	return 0;
+}

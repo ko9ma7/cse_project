@@ -19,3 +19,34 @@
         건널 수 있으면  Yes, 건너지 못하면 No 를 출력해 주세요. (영문 대 소문자에 주의해 주세요)
 */
 
+#include <iostream>
+using namespace std;
+
+int bridge[10001], N;
+
+void dfs(int idx) {
+	// 인덱스 위치가 배열의 길이를 넘어갈 경우 징검다리를 건넜다는 것을 알 수 있다.
+	if (idx > N) {
+		cout << "Yes" << "\n";
+		exit(0);
+	}
+
+	for (int i = bridge[idx]; i >= 1; i--) {
+		idx += i;
+		dfs(idx);
+		// dfs를 통해 건너갔을 때 징검다리의 숫자가 0일 경우 백트래킹
+		// 원래 위치로 되돌아간다.
+		idx -= i;
+	}
+}
+
+int main(void) {
+	cin.tie(NULL);
+	cout.tie(NULL);
+	ios_base::sync_with_stdio(false);
+
+	cin >> N;
+	for (int i = 1; i <= N; i++) cin >> bridge[i];
+	dfs(1);
+	cout << "No" << endl;
+}

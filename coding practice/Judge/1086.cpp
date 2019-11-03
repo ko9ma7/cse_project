@@ -1,4 +1,4 @@
-'''
+/*
     1086. Hashcash
 
     비트코인에서 화폐를 발행하는 방식을 마이닝(mining)이라 부른다.
@@ -21,30 +21,65 @@
     약 백만 개의 nonce 숫자를 대입해야 할 것이라 컴퓨터를 사용해도 쉽게 찾기 어렵다.
 
     입력 문자열에 대해서 다음과 같은 커스텀 해시값이 00000 으로 끝나도록 Nonce 값을 찾아 출력하시오.
-'''
+*/
 
-def CustomHash(s):
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+using namespace std;
 
-    hash = 5381
-    for x in s:
-        hash = ((hash << 5) + hash) + ord(x)
+int CustomHash(const char *str) {
 
-    return (hash & 0x7FFFFFFF)
+	unsigned long hash = 5381;
 
-T = int(input())
+	int c;
+	while (c = *str++) {
+		hash = ((hash << 5) + hash) + c;
+	}
+	return hash & 0x7FFFFFFF;
 
-for t in range(T):
-    s = input()
-    origin = s
+}
 
-    num = 1
-    while True:
-        s = s + ' ' + str(num)
-        Hash = CustomHash(s)
-        if Hash % 10000 == 0:
-            break
-        else:
-            num += 1
-            s = origin
+int main(void) {
+	cin.tie(NULL);
+	cout.tie(NULL);
+	ios_base::sync_with_stdio(false);
 
-    print(num)
+	int T;
+	cin >> T;
+	cin.ignore(256, '\n');
+
+	while (T--) {
+
+		string str;
+		string origin;
+		getline(cin, str);
+
+		origin = str;
+
+		int num = 1;
+
+		while (true) {
+
+			str = str.append(" ");
+			str = str.append(to_string(num));
+
+			vector<char> writable(str.begin(), str.end());
+			writable.push_back('\0');
+			char* s = &writable[0];
+
+			int Hash = CustomHash(s);
+
+			if (Hash % 10000 == 0) break;
+			else {
+				num += 1;
+				str = origin;
+			}
+		}
+
+		cout << num << "\n";
+	}
+
+	return 0;
+}

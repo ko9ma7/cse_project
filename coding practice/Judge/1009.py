@@ -20,7 +20,6 @@
 import re
 T = int(input())
 
-result = []
 for i in range(T):
     before_int = int(input())
 
@@ -44,6 +43,7 @@ for i in range(T):
 
         after_small = '0x' + first + second + third + fourth
 
+    # 음수인 경우
     else:
         after_big = re.sub('-0x', '', str(hex(before_int)))
 
@@ -57,16 +57,27 @@ for i in range(T):
         third = after_big[4:6]
         fourth = after_big[6:]
 
-        # Step_2
-        first, fourth = fourth, first
-        second, third = third, second
+        temp = first
 
+        if int(fourth) >= 11:
+            first = int(fourth) - 1
+            first = str(first)
+        else:
+            first = int(fourth) - 1
+            first = '0' + str(first)
+
+        if int(temp) >= 9:
+            fourth = int(temp) + 1
+            fourth = str(fourth)
+        else:
+            fourth = int(temp) + 1
+            fourth = '0' + str(fourth)
+
+        # Step_2
+        second, third = third, second
         after_small = '-0x' + first + second + third + fourth
 
     # Step_3
     after_int = int(after_small, 16)
 
-    result.append(after_int)
-
-for r in result:
-    print(r)
+    print(after_int)
