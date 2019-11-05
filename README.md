@@ -14,9 +14,8 @@
 
    + Freshman : C
    + Sophomore : C++ / Java / Python / Database
-   + Junior : OS / Network / Data Structure / Linux / Computer Graphics / Database System / Software Engineering 
-              / OOP
-   + Senior : Algorithm / Data Analysis / Inforsec / SOC
+   + Junior : OS / Network / Data Structure / Linux / Computer Graphics / Database System / Software Engineering
+   + Senior : Algorithm / OOP / Data Analysis / Inforsec  / SOC
 <br/>
 
 3. coding practice
