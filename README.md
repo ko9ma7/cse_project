@@ -24,6 +24,8 @@
    + [BOJ](https://www.acmicpc.net/)
    + [Judge](https://judge.koreatech.ac.kr/)
    + [Programmers](https://programmers.co.kr/)
+   + [CodeForces](https://codeforces.com/)
+   + [Kaggle](https://www.kaggle.com/)
 <br/>
 
 4. project list
