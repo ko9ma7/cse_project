@@ -1,20 +1,26 @@
 from matplotlib import pyplot as plt
+from openpyxl import Workbook
 
 # Enter capacity(kW) and daily pattern data of WT, PV, Load
+Pwt_arg = 5
 Pwt = [
-    (0.81 * 5), (1.00 * 5), (0.57 * 5), (0.38 * 5), (0.22 * 5), (0.35 * 5), (0.44 * 5), (0.36 * 5),
-    (0.57 * 5), (0.82 * 5), (0.58 * 5), (0.33 * 5), (0.35 * 5), (0.64 * 5), (0.64 * 5), (0.22 * 5),
-    (0.18 * 5), (0.10 * 5), (0.05 * 5), (0.08 * 5), (0.15 * 5), (0.08 * 5), (0.14 * 5), (0.13 * 5)
+    0.81, 1.00, 0.57, 0.38, 0.22, 0.35, 0.44, 0.36,
+    0.57, 0.82, 0.58, 0.33, 0.35, 0.64, 0.64, 0.22,
+    0.18, 0.10, 0.05, 0.08, 0.15, 0.08, 0.14, 0.13
 ]
+
+Ppv_arg = 10
 Ppv = [
-    (0.0 * 10), (0.0 * 10), (0.0 * 10), (0.0 * 10), (0.0 * 10), (0.0 * 10), (0.0 * 10), (0.0 * 10),
-    (0.2 * 10), (0.5 * 10), (0.7 * 10), (0.9 * 10), (1.0 * 10), (0.9 * 10), (0.8 * 10), (0.7 * 10),
-    (0.53125 * 10), (0.2 * 10), (0.0 * 10), (0.0 * 10), (0.0 * 10), (0.0 * 10), (0.0 * 10), (0.0 * 10)
+    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+    0.2, 0.5, 0.7, 0.9, 1.0, 0.9, 0.8, 0.7,
+    0.53125, 0.2, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
 ]
+
+Pload_arg = 10
 Pload = [
-    (0.33 * 10), (0.32 * 10), (0.32 * 10), (0.31 * 10), (0.30 * 10), (0.30 * 10), (0.34 * 10), (0.40 * 10),
-    (0.50 * 10), (0.70 * 10), (0.69 * 10), (0.60 * 10), (0.55 * 10), (0.70 * 10), (0.68 * 10), (0.60 * 10),
-    (0.53 * 10), (0.50 * 10), (0.47 * 10), (0.45 * 10), (0.40 * 10), (0.36 * 10), (0.34 * 10), (0.33 * 10)
+    0.33, 0.32, 0.32, 0.31, 0.30, 0.30, 0.34, 0.40,
+    0.50, 0.70, 0.69, 0.60, 0.55, 0.70, 0.68, 0.60,
+    0.53, 0.50, 0.47, 0.45, 0.40, 0.36, 0.34, 0.33
 ]
 
 # Enter efficiency of inverter
@@ -53,6 +59,10 @@ SOC = [0] * 24					# initial SOC of battery at each time
 
 # iteration for day calculation(24h)
 for t in range(24):
+    Pwt[t] = Pwt_arg * Pwt[t]
+    Ppv[t] = Ppv_arg * Ppv[t]
+    Pload[t] = Pload_arg * Pload[t]
+
     SOC[t] = E_bat / C_bat * 100		# SOC calculation of battery at each time
 
     # occurred surplus energy in HRES system
@@ -145,3 +155,70 @@ plt.xlabel('t(h)')
 plt.ylabel('SOC(%)')
 
 plt.show()
+
+
+
+# 엑셀 파일 저장 위치
+excel_file_path = 'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/project list/Optimum Capacity Design of Renewable Energy Source Project/excel/'
+# 엑셀 파일 이름
+excel_file_name = 'simulation.xlsx'
+# 엑셀 sheet 이름
+excel_sheet_title = '1'
+
+work_book = Workbook()
+sheet1 = work_book.active
+sheet1.title = excel_sheet_title
+
+# 헤더 입력
+sheet1.cell(row=1, column=1).value = 'Pwt'
+sheet1.cell(row=1, column=2).value = 'Pdummy'
+sheet1.cell(row=1, column=3).value = 'Ppv'
+sheet1.cell(row=1, column=4).value = 'Pbat'
+sheet1.cell(row=1, column=5).value = 'Pload'
+sheet1.cell(row=1, column=6).value = 'SOC'
+
+# 엑셀 행, 열
+excel_row = 2
+excel_column = 1
+for idx, values in enumerate(y_pos1):
+    sheet1.cell(row=excel_row, column=excel_column).value = values
+    excel_row += 1
+
+# 엑셀 행, 열
+excel_row = 2
+excel_column = 2
+for idx, values in enumerate(y_pos2):
+    sheet1.cell(row=excel_row, column=excel_column).value = values
+    excel_row += 1
+
+# 엑셀 행, 열
+excel_row = 2
+excel_column = 3
+for idx, values in enumerate(y_pos3):
+    sheet1.cell(row=excel_row, column=excel_column).value = values
+    excel_row += 1
+
+# 엑셀 행, 열
+excel_row = 2
+excel_column = 4
+for idx, values in enumerate(y_pos4):
+    sheet1.cell(row=excel_row, column=excel_column).value = values
+    excel_row += 1
+
+# 엑셀 행, 열
+excel_row = 2
+excel_column = 5
+for idx, values in enumerate(y_pos5):
+    sheet1.cell(row=excel_row, column=excel_column).value = values
+    excel_row += 1
+
+# 엑셀 행, 열
+excel_row = 2
+excel_column = 6
+for idx, values in enumerate(y_pos6):
+    sheet1.cell(row=excel_row, column=excel_column).value = values
+    excel_row += 1
+
+# 엑셀 파일 크기 조정하기
+work_book.save(filename=excel_file_name)
+work_book.close()
