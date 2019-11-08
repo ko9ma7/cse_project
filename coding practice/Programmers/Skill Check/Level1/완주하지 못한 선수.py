@@ -12,17 +12,17 @@
 
 
 def solution(participant, completion):
+    participant.sort()
+    completion.sort()
 
-    while len(completion) != 0:
-        for i, p in enumerate(participant):
-            if p in completion:
-                participant.pop(i)
-                completion.remove(p)
+    for idx, p in enumerate(completion):
+        if participant[idx] != completion[idx]:
+            return participant[idx]
 
-    answer = participant[0]
-    return answer
+    return participant[len(participant) - 1]
 
+# participant = ['marina', 'josipa', 'nikola', 'vinko', 'filipa']
+# completion = ['josipa', 'filipa', 'marina', 'nikola']
 participant = ['mislav', 'stanko', 'mislav', 'ana']
 completion = ['stanko', 'ana', 'mislav']
-# print(solution(participant, completion))
 solution(participant, completion)
