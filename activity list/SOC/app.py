@@ -26,12 +26,12 @@ api.add_resource(TemperatureByLocationResource, "/resource_location/<location>")
 @application.route('/')
 def hello_html():
     return render_template(
-        'index.html', nav_menu="home",
+        'template.html', nav_menu="home",
     )
 
 @application.route('/login', methods=['POST', 'GET'])
 def success():
-    if request.method == 'POST': # POST 형식은 'index.html'에 있는 'form'안의 'myName'을 가져오는 방식
+    if request.method == 'POST': # POST 형식은 'template.html'에 있는 'form'안의 'myName'을 가져오는 방식
         myName = request.form['myName']
     else: # GET 형식은 쿼리 스트링에서 ? 뒤에 나오는 값을 가져오는 방식
         myName = request.args.get('myName')
