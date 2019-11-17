@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompilationUnit BeginColumn="1" BeginLine="1" EndColumn="1" EndLine="7" FindBoundary="false" Image="" SingleLine="false" declarationsAreInDefaultPackage="false">
+    <PackageDeclaration BeginColumn="1" BeginLine="1" EndColumn="29" EndLine="1" FindBoundary="false" Image="" PackageNameImage="refactoringProject03" SingleLine="true">
+        <Name BeginColumn="9" BeginLine="1" EndColumn="28" EndLine="1" FindBoundary="false" Image="refactoringProject03" SingleLine="true"/>
+    </PackageDeclaration>
+    <TypeDeclaration BeginColumn="1" BeginLine="3" EndColumn="1" EndLine="7" FindBoundary="false" Image="" SingleLine="false">
+        <ClassOrInterfaceDeclaration Abstract="false" BeginColumn="8" BeginLine="3" Default="false" EndColumn="1" EndLine="7" Final="false" FindBoundary="false" Image="Main" Interface="false" Modifiers="1" Native="false" Nested="false" PackagePrivate="false" Private="false" Protected="false" Public="true" SingleLine="false" Static="false" Strictfp="false" Synchronized="false" Transient="false" Volatile="false">
+            <ClassOrInterfaceBody BeginColumn="19" BeginLine="3" EndColumn="1" EndLine="7" FindBoundary="false" Image="" SingleLine="false">
+                <ClassOrInterfaceBodyDeclaration AnonymousInnerClass="false" BeginColumn="9" BeginLine="4" EndColumn="9" EndLine="6" EnumChild="false" FindBoundary="false" Image="" SingleLine="false">
+                    <MethodDeclaration Abstract="false" BeginColumn="23" BeginLine="4" Default="false" EndColumn="9" EndLine="6" Final="false" FindBoundary="false" Image="" InterfaceMember="false" MethodName="main" Modifiers="17" Name="main" Native="false" PackagePrivate="false" Private="false" Protected="false" Public="true" SingleLine="false" Static="true" Strictfp="false" Synchronized="false" SyntacticallyAbstract="false" SyntacticallyPublic="true" Transient="false" Void="true" Volatile="false">
+                        <ResultType BeginColumn="23" BeginLine="4" EndColumn="26" EndLine="4" FindBoundary="false" Image="" SingleLine="true" Void="true" returnsArray="false"/>
+                        <MethodDeclarator BeginColumn="28" BeginLine="4" EndColumn="46" EndLine="4" FindBoundary="false" Image="main" ParameterCount="1" SingleLine="true">
+                            <FormalParameters BeginColumn="32" BeginLine="4" EndColumn="46" EndLine="4" FindBoundary="false" Image="" ParameterCount="1" SingleLine="true">
+                                <FormalParameter Abstract="false" Array="true" ArrayDepth="1" BeginColumn="33" BeginLine="4" Default="false" EndColumn="45" EndLine="4" Final="false" FindBoundary="false" Image="" Modifiers="0" Native="false" PackagePrivate="true" Private="false" Protected="false" Public="false" SingleLine="true" Static="false" Strictfp="false" Synchronized="false" Transient="false" Varargs="false" Volatile="false">
+                                    <Type Array="true" ArrayDepth="1" BeginColumn="33" BeginLine="4" EndColumn="40" EndLine="4" FindBoundary="false" Image="" SingleLine="true" TypeImage="String">
+                                        <ReferenceType Array="true" ArrayDepth="1" BeginColumn="33" BeginLine="4" EndColumn="40" EndLine="4" FindBoundary="false" Image="" SingleLine="true">
+                                            <ClassOrInterfaceType BeginColumn="33" BeginLine="4" EndColumn="38" EndLine="4" FindBoundary="false" Image="String" SingleLine="true"/>
+                                        </ReferenceType>
+                                    </Type>
+                                    <VariableDeclaratorId Array="false" ArrayDepth="0" BeginColumn="42" BeginLine="4" EndColumn="45" EndLine="4" ExceptionBlockParameter="false" FindBoundary="false" Image="args" SingleLine="true"/>
+                                </FormalParameter>
+                            </FormalParameters>
+                        </MethodDeclarator>
+                        <Block BeginColumn="48" BeginLine="4" EndColumn="9" EndLine="6" FindBoundary="false" Image="" SingleLine="false" containsComment="false">
+                            <BlockStatement Allocation="true" BeginColumn="17" BeginLine="5" EndColumn="33" EndLine="5" FindBoundary="false" Image="" SingleLine="true">
+                                <Statement BeginColumn="17" BeginLine="5" EndColumn="33" EndLine="5" FindBoundary="false" Image="" SingleLine="true">
+                                    <StatementExpression BeginColumn="17" BeginLine="5" EndColumn="32" EndLine="5" FindBoundary="false" Image="" SingleLine="true">
+                                        <PrimaryExpression BeginColumn="17" BeginLine="5" EndColumn="32" EndLine="5" FindBoundary="false" Image="" SingleLine="true">
+                                            <PrimaryPrefix BeginColumn="17" BeginLine="5" EndColumn="32" EndLine="5" FindBoundary="false" Image="" SingleLine="true" SuperModifier="false" ThisModifier="false">
+                                                <AllocationExpression BeginColumn="17" BeginLine="5" EndColumn="32" EndLine="5" FindBoundary="false" Image="" SingleLine="true">
+                                                    <ClassOrInterfaceType BeginColumn="21" BeginLine="5" EndColumn="30" EndLine="5" FindBoundary="false" Image="RhythmGame" SingleLine="true"/>
+                                                    <Arguments ArgumentCount="0" BeginColumn="31" BeginLine="5" EndColumn="32" EndLine="5" FindBoundary="false" Image="" SingleLine="true"/>
+                                                </AllocationExpression>
+                                            </PrimaryPrefix>
+                                        </PrimaryExpression>
+                                    </StatementExpression>
+                                </Statement>
+                            </BlockStatement>
+                        </Block>
+                    </MethodDeclaration>
+                </ClassOrInterfaceBodyDeclaration>
+            </ClassOrInterfaceBody>
+        </ClassOrInterfaceDeclaration>
+    </TypeDeclaration>
+</CompilationUnit>
