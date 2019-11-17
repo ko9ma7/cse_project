@@ -1,6 +1,11 @@
+import requests
 from flask_restful import Resource, abort, reqparse
 
 from database.resource_db_access import TemperatureResourceDatabase
+from keys import KAKAO_REST_KEY
+from rest_client.read_kakao import KAKAO_BASE_URL
+
+headers = {"Authorization": "KakaoAK " + KAKAO_REST_KEY}
 
 # 'flask_restful'에 있는 부모 클래스 'Resource'를 상속하는 서브 클래스
 class TemperatureResource(Resource):
@@ -14,12 +19,25 @@ class TemperatureResource(Resource):
 
     # get 요청을 받았을 경우
     def get(self, sensor_id):
-        temperature = self.temperature_resource_db.readBySensorId(sensor_id=sensor_id)
-        if temperature is None:
-            abort(404, message="Sensor id {0} doesn't exist".format(sensor_id))
+
+
+        res1 = requests.get(
+            url=KAKAO_BASE_URL + "/v3/search/book?target=title&query=자이스토리",
+            headers=headers
+        )
+
+        if res1.status_code == 200:
+            books = res1.json()
         else:
-            # Resource 부모 클래스에서 Serializable 개념을 통해 자동적으로 json 파일로 반환해줌
-            return temperature, 200
+            books = {}
+
+        return books, 200
+        # temperature = self.temperature_resource_db.readBySensorId(sensor_id=sensor_id)
+        # if temperature is None:
+        #     abort(404, message="Sensor id {0} doesn't exist".format(sensor_id))
+        # else:
+        #     # Resource 부모 클래스에서 Serializable 개념을 통해 자동적으로 json 파일로 반환해줌
+        #     return temperature, 200
 
     # put 요청을 받았을 경우
     def put(self, sensor_id):
