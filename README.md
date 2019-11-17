@@ -35,3 +35,5 @@
 <br/>
 
 5. experience list
+
+   + DoTS(Koreatech Start Up Club)
