@@ -29,6 +29,7 @@
 
 4. project list
 
+   + engineering design project
    + graduation project
    + data analysis project
    + optimum capacity design of renewable energy source project
