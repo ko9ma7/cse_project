@@ -1,0 +1,14 @@
+{
+	"user_name": "Seongchan Kim",
+	"user_email": "kimsc0714@naver.com",
+	"curr_url": "https://www.google.com/search?q=%ED%81%B4%EB%9D%BC%EC%9A%B0%EB%93%9C&oq=%ED%81%B4%EB%9D%BC%EC%9A%B0%EB%93%9C&aqs=chrome..69i57j0l5.967j0j9&sourceid=chrome&ie=UTF-8",
+	"prev_url": "https://www.google.com",
+	"paths": [
+		"www.google.com",
+		"클라우드"
+	],
+	"level": 1,
+	"tagged": "False",
+	"memo": "Search Cloud",
+	"project_name": "시연용 프로젝트"
+}

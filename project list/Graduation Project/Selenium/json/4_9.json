@@ -1,0 +1,19 @@
+{
+	"user_name" : "Myunghwa Ji",
+	"user_email" : "jmh@example.com",
+	"curr_url" : "https://www.lcg.com/int/ko/analysis-education/trading-guides/introduction-to-trading/what-is-forex/",
+	"prev_url" : "https://www.lcg.com/int/ko/analysis-education/trading-guides/introduction-to-trading/what-are-cryptocurrencies/",
+	"paths" : [
+		"www.lcg.com",
+		"/int",
+		"/ko",
+		"/analysis-education",
+		"/trading-guides",
+		"/introduction-to-trading",
+		"/what-is-forex"
+	],
+	"level" : 3,
+	"memo" : "LCG에서 말하는 가상화폐란 2",
+	"tagged" : "False",
+	"project_name" : "시연용 프로젝트"
+}

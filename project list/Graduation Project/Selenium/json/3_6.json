@@ -1,0 +1,15 @@
+{
+	"user_name": "Haewoong Kwak",
+	"user_email": "kimsc@koreatech.ac.kr",
+	"curr_url": "http://www.dailytoken.kr/news/articleView.html?idxno=12626",
+	"prev_url": "http://www.dailytoken.kr/news/articleView.html?idxno=12789",
+	"paths": [
+		"www.dailytoken.kr",
+		"/news",
+		"/articleView.html?idxno=12626"
+	],
+	"level": 4,
+	"tagged": "True",
+	"memo": "Ethereum CoinChild Blog 4",
+	"project_name": "시연용 프로젝트"
+}

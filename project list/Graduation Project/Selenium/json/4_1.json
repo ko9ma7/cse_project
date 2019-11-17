@@ -1,0 +1,14 @@
+{
+	"user_name" : "Myunghwa Ji",
+	"user_email" : "jmh@example.com",
+	"curr_url" : "https://www.google.com/search?q=4%EC%B0%A8%EC%82%B0%EC%97%85%ED%98%81%EB%AA%85&oq=4%EC%B0%A8%EC%82%B0%EC%97%85%ED%98%81%EB%AA%85&aqs=chrome.0.0l5j69i61.3965j0j7&sourceid=chrome&ie=UTF-8",
+	"prev_url" : "https://www.google.com/",
+	"paths" : [
+		"www.google.com",
+		"4차산업혁명"
+	],
+	"level" : 1,
+	"memo" : "4차 산업혁명에 대해서 검색",
+	"tagged" : "False",
+	"project_name" : "시연용 프로젝트"
+}

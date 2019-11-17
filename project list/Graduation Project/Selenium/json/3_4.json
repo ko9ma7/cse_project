@@ -1,0 +1,15 @@
+{
+	"user_name": "Haewoong Kwak",
+	"user_email": "kimsc@koreatech.ac.kr",
+	"curr_url": "http://www.dailytoken.kr/news/articleView.html?idxno=12662",
+	"prev_url": "https://www.google.com/search?q=%EC%9D%B4%EB%8D%94%EB%A6%AC%EC%9B%802.0&oq=%EC%9D%B4%EB%8D%94%EB%A6%AC%EC%9B%802.0&aqs=chrome..69i57.2078j0j4&sourceid=chrome&ie=UTF-8",
+	"paths": [
+		"www.dailytoken.kr",
+		"/news",
+		"/articleView.html?idxno=12662"
+	],
+	"level": 2,
+	"tagged": "True",
+	"memo": "Ethereum CoinChild Blog 1",
+	"project_name": "시연용 프로젝트"
+}

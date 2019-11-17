@@ -1,0 +1,15 @@
+{
+	"user_name" : "Myunghwa Ji",
+	"user_email" : "jmh@example.com",
+	"curr_url" : "https://ko.wikipedia.org/wiki/%EC%9D%B8%EA%B3%B5%EC%A7%80%EB%8A%A5",
+	"prev_url" : "https://www.google.com/search?q=%EC%9D%B8%EA%B3%B5%EC%A7%80%EB%8A%A5&oq=%EC%9D%B8%EA%B3%B5%EC%A7%80%EB%8A%A5&aqs=chrome..69i57j0l4j69i61.3400j0j7&sourceid=chrome&ie=UTF-8",
+	"paths" : [
+		"ko.wikipedia.org",
+		"/wiki",
+		"/%EC%9D%B8%EA%B3%B5%EC%A7%80%EB%8A%A5"
+	],
+	"level" : 2,
+	"memo" : "AI Wikipedia",
+	"tagged" : "True",
+	"project_name" : "시연용 프로젝트"
+}

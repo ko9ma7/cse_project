@@ -1,0 +1,15 @@
+{
+	"user_name": "Haewoong Kwak",
+	"user_email": "kimsc@koreatech.ac.kr",
+	"curr_url": "http://www.thebchain.co.kr/news/articleView.html?idxno=5571",
+	"prev_url": "http://www.thebchain.co.kr/news/articleView.html?idxno=4825",
+	"paths": [
+		"www.thebchain.co.kr",
+		"/news",
+		"/articleView.html?idxno=5571"
+	],
+	"level": 3,
+	"tagged": "True",
+	"memo": "Hacker attacks Ethereum 2.0",
+	"project_name": "시연용 프로젝트"
+}

@@ -1,0 +1,16 @@
+{
+	"user_name" : "Myunghwa Ji",
+	"user_email" : "jmh@example.com",
+	"curr_url" : "http://magazine.contenta.co/2017/12/2%EB%B6%84%EC%95%88%EC%97%90-%EB%B3%B4%EB%8A%94-4%EC%B0%A8-%EC%82%B0%EC%97%85%ED%98%81%EB%AA%85-%EC%99%84%EB%B2%BD-%EC%A0%95%EB%A6%AC/",
+	"prev_url" : "https://www.google.com/search?q=4%EC%B0%A8%EC%82%B0%EC%97%85%ED%98%81%EB%AA%85&oq=4%EC%B0%A8%EC%82%B0%EC%97%85%ED%98%81%EB%AA%85&aqs=chrome.0.0l5j69i61.3965j0j7&sourceid=chrome&ie=UTF-8",
+	"paths" : [
+		"magazine.contenta.co",
+		"/2017",
+		"/12",
+		"/2%EB%B6%84%EC%95%88%EC%97%90-%EB%B3%B4%EB%8A%94-4%EC%B0%A8-%EC%82%B0%EC%97%85%ED%98%81%EB%AA%85-%EC%99%84%EB%B2%BD-%EC%A0%95%EB%A6%AC"
+	],
+	"level" : 2,
+	"memo" : "4차산업혁명은 이런 것이구나!",
+	"tagged" : "True",
+	"project_name" : "시연용 프로젝트"
+}

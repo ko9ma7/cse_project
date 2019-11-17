@@ -1,0 +1,15 @@
+{
+	"user_name": "Seongchan Kim",
+	"user_email": "kimsc0714@naver.com",
+	"curr_url": "https://ko.wikipedia.org/wiki/%EB%B9%85_%EB%8D%B0%EC%9D%B4%ED%84%B0",
+	"prev_url": "https://www.google.com/search?q=%EB%B9%85%EB%8D%B0%EC%9D%B4%ED%84%B0&oq=%EB%B9%85%EB%8D%B0%EC%9D%B4%ED%84%B0&aqs=chrome..69i57j35i39l2j0l3.1357j0j4&sourceid=chrome&ie=UTF-8",
+	"paths": [
+		"ko.wikipedia.org",
+		"/wiki",
+		"/%EB%B9%85_%EB%8D%B0%EC%9D%B4%ED%84%B0"
+	],
+	"level": 2,
+	"tagged": "True",
+	"memo": "BigData Wikipedia",
+	"project_name": "시연용 프로젝트"
+}

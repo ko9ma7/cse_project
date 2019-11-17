@@ -1,0 +1,14 @@
+{
+	"user_name": "Haewoong Kwak",
+	"user_email": "kimsc@koreatech.ac.kr",
+	"curr_url": "https://www.google.com/search?q=%EB%B8%94%EB%A1%9D%EC%B2%B4%EC%9D%B8&oq=%EB%B8%94%EB%A1%9D%EC%B2%B4%EC%9D%B8&aqs=chrome..69i57j0l4j69i60.1267j0j4&sourceid=chrome&ie=UTF-8",
+	"prev_url": "https://www.google.com",
+	"paths": [
+		"www.google.com",
+		"블록체인"
+	],
+	"level": 1,
+	"tagged": "False",
+	"memo": "Search Blockchain",
+	"project_name": "시연용 프로젝트"
+}

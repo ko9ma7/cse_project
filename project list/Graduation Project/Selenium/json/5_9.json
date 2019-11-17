@@ -1,0 +1,14 @@
+{
+	"user_name": "Seongchan Kim",
+	"user_email": "kimsc0714@naver.com",
+	"curr_url": "https://www.google.com/search?q=%EB%B9%84%ED%8A%B8%EC%BD%94%EC%9D%B8&oq=%EB%B9%84%ED%8A%B8%EC%BD%94%EC%9D%B8&aqs=chrome..69i57j35i39j0l2j69i60l2.1255j0j9&sourceid=chrome&ie=UTF-8",
+	"prev_url": "https://www.google.com",
+	"paths": [
+		"www.google.com",
+		"비트코인"
+	],
+	"level": 1,
+	"tagged": "False",
+	"memo": "블록체인 검색",
+	"project_name": "시연용 프로젝트"
+}

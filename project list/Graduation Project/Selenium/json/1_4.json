@@ -1,0 +1,15 @@
+{
+	"user_name": "Haewoong Kwak",
+	"user_email": "kimsc@koreatech.ac.kr",
+	"curr_url": "https://ko.wikipedia.org/wiki/%EA%B0%80%EC%83%81%ED%98%84%EC%8B%A4",
+	"prev_url": "https://ko.wikipedia.org/wiki/제4차_산업혁명",
+	"paths": [
+		"ko.wikipedia.org",
+		"/wiki",
+		"/%EA%B0%80%EC%83%81%ED%98%84%EC%8B%A4"
+	],
+	"level": 3,
+	"tagged": "True",
+	"memo": "Vitual Reality Wikipedia",
+	"project_name": "시연용 프로젝트"
+}

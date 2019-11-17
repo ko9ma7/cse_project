@@ -1,0 +1,15 @@
+{
+	"user_name": "Seongchan Kim",
+	"user_email": "kimsc0714@naver.com",
+	"curr_url": "https://ko.wikipedia.org/wiki/%EC%95%84%ED%8C%8C%EC%B9%98_%ED%95%98%EB%91%A1",
+	"prev_url": "https://ko.wikipedia.org/wiki/%EB%B9%85_%EB%8D%B0%EC%9D%B4%ED%84%B0",
+	"paths": [
+		"ko.wikipedia.org",
+		"/wiki",
+		"/%EC%95%84%ED%8C%8C%EC%B9%98_%ED%95%98%EB%91%A1"
+	],
+	"level": 3,
+	"tagged": "True",
+	"memo": "Hadoop Wikipedia",
+	"project_name": "시연용 프로젝트"
+}
