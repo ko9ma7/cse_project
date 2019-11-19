@@ -11,7 +11,7 @@
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
   <!-- Material Kit CSS -->
-  <link href="../static/assets/css/material-dashboard.css?v=2.1.1" rel="stylesheet" />
+  <link href="/static/assets/css/material-dashboard.css?v=2.1.1" rel="stylesheet" />
 </head>
 
 <body>
@@ -72,6 +72,25 @@
           </button>
           <div class="collapse navbar-collapse justify-content-end">
             <ul class="navbar-nav">
+              {% if current_user.is_authenticated %}
+                <li>
+                  안녕하세요. {{ current_user.name }} 회원님!
+                </li>
+                <li>
+                  <a href="/auth/my_page">나의 정보</a>
+                </li>
+                <li>
+                  <a href="/auth/logout">로그아웃</a>
+                </li>
+              {% else %}
+                <li style="margin-right: 1.0em">
+                  <a href="/auth/login">로그인</a>
+                </li>
+                <li>
+                  <a href="/auth/signup">회원가입</a>
+                </li>
+              {% endif %}
+
               <li class="nav-item">
                 <a class="nav-link" href="#pablo">
                   <i class="material-icons">notifications</i> Notifications
