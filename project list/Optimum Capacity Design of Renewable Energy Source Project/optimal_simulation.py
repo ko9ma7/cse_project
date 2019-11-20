@@ -9,13 +9,11 @@ rad = [0, 0, 0.22, 0.22, 0.46, 0.46, 0.77, 0.77, 0.91, 0.91, 1, 1, 1, 1, 0.96, 0
 
 # [m,n] = size(Pload_24)
 m = 1
-n = 24
+n = len(Pload_24)
 
-# want_time = 1:n*1;
-want_time = [val for val in range(1, n+1)]                   # 데이터를 얼마나 자세히 볼 것인가?
+want_time = [0] * n                 # 데이터를 얼마나 자세히 볼 것인가?
 x = 1                               # 신재생 용량 조절
 dx = x * 2.5/100                    # 신재생 용량 증감분 [%]
-
 
 # Enter 제약조건
 low_pri = 0.25               # 후순위 부하 비율(Load shifting 가능한 부하) [%/100]
@@ -32,14 +30,13 @@ Pr = x * 10 * 3.2   # WT 정격용량[MW]
 
 for t in range(24):
     if (u[t] < uc) or (u[t] > uf):
-        Pw_24[t] = 0   # WT 출력 [MW]
+        Pw_24[t] = 0                                                          # WT 출력 [MW]
     else:
         if uc <= u[t] and u[t] <= ur:
-            Pw_24[t] = Pr * (u[t]^2 - uc^2) / (ur^2 - uc^2)   # WT 출력 [MW]
+            Pw_24[t] = round(Pr * (u[t]*u[t] - uc*uc) / (ur*ur - uc*uc), 4)   # WT 출력 [MW]
         else:
             if ur <= u[t] and u[t] <= uf:
-                Pw_24[t] = Pr   # WT 출력 [MW]
-
+                Pw_24[t] = Pr                                                 # WT 출력 [MW]
 
 # Cal capacity(MW) and daily pattern data of PV
 Ppv_24 = [0] * 24
@@ -48,17 +45,22 @@ PVA = x * 9000    # PV 발전 면적[m2]
 for t in range(24):
     Ppv_24[t] = PVA * rad[t] / 1000 # PV 출력 [MW]
 
-# time = 0:n
-time = [val for val in range(n + 1)]
 
-Pload_24(1,25) = Pload_24(1,1)
-Pw_24(1,25) = Pw_24(1,1)
-Ppv_24(1,25) = Ppv_24(1,1)
+time = [0] * n
 
-for i = 1:max(want_time)
-    Pload(1,i) = interp1(time,Pload_24,(n*i)/max(want_time))
-    Pw(1,i) = interp1(time,Pw_24,(n*i)/max(want_time))
-    Ppv(1,i) = interp1(time,Ppv_24,(n*i)/max(want_time))
+# 24의 길이에서 하나씩 더 추가해서 총 배열의 길이가 25?
+Pload_24 = Pload_24
+Pw_24 = Pw_24
+Ppv_24 = Ppv_24
+
+Pload = [0] * n
+Pw = [0] * n
+Ppv = [0] * n
+
+for i in range(max(want_time)):
+    Pload[i] = interp1(time, Pload_24, (n*i)/max(want_time))
+    Pw[i] = interp1(time, Pw_24, (n*i)/max(want_time))
+    Ppv[i] = interp1(time, Ppv_24, (n*i)/max(want_time))
 
 
 Pload_24(:,25) = []
@@ -67,8 +69,8 @@ Ppv_24(:,25) = []
 time = want_time
 
 
-[m,n] = size(Pload)
-
+m = 1
+n = len(Pload)
 
 
 # Enter efficiency of inverter (Modeling and Simulation of Smart grid integrated with hybrid renewable energy systems 참고)
@@ -101,16 +103,15 @@ P_LLP_sum_ref = (8*24)*P_L_avg      # 후순위 부하 용량 계산 [MWh]
 
 Cal_dummy = sum(Pload)*Set_dummy    # 허용 더미 비율 [%/100]
 
-SOC = [0] * n+1                     # initial SOC of battery at each time
+SOC = [0] * n + 1                   # initial SOC of battery at each time
 SOC[0] = SOC_ini
-
 
 
 # NPPBSG algorithm
 want_iter = 100
 max_iter = want_iter
 
-for iter = 1:want_iter:
+for iter in range(want_iter):
 
         LOLP_HP(iter,:) = [0] * n        # initial LOLP at each time [h]
         P_HPL(iter,:) = [0] * n          # 실제로 우선순위부하에 공급된 전력량 [MWh]
