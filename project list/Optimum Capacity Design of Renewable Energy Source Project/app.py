@@ -1,6 +1,8 @@
 from flask import Flask, render_template
+from menus import menus_blueprint
 
 app = Flask(__name__)
+app.register_blueprint(menus_blueprint, url_prefix='/menus')
 
 @app.route('/')
 def hello_html():
