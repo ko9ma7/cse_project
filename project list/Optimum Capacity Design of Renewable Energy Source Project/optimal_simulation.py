@@ -2,9 +2,7 @@
 # Enter capacity(MW) and daily pattern data of Load
 
 Pload_24 = 10*[1.8, 2.3, 1.8, 2, 1.7, 1.5, 1, 1.2, 1.2, 1.5, 2, 2.5, 1.8, 2, 1.8, 2, 1.55, 1.55, 1.1, 1.2, 1.2, 1.4, 2, 2.7]            # 부하 곡선 [MW]
-
 u = [7.15, 12, 12, 12, 12, 11.64, 11.46, 6.53, 12, 9.87, 12, 12, 12, 10.69, 12, 10.69, 9.21, 9.66, 6.85, 8.74, 9.66, 5.48, 7.15, 7.72]  # 풍속 데이터 [m/s]
-
 rad = [0, 0, 0.22, 0.22, 0.46, 0.46, 0.77, 0.77, 0.91, 0.91, 1, 1, 1, 1, 0.96, 0.96, 0.88, 0.88, 0.66, 0.66, 0.72, 0.42, 0.22, 0.22]    # 일사량 데이터[kW/m2]
 
 # [m,n] = size(Pload_24)
@@ -58,14 +56,13 @@ Pw = [0] * n
 Ppv = [0] * n
 
 for i in range(max(want_time)):
-    Pload[i] = interp1(time, Pload_24, (n*i)/max(want_time))
-    Pw[i] = interp1(time, Pw_24, (n*i)/max(want_time))
-    Ppv[i] = interp1(time, Ppv_24, (n*i)/max(want_time))
+    Pload[i] = interp1d(time, Pload_24, (n*i)/max(want_time))
+    Pw[i] = interp1d(time, Pw_24, (n*i)/max(want_time))
+    Ppv[i] = interp1d(time, Ppv_24, (n*i)/max(want_time))
 
-
-Pload_24(:,25) = []
-Pw_24(:,25) = []
-Ppv_24(:,25) = []
+# Pload_24(:,25) = []
+# Pw_24(:,25) = []
+# Ppv_24(:,25) = []
 time = want_time
 
 

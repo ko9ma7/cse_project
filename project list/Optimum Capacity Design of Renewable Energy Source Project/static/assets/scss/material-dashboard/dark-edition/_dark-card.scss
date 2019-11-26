@@ -57,10 +57,10 @@
 @include dark-card-links-color('danger', $stats-danger-link-color !important);
 
 //  Card Stats
-@import './dark-card-stats';
+@import 'dark-card-stats';
 
 //  Card Plain
-@import './dark-card-plain';
+@import 'dark-card-plain';
 
 // Card Chart
-@import './dark-card-chart';
+@import 'dark-card-chart';
