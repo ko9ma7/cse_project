@@ -11,39 +11,30 @@ from datetime import datetime
 print(sqlalchemy.__version__)
 
 engine = create_engine(
-    'sqlite:///weather.db',
+    'sqlite:///electronic.db',
     echo=False,
     connect_args={'check_same_thread': False}
 )
 Base = declarative_base()
 
 
-class Weather(Base):
-    __tablename__ = 'weather'
+class Electronic(Base):
+    __tablename__ = 'electronic'
 
     # 파이썬 객체 생성
     stn_id = Column(Integer, primary_key=True)   # 지점 번호
     stn_nm = Column(String)                      # 지점명
-    tm = Column(String)                          # 관측시간
-    icsr = Column(sqlalchemy.types.FLOAT)        # 일사량
-    max_icsr = Column(sqlalchemy.types.FLOAT)    # 최대 일사량
-    ws = Column(sqlalchemy.types.FLOAT)          # 풍속
-    max_ws = Column(sqlalchemy.types.FLOAT)      # 최대 풍속
-
-def print_all_weathers(weathers):
-    for weather in weathers:
-        print_weather(weather)
 
 
-def print_weather(weather):
-    print("[STN_ID: {0}] STN_NM: {1} TM: {2}, ICSR: {3}, MAX_ICSR: {4}, WS: {5}, MAX_WS: {6}".format(
-        weather.stn_id,
-        weather.stn_nm,
-        weather.tm,
-        weather.icsr,
-        weather.max_icsr,
-        weather.ws,
-        weather.max_ws
+def print_all_electronic(electronics):
+    for electronic in electronics:
+        print_electronic(electronic)
+
+
+def print_electronic(electronic):
+    print("[STN_ID: {0}] STN_NM: {1}".format(
+        electronic.stn_id,
+        electronic.stn_nm,
     ))
 
 # session은 마치 DB의 커서와 같은 역할
@@ -52,12 +43,12 @@ db_session = sessionmaker(bind=engine)
 db_session = db_session()
 
 def main():
-    count = db_session.query(Weather).count()
+    count = db_session.query(Electronic).count()
     print("### There are {0} rows in the table.".format(count))
 
     if count != 0:
-        db_session.query(Weather).delete()
-        count = db_session.query(Weather).count()
+        db_session.query(Electronic).delete()
+        count = db_session.query(Electronic).count()
         print("### There are {0} rows in the table after performing 'delete'.".format(count))
 
 
