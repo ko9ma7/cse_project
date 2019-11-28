@@ -17,7 +17,6 @@ engine = create_engine(
 )
 Base = declarative_base()
 
-
 class Weather(Base):
     __tablename__ = 'weather'
 
@@ -60,8 +59,6 @@ def main():
         count = db_session.query(Weather).count()
         print("### There are {0} rows in the table after performing 'delete'.".format(count))
 
-
-    # 지점번호(csv 파일)
 
 
     # ## INSERT (POST)
