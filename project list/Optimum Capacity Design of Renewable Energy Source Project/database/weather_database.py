@@ -1,33 +1,44 @@
 # -*- coding:utf-8 -*-
 
-import pytz
+import sys
 import sqlalchemy
-from sqlalchemy import create_engine, and_, or_, Unicode, DateTime, Boolean
+import pandas as pd
+from sqlalchemy import create_engine, exc
 from sqlalchemy import Column, Integer, String
+from sqlalchemy.dialects.postgresql import ARRAY
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.dialects import postgresql
 from sqlalchemy.orm import sessionmaker
-from datetime import datetime
+sys.path.insert(0, '../rest_server')
+from read_weather import read_weather
+
 
 print(sqlalchemy.__version__)
-
 engine = create_engine(
-    'sqlite:///weather.db',
-    echo=False,
-    connect_args={'check_same_thread': False}
+    'postgresql:///weather.db',
+    # 'postgresql://postgres:battlesun99@localhost:5432/postgres',
+    echo=True
 )
+
+# engine = create_engine(
+#     'sqlite:///weather.db',
+#     # 'postgresql://postgres:postgres@localhost:5432/postgres',
+#     # 'postgresql:///weather.db',
+#     echo=False,
+#     connect_args={'check_same_thread': False}
+# )
+
 Base = declarative_base()
 
 class Weather(Base):
     __tablename__ = 'weather'
 
     # 파이썬 객체 생성
-    stn_id = Column(Integer, primary_key=True)   # 지점 번호
-    stn_nm = Column(String)                      # 지점명
-    tm = Column(String)                          # 관측시간
-    icsr = Column(sqlalchemy.types.FLOAT)        # 일사량
-    max_icsr = Column(sqlalchemy.types.FLOAT)    # 최대 일사량
-    ws = Column(sqlalchemy.types.FLOAT)          # 풍속
-    max_ws = Column(sqlalchemy.types.FLOAT)      # 최대 풍속
+    stn_id = Column(Integer, primary_key=True)                 # 지점 번호
+    stn_nm = Column(String)                                    # 지점명
+    tm = Column(String)                                        # 관측시간
+    icsr = Column("icsr", postgresql.ARRAY(sqlalchemy.FLOAT))  # 일사량
+    ws = Column("ws", postgresql.ARRAY(sqlalchemy.FLOAT))      # 풍속
 
 def print_all_weathers(weathers):
     for weather in weathers:
@@ -35,14 +46,12 @@ def print_all_weathers(weathers):
 
 
 def print_weather(weather):
-    print("[STN_ID: {0}] STN_NM: {1} TM: {2}, ICSR: {3}, MAX_ICSR: {4}, WS: {5}, MAX_WS: {6}".format(
+    print("[STN_ID: {0}] STN_NM: {1} TM: {2}, ICSR: {3}, WS: {4}".format(
         weather.stn_id,
         weather.stn_nm,
         weather.tm,
         weather.icsr,
-        weather.max_icsr,
-        weather.ws,
-        weather.max_ws
+        weather.ws
     ))
 
 # session은 마치 DB의 커서와 같은 역할
@@ -54,94 +63,58 @@ def main():
     count = db_session.query(Weather).count()
     print("### There are {0} rows in the table.".format(count))
 
-    if count != 0:
-        db_session.query(Weather).delete()
-        count = db_session.query(Weather).count()
-        print("### There are {0} rows in the table after performing 'delete'.".format(count))
+    stnIds = 177
+    date = '20170601'
+    stnNm, photovoltaic_data, wind_data = read_weather(stnIds, date, date)
 
+    print(stnIds)
+    print(stnNm)
+    print(date)
+    print(photovoltaic_data)
+    print(wind_data)
 
+    # weather = pd.DataFrame({
+    #     'stn_id': stnIds,
+    #     'stn_nm': stnNm,
+    #     'tm': date,
+    #     'icsr': photovoltaic_data,
+    #     'ws': wind_data},
+    #
+    #     columns=['stn_id', 'stn_nm', 'tm', 'icsr', 'ws'])
+    #
+    # engine.execute("DROP TABLE IF EXISTS public.weather;")
+    #
+    # weather.to_sql(name='weather',
+    #                con=engine,
+    #                schema='public',
+    #                if_exists='fail',  # {'fail', 'replace', 'append'), default 'fail'
+    #                index=True,
+    #                index_label='id',
+    #                chunksize=2,
+    #                dtype={
+    #                    'stn_id': sqlalchemy.types.INTEGER(),
+    #                    'stn_nm': sqlalchemy.types.VARCHAR(100),
+    #                    'tm': sqlalchemy.DateTime(),
+    #                    'icsr': sqlalchemy.types.Float(precision=3),
+    #                    'ws': sqlalchemy.types.Float(precision=3)
+    #                })
 
-    # ## INSERT (POST)
+    # # INSERT (POST)
     # print("\n### db_session.add()")
-    # weather = Weather(name='김철수', address='서울 송파구', email='cskim@gmail.com', age=20)
+    # weather = Weather(stn_id=stnIds, stn_nm=stnNm, tm=date, icsr=photovoltaic_data, ws=wind_data)
     # db_session.add(weather) # 객체(테이블)를 만들고 추가하기
     # db_session.commit()
     #
-    # print("### db_session.add_all()")
-    # db_session.add_all([
-    #     Weather(name='이나라', address='대전 유성구', email='nrlee@gmail.com', age=21),
-    #     Weather(name='나길동', address='대구 달서구', email='gdna@gmail.com', age=22),
-    #     Weather(name='배칠수', address='인천 부평구', email='csbae@gmail.com', age=19)]
-    # )
+    # if count != 0:
+    #     db_session.query(Weather).delete()
+    #     count = db_session.query(Weather).count()
+    #     print("### There are {0} rows in the table after performing 'delete'.".format(count))
+    #
+    # weather = Weather(stn_id=stnIds, stn_nm=stnNm, tm=date, icsr=photovoltaic_data, ws=wind_data)
+    # db_session.add(weather)  # 객체(테이블)를 만들고 추가하기
     # db_session.commit()
     #
-    # count = db_session.query(Weather).count()
-    # print("### There are {0} rows in the table after performing 'add' and 'add_all'.".format(count))
-    #
-    #
-    # ## SELECT (GET)
-    # print("\n### db_session.query(Customer).all()")
-    # weathers = db_session.query(Weather).all() # 리스트 형태 반환
-    # print_all_weathers(weathers)
-    #
-    # print("\n### db_session.query(Customer).filter(Customer.id == 2)")
-    # weathers = db_session.query(Weather).filter(Weather.id == 2) # 리스트 형태 반환
-    # print_all_weathers(weathers)
-    #
-    # print("\n### db_session.query(Customer).filter(Customer.id != 2)")
-    # weathers = db_session.query(Weather).filter(Weather.id != 2)
-    # print_all_weathers(weathers)
-    #
-    # print("\n### db_session.query(Customer).first()")
-    # weather = db_session.query(Weather).first()
-    # print_weather(weather)
-    #
-    # print("\n### db_session.query(Customer).filter(Customer.name.like('%수%'))")
-    # weathers = db_session.query(Weather).filter(Weather.name.like('%수%'))
-    # print_all_weathers(weathers)
-    #
-    # print("\n### db_session.query(Customer).filter(Customer.id.in_([2, 3]))")
-    # weathers = db_session.query(Weather).filter(Weather.id.in_([2, 3]))
-    # print_all_weathers(weathers)
-    #
-    # print("\n### and_")
-    # weathers = db_session.query(Weather).filter(and_(Weather.id >= 3, Weather.name.like('%수%')))
-    # print_all_weathers(weathers)
-    #
-    # print("\n### or_")
-    # customers = db_session.query(Weather).filter(or_(Weather.id >= 3, Weather.name.like('%수%')))
-    # print_all_weathers(customers)
-    #
-    # print("\n### db_session.query(Customer).get(3)")
-    # weather = db_session.query(Weather).get(3) # primary key로 접근
-    # print_weather(weather)
-    #
-    #
-    # ## UPDATE (PUT)
-    # weather.age = 25
-    # db_session.commit()
-    #
-    # print("\n### db_session.query(Customer).get(3) after update")
-    # weather = db_session.query(Weather).get(3)
-    # print_weather(weather)
-    #
-    # # 특정 컬럼을 가져오지 않았기 때문에(get을 사용하지 않았기 때문에) 모든 컬럼의 내용이 바뀜
-    # db_session.query(Weather).update({Weather.age: 23}, synchronize_session=False)
-    # db_session.commit()
-    #
-    # print("\n### db_session.query(Customer).all() after bulk update")
-    # weathers = db_session.query(Weather).all()
-    # print_all_weathers(weathers)
-    #
-    #
-    # ## DELETE (DELETE)
-    # print("\n### delete the customer with id=3")
-    # db_session.query(Weather).filter(Weather.id == 3).delete()
-    # db_session.commit()
-    #
-    # print("\n### db_session.query(Customer).all() after deleting")
-    # weathers = db_session.query(Weather).all()
-    # print_all_weathers(weathers)
+    # print("### There are {0} rows in the table after performing 'add'.".format(count))
 
 
 if __name__ == "__main__":
