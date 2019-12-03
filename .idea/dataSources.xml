@@ -1,11 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="weather" uuid="e8db4427-fdff-47af-92a0-350270988568">
+    <data-source source="LOCAL" name="customers" uuid="66a07b97-14a7-4306-8af2-67daf8727ead">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:C:\Users\battl\PycharmProjects\JMH\project list\Optimum Capacity Design of Renewable Energy Source Project\database\weather.db</jdbc-url>
+      <jdbc-url>jdbc:sqlite:C:\Users\battl\PycharmProjects\JMH\project list\Optimum Capacity Design of Renewable Energy Source Project\database\customers.db</jdbc-url>
+      <driver-properties>
+        <property name="enable_load_extension" value="true" />
+      </driver-properties>
+      <libraries>
+        <library>
+          <url>file://$APPLICATION_CONFIG_DIR$/jdbc-drivers/Xerial SQLiteJDBC/3.25.1/license.txt</url>
+        </library>
+        <library>
+          <url>file://$APPLICATION_CONFIG_DIR$/jdbc-drivers/Xerial SQLiteJDBC/3.25.1/sqlite-jdbc-3.25.1.jar</url>
+        </library>
+      </libraries>
+    </data-source>
+    <data-source source="LOCAL" name="customer2" uuid="2f84f7c6-2f98-4897-8fa5-dbca69b75999">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:C:\Users\battl\PycharmProjects\JMH\project list\Optimum Capacity Design of Renewable Energy Source Project\database\customer2.db</jdbc-url>
       <driver-properties>
         <property name="enable_load_extension" value="true" />
       </driver-properties>

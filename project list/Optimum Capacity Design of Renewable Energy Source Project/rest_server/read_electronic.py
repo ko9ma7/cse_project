@@ -1,23 +1,24 @@
-import sys
 import pandas as pd
-from tabulate import tabulate
 
-sys.path.append("..")
+electronics_csv = pd.read_csv('../database/electronics.csv', encoding='euc-kr') # 2017, 2018 지역별 시간단위 발전량
 
-if __name__ == "__main__":
-    electronics_csv = pd.read_csv('../database/electronics.csv', encoding='euc-kr') # 2017, 2018 지역별 시간단위 발전량
-    # print(electronics_csv.shape)
-    # print(electronics_csv.columns)
-    print(electronics_csv)
+def read_electronic(location):
 
-    location = '경기도'
-    electronics_data = electronics_csv.loc[:, ['거래일자', '거래시간', location]] # 행, 열
-    electronic = {}
-    observe = electronics_data.head(24)['거래일자'][0]
+    electronic_total = []
+    cnt = 24
+    for idx in range(0, len(electronics_csv), cnt):
+        electronic_by_date = {}
+        electronic_data = []
+        electronic_data_by_loc = electronics_csv.loc[idx:cnt + idx - 1, ['거래일자', '거래시간', location]]
+        # print(electronic_data_by_loc)
 
-    elec_data = []
-    for idx, data in enumerate(electronics_data.head(24)[location]):
-        elec_data.append(data)
+        observe = electronic_data_by_loc['거래일자'][idx]
+        for data in electronic_data_by_loc[location].values:
+            data /= 10000
+            d = round(data, 4)
+            electronic_data.append(d)
 
-    electronic[observe] = elec_data
-    print(electronic)
+        electronic_by_date[observe] = electronic_data
+        electronic_total.append(electronic_by_date)
+
+    return electronic_total

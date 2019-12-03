@@ -19,7 +19,7 @@ def read_weather(stnIds, startDt, endDt):
 
     res = requests.get(url=WEATHER_BASE_URL, params=params)
 
-    stnNm = ''
+    # stnNm = ''
     wind_total = []
     photovoltaic_total = []
 
@@ -38,7 +38,7 @@ def read_weather(stnIds, startDt, endDt):
                 # 24시간 주기
                 for w in weather['info']:
                     date = w['TM'].split()[0]
-                    stnNm = w['STN_NM']
+                    # stnNm = w['STN_NM']
 
                     if cnt == 24:
                         wind_data = []
@@ -68,4 +68,4 @@ def read_weather(stnIds, startDt, endDt):
     else:
         print("Error {0}".format(res.status_code))
 
-    return stnNm, photovoltaic_total, wind_total
+    return photovoltaic_total, wind_total
