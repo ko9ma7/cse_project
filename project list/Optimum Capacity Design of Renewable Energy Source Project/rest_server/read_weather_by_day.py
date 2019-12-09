@@ -4,7 +4,7 @@ sys.path.append("..")
 from keys import WEATHER_REST_KEY
 WEATHER_BASE_URL = "http://data.kma.go.kr/apiData/getData?"
 
-def read_weather(stnIds, startDt, endDt):
+def read_weather_by_day(stnIds, startDt, endDt):
     params = {'type': 'json',
               'dataCd': 'ASOS',
               'dateCd': 'HR',
@@ -13,7 +13,7 @@ def read_weather(stnIds, startDt, endDt):
               'endDt': endDt,
               'endHh': '23',
               'stnIds': stnIds,
-              'schListCnt': 800, # 한 번에 출력할 수 있는 양(1 달치) 750
+              'schListCnt': 800, # 한 번에 출력할 수 있는 양(1 달치)
               'pageIndex': 1,
               'apiKey': WEATHER_REST_KEY}
 

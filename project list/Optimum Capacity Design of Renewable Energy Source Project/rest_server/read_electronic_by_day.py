@@ -2,7 +2,7 @@ import pandas as pd
 
 electronics_csv = pd.read_csv('../database/electronics.csv', encoding='euc-kr') # 2017, 2018 지역별 시간단위 발전량
 
-def read_electronic(location):
+def read_electronic_by_day(location):
 
     electronic_total = []
     cnt = 24

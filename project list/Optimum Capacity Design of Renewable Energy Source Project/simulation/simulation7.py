@@ -1,11 +1,6 @@
-from pprint import pprint
-from typing import List
-
 import numpy as np
 from matplotlib import pyplot as plt
 from matplotlib import ticker as ticker
-from openpyxl import Workbook
-from datetime import datetime
 import pandas as pd
 from tabulate import tabulate
 
@@ -149,11 +144,13 @@ def Function1(Ef_inv, Con_LOLP, Con_dummy, prompt3, want_iteration):
             dummy_sum = sum(P_dummy)
             P_dg_sum = sum(P_dg)
 
+            print(LOLP_sum)
+
             state_result.append(state)
             prompt1_result.append(prompt1)
             prompt2_result.append(prompt2)
             dummy_result.append(dummy_sum)
-            LOLP_result.append(LOLP_sum)
+            LOLP_result.append(sum(LOLP))
             P_dg_result.append(P_dg_sum)
 
     return prompt1_result, prompt2_result, state_result, dummy_result, LOLP_result, P_dg_result, DAE

@@ -1,11 +1,10 @@
 import numpy as np
-from matplotlib import pyplot as plt
-from matplotlib import ticker as ticker
 import pandas as pd
 from tabulate import tabulate
-import rest_database
-from electronic_database import return_electronic_data
-from weather_database import return_weather_data
+import sys
+sys.path.append("../rest_server")
+from electronic_database_by_day import return_electronic_data_by_day
+from weather_database_by_day import return_weather_data_by_day
 
 # 설정 초기 상수
 C_bat = 20  # Capacity(kWh)
@@ -51,7 +50,7 @@ def Optimal_PSO_Algorithm(Ef_inv, Con_LOLP, Con_dummy, prompt3, input_p_wind, in
                     else:
                         if ur <= u[t] <= uf:
                             Pw_wind[t] = 1  # WT 출력 [MW]
-                            print(Pw_wind)
+                            # print(Pw_wind)
 
             P_wind = Pw_wind
 
@@ -142,6 +141,7 @@ def Optimal_PSO_Algorithm(Ef_inv, Con_LOLP, Con_dummy, prompt3, input_p_wind, in
                         # print('Present capacities of PV and WT are optimal.\n')
 
             dummy_sum = sum(P_dummy)
+            LOLP_sum = sum(LOLP)
             P_dg_sum = sum(P_dg)
 
             state_result.append(state)
@@ -160,7 +160,7 @@ def PSO_Algorithm(Ef_inv, Con_LOLP, Con_dummy, prompt1, prompt2, prompt3, input_
 
     Pw_wind = [0] * 24
 
-    uc = 3  # 최소 발전가능한 풍속 제한 [m/s]
+    uc = 3   # 최소 발전가능한 풍속 제한 [m/s]
     uf = 25  # 최대 발전가능한 풍속 제한 [m/s]
     ur = 12  # 정격 풍속 [m/s]
 
@@ -173,7 +173,7 @@ def PSO_Algorithm(Ef_inv, Con_LOLP, Con_dummy, prompt1, prompt2, prompt3, input_
             else:
                 if ur <= u[t] <= uf:
                     Pw_wind[t] = 1  # WT 출력 [MW]
-                    print(Pw_wind)
+                    # print(Pw_wind)
 
     P_wind = Pw_wind
 
@@ -265,11 +265,11 @@ def PSO_Algorithm(Ef_inv, Con_LOLP, Con_dummy, prompt1, prompt2, prompt3, input_
 def get_renewable_energy():
 
     # 재생 에너지 데이터 불러오기
-    weather_df = return_weather_data()
-    electronic_df = return_electronic_data()
+    weather_df = return_weather_data_by_day()
+    electronic_df = return_electronic_data_by_day()
     weather_df['P_load'] = electronic_df['P_load']
     renewable_energy = weather_df
-    print(tabulate(renewable_energy, headers='keys', tablefmt='psql'))
+    # print(tabulate(renewable_energy, headers='keys', tablefmt='psql'))
 
     Ef_inv = 0.95
     Con_LOLP = 0.05
@@ -383,7 +383,7 @@ def get_renewable_energy():
         tot_optimal_lolp.append(lolp)
 
     db_data = {
-        'Administrative Area' : renewable_energy['Administrative Area'],
+        'Administrative_Area' : renewable_energy['Administrative_Area'],
         'Observation' : renewable_energy['Observation'],
         'P_wind' : renewable_energy['P_wind'],
         'P_pv' : renewable_energy['P_pv'],
@@ -404,7 +404,7 @@ def get_renewable_energy():
     df = pd.DataFrame(
         db_data,
         columns=[
-            'Administrative Area',
+            'Administrative_Area',
             'Observation',
             'P_wind',
             'P_pv',
@@ -422,8 +422,6 @@ def get_renewable_energy():
             'optimal_lolp'
         ]
     )
-    print(tabulate(df, headers='keys', tablefmt='psql'))
+    # print(tabulate(df, headers='keys', tablefmt='psql'))
 
     return df
-
-get_renewable_energy()

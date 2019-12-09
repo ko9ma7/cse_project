@@ -5,16 +5,15 @@ from tabulate import tabulate
 sys.path.append("..")
 from keys import WEATHER_REST_KEY
 WEATHER_BASE_URL = "http://data.kma.go.kr/apiData/getData?"
-import sys
-sys.path.insert(0, '../rest_server')
-from read_weather import read_weather
+# import sys
+# sys.path.insert(0, '../rest_server')
+from read_weather_by_day import read_weather_by_day
 import stninfo
 import pandas as pd
 
-def return_weather_data():
+def return_weather_data_by_day():
 
     administrative_area = []
-    # autonomous_zone = []
     month_observation = []
     month_p_pv = []
     month_p_wind = []
@@ -38,33 +37,37 @@ def return_weather_data():
             for idx, key in enumerate(stninfo.stninfo):
                 location_info = stninfo.stninfo[key]
 
-                if key == '서울특별시':
+                if key == '부산광역시':
                     # 지역별로 나누기
                     for loc in location_info:
                         # print(loc)
                         stnIds = loc
-                        photovoltaic_total, wind_total = read_weather(stnIds, startDt, endDt)
+                        photovoltaic_total, wind_total = read_weather_by_day(stnIds, startDt, endDt)
 
                         for photovoltaic, wind in zip(photovoltaic_total, wind_total):
                             for p, w in zip(photovoltaic, wind):
                                 observe = p
                                 administrative_area.append(key)
-                                # autonomous_zone.append(stnNm)
+
+                                while len(photovoltaic[observe]) != 24:
+                                    photovoltaic[observe].append(0)
+
+                                while len(wind[observe]) != 24:
+                                    wind[observe].append(0)
 
                                 month_observation.append(observe)
                                 month_p_pv.append(photovoltaic[observe])
                                 month_p_wind.append(wind[observe])
 
-                        time.sleep(3)
+                        time.sleep(1)
 
     data = {
-        'Administrative Area' : administrative_area,
-        # 'Autonomous Zone': autonomous_zone,
+        'Administrative_Area' : administrative_area,
         'Observation': month_observation,
         'P_pv': month_p_pv,
         'P_wind' : month_p_wind
     }
 
-    df = pd.DataFrame(data, columns=['Administrative Area', 'Observation', 'P_pv', 'P_wind'])
+    df = pd.DataFrame(data, columns=['Administrative_Area', 'Observation', 'P_pv', 'P_wind'])
     # print(tabulate(df, headers='keys', tablefmt='psql'))
     return df
