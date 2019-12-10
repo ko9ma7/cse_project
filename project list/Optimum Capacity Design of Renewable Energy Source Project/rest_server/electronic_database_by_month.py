@@ -23,16 +23,19 @@ def return_electronic_data_by_day():
                 for date in electronic_data:
                     observe = datetime.strptime(str(date), '%Y%m%d')
 
-                    administrative_area.append(loc)
-                    day_observation.append(str(observe.date()))
-                    day_p_load.append(electronic_data[date])
+                    print(electronic_data[date])
+    #                 administrative_area.append(loc)
+    #                 day_observation.append(str(observe.date()))
+    #                 day_p_load.append(electronic_data[date])
+    #
+    # data = {
+    #     'Administrative_Area': administrative_area,
+    #     'Observation': day_observation,
+    #     'P_load': day_p_load
+    # }
+    #
+    # df = pd.DataFrame(data, columns=['Administrative_Area', 'Observation', 'P_load'])
+    # # print(tabulate(df, headers='keys', tablefmt='psql'))
+    # return df
 
-    data = {
-        'Administrative_Area': administrative_area,
-        'Observation': day_observation,
-        'P_load': day_p_load
-    }
-
-    df = pd.DataFrame(data, columns=['Administrative_Area', 'Observation', 'P_load'])
-    # print(tabulate(df, headers='keys', tablefmt='psql'))
-    return df
+return_electronic_data_by_day()

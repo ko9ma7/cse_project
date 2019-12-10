@@ -14,9 +14,9 @@ import pandas as pd
 def return_weather_data_by_day():
 
     administrative_area = []
-    month_observation = []
-    month_p_pv = []
-    month_p_wind = []
+    day_observation = []
+    day_p_pv = []
+    day_p_wind = []
 
     year = ['2017', '2018']
     month = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
@@ -55,17 +55,17 @@ def return_weather_data_by_day():
                                 while len(wind[observe]) != 24:
                                     wind[observe].append(0)
 
-                                month_observation.append(observe)
-                                month_p_pv.append(photovoltaic[observe])
-                                month_p_wind.append(wind[observe])
+                                day_observation.append(observe)
+                                day_p_pv.append(photovoltaic[observe])
+                                day_p_wind.append(wind[observe])
 
                         time.sleep(1)
 
     data = {
         'Administrative_Area' : administrative_area,
-        'Observation': month_observation,
-        'P_pv': month_p_pv,
-        'P_wind' : month_p_wind
+        'Observation': day_observation,
+        'P_pv': day_p_pv,
+        'P_wind' : day_p_wind
     }
 
     df = pd.DataFrame(data, columns=['Administrative_Area', 'Observation', 'P_pv', 'P_wind'])
