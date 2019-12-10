@@ -1,6 +1,6 @@
 import sys
 sys.path.append("../pso_algorithm")
-import pso_algorithm_by_day
+import pso_algorithm_by_month
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, FLOAT, create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -10,7 +10,7 @@ Base = declarative_base()
 DBSession = scoped_session(sessionmaker())
 
 class Energy(Base):
-    __tablename__ = "Renewable_Energy_By_Day"
+    __tablename__ = "Renewable_Energy_By_Month"
     # 파이썬 객체 생성
     id = Column(Integer, primary_key=True)
     Administrative_Area = Column(String)
@@ -43,7 +43,7 @@ def init_sqlalchemy(dbname = 'sqlite:///renewable_energy_database.db'):
 def main():
 
     # 재생에너지 데이터 확보
-    renewable_energy = pso_algorithm_by_day.get_renewable_energy() # DataFrame 형태
+    renewable_energy = pso_algorithm_by_month.get_renewable_energy() # DataFrame 형태
     init_sqlalchemy()
 
     # INSERT (POST)

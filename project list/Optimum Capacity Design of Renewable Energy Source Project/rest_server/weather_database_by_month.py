@@ -13,7 +13,7 @@ from read_weather_by_day import read_weather_by_day
 import stninfo
 import pandas as pd
 
-def return_weather_data_by_day():
+def return_weather_data_by_month():
 
     administrative_area = []
     month_observation = []
@@ -98,7 +98,5 @@ def return_weather_data_by_day():
     }
 
     df = pd.DataFrame(data, columns=['Administrative_Area', 'Observation', 'P_pv', 'P_wind'])
-    print(tabulate(df, headers='keys', tablefmt='psql'))
+    # print(tabulate(df, headers='keys', tablefmt='psql'))
     return df
-
-return_weather_data_by_day()
