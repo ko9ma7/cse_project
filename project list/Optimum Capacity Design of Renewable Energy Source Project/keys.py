@@ -1,1 +1,0 @@
-WEATHER_REST_KEY = 'gxlOhdWDfeM0A5vrx5m4L6bOcU40MzOixELril3MBWrmVdTLXGbbor1acqN9afW4'
