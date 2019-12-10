@@ -1,0 +1,234 @@
+{% extends "base.html" %}
+{% block title %} Execute {% endblock %}
+
+{% block style %}
+{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="card">
+        <div class="card-header card-header-danger">
+            <div class="container-fluid">
+                <form action="" method="POST">
+                    {{ form.csrf_token }}
+                    <div class="row">
+                        <div class="col-md-9">
+                            <h2 class="card-title "> {{ res['sensor_id'] }} 지역에 대한 정보</h2>
+                        </div>
+                        {% for field in form.display %}
+                        <div class="col-md-2">
+                            {{ form[field](class="form-control") }}
+                            {% if form[field].errors %}
+                                {% for e in form[field.errors] %}
+                                <p class="help-block">{{ e }}</p>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                        <div class="col-md-1">
+                            <button type="submit" class="btn btn-primary">요청하기</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card card-stats">
+                        <div class="card-header card-header-icon card-header-rose">
+                            <div class="card-icon">
+                                <i class="material-icons">content_copy</i>
+                            </div>
+                            <p class="card-category">최적의 태양광 에너지와 풍령 에너지 비율</p>
+                            <h3 class="card-title">
+                                3:3
+                            </h3>
+                        </div>
+                        <div class="card-body"></div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card card-stats">
+                        <div class="card-header card-header-icon card-header-rose">
+                            <div class="card-icon">
+                                <i class="material-icons">content_copy</i>
+                            </div>
+                            <p class="card-category">설비에 필요한 Cost</p>
+                            <h3 class="card-title">
+                                19708
+                                <small>$</small>
+                            </h3>
+                        </div>
+                        <div class="card-body"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="card card-stats">
+                        <div class="card-header card-header-icon card-header-rose">
+                            <div class="card-icon">
+                                <i class="material-icons">content_copy</i>
+                            </div>
+                            <p class="card-category">시간별 부하량</p>
+                            <h3 class="card-title">
+                                100
+                                <small>kWh</small>
+                            </h3>
+                        </div>
+                        <div class="card-body"></div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card card-stats">
+                        <div class="card-header card-header-icon card-header-rose">
+                            <div class="card-icon">
+                                <i class="material-icons">content_copy</i>
+                            </div>
+                            <p class="card-category">일간 부하량</p>
+                            <h3 class="card-title">
+                                1000
+                                <small>kWh</small>
+                            </h3>
+                        </div>
+                        <div class="card-body"></div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card card-stats">
+                        <div class="card-header card-header-icon card-header-rose">
+                            <div class="card-icon">
+                                <i class="material-icons">content_copy</i>
+                            </div>
+                            <p class="card-category">월간 부하량</p>
+                            <h3 class="card-title">
+                                10000
+                                <small>kWh</small>
+                            </h3>
+                        </div>
+                        <div class="card-body"></div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card card-stats">
+                        <div class="card-header card-header-icon card-header-rose">
+                            <div class="card-icon">
+                                <i class="material-icons">content_copy</i>
+                            </div>
+                            <p class="card-category">연간 부하량</p>
+                            <h3 class="card-title">
+                                100000
+                                <small>kWh</small>
+                            </h3>
+                        </div>
+                        <div class="card-body"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md">
+                    <div class="card">
+                        <div class="card-header card-chart card-header-warning">
+                            <div class="ct-chart" id="dailySalesChart1"></div>
+                        </div>
+                        <div class="card-body">
+                            <!--                <h4 class="card-title">일간 부하 패턴</h4>-->
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    평균 발전 부하 패턴
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                    <button class="btn btn-secondary dropdown-item" value="day">일간 패턴</button>
+                                    <button class="btn btn-secondary dropdown-item" value="month">월간 패턴</button>
+                                    <button class="btn btn-secondary dropdown-item" value="year">연간 패턴</button>
+<!--                                    <a class="dropdown-item" href="#">시간 패턴</a>-->
+<!--                                    <a class="dropdown-item" href="#">일간 패턴</a>-->
+<!--                                    <a class="dropdown-item" href="#">월간 패턴</a>-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md">
+                    <div class="card">
+                        <div class="card-header card-chart card-header-success">
+                            <div class="ct-chart" id="completedTasksChart"></div>
+                        </div>
+                        <div class="card-body">
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    일간 분석 정보
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="#">풍력 발전량</a>
+                                    <a class="dropdown-item" href="#">태양력 발전량</a>
+                                    <a class="dropdown-item" href="#">전력 부하량</a>
+                                    <a class="dropdown-item" href="#">P_dg</a>
+                                    <a class="dropdown-item" href="#">Dummy</a>
+                                    <a class="dropdown-item" href="#">Pbat</a>
+                                    <a class="dropdown-item" href="#">SOC</a>
+                                    <a class="dropdown-item" href="#">LOLP</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="stats">
+                                <i class="material-icons">access_time</i>
+                                Updated 2 minutes ago
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/javascript" src="https://rawgit.com/gionkunz/chartist-js/master/dist/chartist.js"></script>
+<script>
+    var test = document.getElementById("chart-load");
+    if(test =='day') {
+        var data = {
+            labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
+            series: [
+                    {{ series|safe }}
+            ]
+        };
+    }
+    else {
+        var data = {
+            labels: ['T', 'T', 'T', 'T', 'T', 'T', 'T'],
+            series: [
+                {{ series|safe }}
+            ]
+        };
+    }
+    var data2 = {
+
+        lineSmooth: Chartist.Interpolation.cardinal({
+            tension: 0
+        }),
+        low: 0,
+        high: 50, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+        chartPadding: {
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: 0
+        },
+    }
+   new Chartist.Line('#dailySalesChart1', data, data2);
+   </script>
+
+{% endblock %}

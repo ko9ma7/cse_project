@@ -1,0 +1,32 @@
+{% extends "execute.html" %}
+
+{% block contents %}
+<div class="row">
+    <div class="col-md">
+        <div class="card">
+            <div class="card-header card-header-danger">
+                <h4 class="card-title">전력 부하 검색</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <form action="" method="GET" class="text-center">
+                            <div class="col">
+                                <input type="text" class="form-control" placeholder="지역 명">
+                            </div>
+                        <div class="col-md-1">
+                            <button type="submit" class="btn btn-primary">요청하기</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <textarea class="col-md" rows="20">
+                            {{ res }}
+                        </textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
