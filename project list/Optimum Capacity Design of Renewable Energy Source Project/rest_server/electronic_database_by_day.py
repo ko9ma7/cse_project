@@ -15,7 +15,7 @@ def return_electronic_data_by_day():
     day_p_load = []
 
     for idx, loc in enumerate(location):
-        if loc == '부산광역시':
+        if loc == '충청북도':
             electronic_total = read_electronic_by_day(location[idx])
 
             # 지역별로 나누기

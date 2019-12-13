@@ -14,7 +14,7 @@ def read_electronic_by_day(location):
 
         observe = electronic_data_by_loc['거래일자'][idx]
         for data in electronic_data_by_loc[location].values:
-            data /= 10000
+            data /= 1000
             d = round(data, 4)
             electronic_data.append(d)
 

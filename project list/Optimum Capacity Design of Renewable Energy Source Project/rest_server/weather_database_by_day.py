@@ -37,7 +37,7 @@ def return_weather_data_by_day():
             for idx, key in enumerate(stninfo.stninfo):
                 location_info = stninfo.stninfo[key]
 
-                if key == '부산광역시':
+                if key == '충청북도':
                     # 지역별로 나누기
                     for loc in location_info:
                         # print(loc)
