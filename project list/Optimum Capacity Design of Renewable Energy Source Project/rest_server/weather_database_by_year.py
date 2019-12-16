@@ -1,14 +1,9 @@
 # stninfo에서 해당 지역에 따른 지점번호 -> 월별 데이터 REST 요청
 import time
 import sys
-from pprint import pprint
-
 from tabulate import tabulate
 sys.path.append("..")
-from keys import WEATHER_REST_KEY
 WEATHER_BASE_URL = "http://data.kma.go.kr/apiData/getData?"
-# import sys
-# sys.path.insert(0, '../rest_server')
 from read_weather_by_day import read_weather_by_day
 import stninfo
 import pandas as pd
@@ -17,8 +12,8 @@ def return_weather_data_by_year():
 
     administrative_area = []
     year_observation = []
-    month_p_pv = []
-    month_p_wind = []
+
+
 
     total_year_p_pv = []
     total_year_p_wind = []
@@ -26,10 +21,15 @@ def return_weather_data_by_year():
     year = ['2017', '2018']
     month = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
 
+    location = '부산광역시'
+
     # 관측시간 정하기
     for y in year:
-        year_p_pv = [0] * 24
-        year_p_wind = [0] * 24
+        year_p_pv = []
+        year_p_wind = []
+
+        month_p_pv = []
+        month_p_wind = []
 
         year_observation.append(y)
 
@@ -47,10 +47,9 @@ def return_weather_data_by_year():
             for idx, key in enumerate(stninfo.stninfo):
                 location_info = stninfo.stninfo[key]
 
-                if key == '경기도':
+                if key == '부산광역시':
                     # 지역별로 나누기
                     for loc in location_info:
-                        # print(loc)
                         stnIds = loc
                         photovoltaic_total, wind_total = read_weather_by_day(stnIds, startDt, endDt)
                         sum_photovoltaic = [0] * 24
@@ -88,33 +87,38 @@ def return_weather_data_by_year():
                                 sum_wind[kdx] /= days
                                 sum_wind[kdx] = round(sum_wind[kdx], 3)
 
-
                         month_p_pv.append(sum_photovoltaic)
                         month_p_wind.append(sum_wind)
 
                         time.sleep(1)
 
-        administrative_area.append(key)
+        administrative_area.append(location)
+
+        sum_month_p_pv = [0] * 24
+        sum_month_p_wind = [0] * 24
 
         for p_pv, p_wind in zip(month_p_pv, month_p_wind):
-
             idx = 0
             for p, w in zip(p_pv, p_wind):
-                year_p_pv[idx] += p
-                year_p_wind[idx] += w
-
-                year_p_pv[idx] = round(year_p_pv[idx], 4)
-                year_p_wind[idx] = round(year_p_wind[idx], 4)
-
+                sum_month_p_pv[idx] += p
+                sum_month_p_wind[idx] += w
                 idx += 1
+
+        jdx = 0
+        for p_pv, p_wind in zip(sum_month_p_pv, sum_month_p_wind):
+            sum_month_p_pv[jdx] /= 12
+            sum_month_p_wind[jdx] /= 12
+
+            sum_month_p_pv[jdx] = round(sum_month_p_pv[jdx], 4)
+            sum_month_p_wind[jdx] = round(sum_month_p_wind[jdx], 4)
+
+            jdx += 1
+
+        year_p_pv.extend(sum_month_p_pv)
+        year_p_wind.extend(sum_month_p_wind)
 
         total_year_p_pv.append(year_p_pv)
         total_year_p_wind.append(year_p_wind)
-
-    # print(administrative_area)
-    # print(year_observation)
-    # print(total_year_p_pv)
-    # print(total_year_p_wind)
 
     data = {
         'Administrative_Area' : administrative_area,

@@ -10,7 +10,7 @@ Base = declarative_base()
 DBSession = scoped_session(sessionmaker())
 
 class Energy(Base):
-    __tablename__ = "Renewable_Energy_By_Month"
+    __tablename__ = "Renewable_Energy_By_Year"
     # 파이썬 객체 생성
     id = Column(Integer, primary_key=True)
     Administrative_Area = Column(String)
@@ -36,8 +36,8 @@ class Energy(Base):
 def init_sqlalchemy(dbname = 'sqlite:///renewable_energy_database.db'):
     engine  = create_engine(dbname, echo=False)
     DBSession.configure(bind=engine, autoflush=False, expire_on_commit=False)
-    Base.metadata.drop_all(engine)
-    Base.metadata.create_all(engine)
+    # Base.metadata.drop_all(engine)
+    # Base.metadata.create_all(engine)
     return DBSession
 
 def main():

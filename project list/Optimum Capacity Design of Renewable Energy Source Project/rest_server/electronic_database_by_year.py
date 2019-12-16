@@ -19,13 +19,13 @@ def return_electronic_data_by_year():
 
     for y in year:
         year_observation.append(y)
-        administrative_area.append('경기도')
+        administrative_area.append('부산광역시')
 
     for idx, loc in enumerate(location):
         cnt = 0
         year_p_load = [0] * 24
 
-        if loc == '경기도':
+        if loc == '부산광역시':
             electronic_total = read_electronic_by_day(location[idx])
 
             # 지역별로 나누기
