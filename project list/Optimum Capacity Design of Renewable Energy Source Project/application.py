@@ -1,12 +1,6 @@
-import json
-import os
-import pprint
-
-from flask import Flask, render_template, session, request
+from flask import Flask, render_template
 from flask_restful import Api
 import logging
-import requests
-
 from rest_client.example import example_blueprint
 from rest_client.execute import execute_blueprint
 from rest_server.rest_energy import EnergyDayResource, EnergyMonthResource

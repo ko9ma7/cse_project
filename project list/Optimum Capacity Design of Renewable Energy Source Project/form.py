@@ -1,8 +1,6 @@
 from flask_wtf import FlaskForm
 import wtforms as f
 from wtforms.validators import DataRequired
-from wtforms import BooleanField
-
 
 class AreaSearchForm(FlaskForm):
     area = f.StringField('지역 명', validators=[DataRequired()], render_kw={"placeholder" : "지역 명"})
