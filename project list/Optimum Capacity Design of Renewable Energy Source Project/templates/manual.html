@@ -48,7 +48,7 @@
                         <tbody>
                         <tr>
                             <th>GET</th>
-                            <th>http://localhost:8080/</th>
+                            <th>http://35.173.220.182:8080/</th>
                             <th>JSON</th>
                         </tr>
                         </tbody>
@@ -172,12 +172,12 @@
 
                     <h4><strong>호출</strong></h4>
                     <div class="d-block p-2 bg-dark text-white">
-                        <pre class="d-block p-2 bg-dark text-white"><code>curl http://127.0.0.1:8080/day-energy/2017-01-01/area/%EA%B2%BD%EA%B8%B0%EB%8F%84</code></pre>
+                        <pre class="d-block p-2 bg-dark text-white"><code>curl http://35.173.220.182:8080/day-energy/2017-01-01/area/%EA%B2%BD%EA%B8%B0%EB%8F%84</code></pre>
                     </div>
                     <h4><strong>요청</strong></h4>
                     <div class="d-block p-2 bg-dark text-white">
                     <pre class="d-block p-2 bg-dark text-white"><code>> GET /day-energy/2017-01-01/area/%EA%B2%BD%EA%B8%B0%EB%8F%84 HTTP/1.1
-> Host: 127.0.0.1:8080
+> Host: 35.173.220.182:8080
 > User-Agent: curl/7.55.1
 > Accept: */*</code></pre>
                     </div>
@@ -185,39 +185,39 @@
                     <div class="d-block p-2 bg-dark text-white">
                     <pre class="d-block p-2 bg-dark text-white"><code>< HTTP/1.0 200 OK
 < Content-Type: application/json
-< Content-Length: 4158
-< Server: Werkzeug/0.15.4 Python/3.7.5
-< Date: Mon, 16 Dec 2019 21:03:47 GMT
+< Content-Length: 3984
+< Server: Werkzeug/0.16.0 Python/3.7.5
+< Date: Tue, 17 Dec 2019 18:22:55 GMT
 <
 {
     "Administrative_Area": "\uacbd\uae30\ub3c4",
     "Observation": "2017-01-01",
     "P_pv": [
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0057,
-        0.0824,
-        0.2956,
-        0.6742,
-        1.0816,
-        1.4125,
-        1.6529,
-        1.692,
-        1.6125,
-        1.4062,
-        1.0829,
-        0.7021,
-        0.3439,
-        0.1087,
-        0.0111,
-        0.0,
-        0.0,
-        0.0
-    ]...
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0.09,
+        0.29,
+        0.67,
+        0.84,
+        0.89,
+        0.82,
+        0.44,
+        0.4,
+        0.11,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+    ], ...
 }</code></pre>
 
                     </div>            </div>
@@ -234,7 +234,7 @@
                         <tbody>
                         <tr>
                             <th>GET</th>
-                            <th>http://localhost:8080/</th>
+                            <th>http://35.173.220.182:8080/</th>
                             <th>JSON</th>
                         </tr>
                         </tbody>
@@ -358,12 +358,12 @@
 
                     <h4><strong>호출</strong></h4>
                     <div class="d-block p-2 bg-dark text-white">
-                        <pre class="d-block p-2 bg-dark text-white"><code>curl http://127.0.0.1:8080/month-energy/2017/area/%EA%B2%BD%EA%B8%B0%EB%8F%84</code></pre>
+                        <pre class="d-block p-2 bg-dark text-white"><code>curl http://35.173.220.182:8080/month-energy/2017-01/area/%EA%B2%BD%EA%B8%B0%EB%8F%84</code></pre>
                     </div>
                     <h4><strong>요청</strong></h4>
                     <div class="d-block p-2 bg-dark text-white">
-                    <pre class="d-block p-2 bg-dark text-white"><code>> GET /month-energy/2017/area/%EA%B2%BD%EA%B8%B0%EB%8F%84 HTTP/1.1
-> Host: 127.0.0.1:8080
+                    <pre class="d-block p-2 bg-dark text-white"><code>> GET /month-energy/2017-01/area/%EA%B2%BD%EA%B8%B0%EB%8F%84 HTTP/1.1
+> Host: 35.173.220.182:8080
 > User-Agent: curl/7.55.1
 > Accept: */*</code></pre>
                     </div>
@@ -372,9 +372,9 @@
                     <div class="d-block p-2 bg-dark text-white">
                     <pre class="d-block p-2 bg-dark text-white"><code>< HTTP/1.0 200 OK
 < Content-Type: application/json
-< Content-Length: 4158
-< Server: Werkzeug/0.15.4 Python/3.7.5
-< Date: Mon, 16 Dec 2019 21:03:47 GMT
+< Content-Length: 4046
+< Server: Werkzeug/0.16.0 Python/3.7.5
+< Date: Tue, 17 Dec 2019 18:23:59 GMT
 <
 {
     "Administrative_Area": "\uacbd\uae30\ub3c4",
@@ -386,25 +386,25 @@
         0.0,
         0.0,
         0.0,
-        0.0057,
-        0.0824,
-        0.2956,
-        0.6742,
-        1.0816,
-        1.4125,
-        1.6529,
-        1.692,
-        1.6125,
-        1.4062,
-        1.0829,
-        0.7021,
-        0.3439,
-        0.1087,
-        0.0111,
+        0.0,
+        0.0,
+        0.004,
+        0.203,
+        0.587,
+        0.917,
+        1.178,
+        1.311,
+        1.208,
+        1.033,
+        0.708,
+        0.329,
+        0.042,
+        0.0,
+        0.0,
         0.0,
         0.0,
         0.0
-    ]...
+    ], ...
 }</code></pre>
 
                     </div>
@@ -422,7 +422,7 @@
                     <tbody>
                     <tr>
                         <th>GET</th>
-                        <th>http://localhost:8080/</th>
+                        <th>http://35.173.220.182:8080/</th>
                         <th>JSON</th>
                     </tr>
                     </tbody>
@@ -547,22 +547,23 @@
 
                 <h4><strong>호출</strong></h4>
                 <div class="d-block p-2 bg-dark text-white">
-                    <pre class="d-block p-2 bg-dark text-white"><code>curl http://127.0.0.1:8080/year-energy/2017/area/%EA%B2%BD%EA%B8%B0%EB%8F%84</code></pre>
+                    <pre class="d-block p-2 bg-dark text-white"><code>curl http://35.173.220.182:8080/year-energy/2017/area/%EA%B2%BD%EA%B8%B0%EB%8F%84</code></pre>
                 </div>
                 <h4><strong>요청</strong></h4>
                 <div class="d-block p-2 bg-dark text-white">
                     <pre class="d-block p-2 bg-dark text-white"><code>> GET /year-energy/2017/area/%EA%B2%BD%EA%B8%B0%EB%8F%84 HTTP/1.1
-> Host: 127.0.0.1:8080
+> Host: 35.173.220.182:8080
 > User-Agent: curl/7.55.1
 > Accept: */*</code></pre>
                 </div>
                     <h4><strong>응답</strong></h4>
                 <div class="d-block p-2 bg-dark text-white">
                     <pre class="d-block p-2 bg-dark text-white"><code>< HTTP/1.0 200 OK
+< HTTP/1.0 200 OK
 < Content-Type: application/json
-< Content-Length: 4158
-< Server: Werkzeug/0.15.4 Python/3.7.5
-< Date: Mon, 16 Dec 2019 21:03:47 GMT
+< Content-Length: 4135
+< Server: Werkzeug/0.16.0 Python/3.7.5
+< Date: Tue, 17 Dec 2019 18:24:43 GMT
 <
 {
     "Administrative_Area": "\uacbd\uae30\ub3c4",
@@ -592,7 +593,7 @@
         0.0,
         0.0,
         0.0
-    ]...
+    ], ...
 }</code></pre>
                 </div>
                 </div>
