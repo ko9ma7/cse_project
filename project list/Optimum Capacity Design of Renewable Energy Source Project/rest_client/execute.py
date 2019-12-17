@@ -22,7 +22,6 @@ def day():
         res = requests.get(
             url=url
         )
-        print(res.status_code)
         return render_template(
             'execute.html',
             res=res.json(),
@@ -52,7 +51,6 @@ def month():
         res = requests.get(
             url=url
         )
-        print(res.status_code)
         return render_template(
             'execute.html',
             res=res.json(),
@@ -75,14 +73,11 @@ def year():
     if request.method == 'POST':
         area = form.data['area']
         year = form.data['year']
-        date = '{0}-{1}'.format(year,month)
         # URL 규칙 : 서버 주소/리소스명/{리소스}/리소스명/{리소스}
-        url = '{0}/month-energy/{1}/area/{2}'.format(SERVER_URL, date, area)
+        url = '{0}/year-energy/{1}/area/{2}'.format(SERVER_URL, year, area)
         res = requests.get(
             url=url
         )
-        print(res.json()['Optimal_p_battery'])
-        print(res.json()['Optimal_p_battery'][1])
         return render_template(
             'execute.html',
             res=res.json(),

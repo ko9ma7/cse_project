@@ -355,8 +355,8 @@ def get_renewable_energy():
                     min_prompt1 = prompt1
                     min_prompt2 = prompt2
 
-            optimal_prmt1 = min_prompt1
-            optimal_prmt2 = min_prompt2
+            optimal_prmt1 = round(min_prompt1, 2)
+            optimal_prmt2 = round(min_prompt2, 2)
 
             P_wind, P_dummy, P_pv, P_bc, P_bd, P_load, SOC, P_dg, LOLP, LOLP_sum \
                 = PSO_Algorithm(Ef_inv, Con_LOLP, Con_dummy, optimal_prmt1, optimal_prmt2, prompt3, input_p_wind, input_p_pv, input_p_load)

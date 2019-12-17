@@ -46,7 +46,7 @@
 
 <body>
 <div class="wrapper">
-    <div class="sidebar" data-color="purple" data-background-color="white">
+    <div class="sidebar" data-color="green" data-background-color="white">
         <!--
         Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
 
@@ -91,32 +91,13 @@
     </div>
     <div class="main-panel">
         <!-- Navbar -->
-{#        <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">#}
-{#            <div class="container-fluid">#}
-{#                <div class="navbar-wrapper">#}
-{#                    <a class="navbar-brand" href="#pablo">Dashboard</a>#}
-{#                </div>#}
-{#                <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index"#}
-{#                        aria-expanded="false" aria-label="Toggle navigation">#}
-{#                    <span class="sr-only">Toggle navigation</span>#}
-{#                    <span class="navbar-toggler-icon icon-bar"></span>#}
-{#                    <span class="navbar-toggler-icon icon-bar"></span>#}
-{#                    <span class="navbar-toggler-icon icon-bar"></span>#}
-{#                </button>#}
-{#                <div class="collapse navbar-collapse justify-content-end">#}
-{#                    <div class="navbar-nav">#}
-{#                        <a href="/auth/login">로그인</a>#}
-{#                        &nbsp;&nbsp;#}
-{#                        <a href="/auth/signup">회원가입</a>#}
-{#                        <span id="total_gain">#}
-{#                        </span>#}
-{#                        &nbsp;&nbsp;#}
-{#                        <i class="material-icons">access_time</i>#}
-{#                        <span id="now_time"></span>#}
-{#                    </div>#}
-{#                </div>#}
-{#            </div>#}
-{#        </nav>#}
+        <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+            <div class="container-fluid">
+                <div class="navbar-wrapper">
+                    <a class="navbar-brand">{% if menu == 'main' %} 메인 화면 {% elif menu == 'manual' %} API 설명서 {% elif menu =='execute' %} API 실행 {% else %} API 실행 예제 {% endif %}</a>
+                </div>
+            </div>
+        </nav>
         <!-- End Navbar -->
 
         <div class="content">

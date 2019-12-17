@@ -13,8 +13,6 @@ def return_weather_data_by_year():
     administrative_area = []
     year_observation = []
 
-
-
     total_year_p_pv = []
     total_year_p_wind = []
 
@@ -90,7 +88,7 @@ def return_weather_data_by_year():
                         month_p_pv.append(sum_photovoltaic)
                         month_p_wind.append(sum_wind)
 
-                        time.sleep(1)
+                        time.sleep(1.5)
 
         administrative_area.append(location)
 

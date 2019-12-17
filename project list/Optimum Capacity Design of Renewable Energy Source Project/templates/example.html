@@ -2,7 +2,7 @@
 {% block title %} Execute {% endblock %}
 
 {% block body %}
-<nav class="navbar navbar-expand-lg bg-primary">
+<nav class="navbar navbar-expand-lg bg-success">
     <div class="container">
         <a class="navbar-brand" href="#">API 실행</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
@@ -14,13 +14,13 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item {% if sub_menu=='day' %} active {% endif %}">
-                    <a class="nav-link" href="/example/day">일별 내용 검색</a>
+                    <a class="nav-link" href="/example/day">일간 내용 검색</a>
                 </li>
                 <li class="nav-item {% if sub_menu=='month' %} active {% endif %}">
-                    <a class="nav-link" href="/example/month">월별 내용 검색</a>
+                    <a class="nav-link" href="/example/month">월간 내용 검색</a>
                 </li>
                 <li class="nav-item {% if sub_menu=='year' %} active {% endif %}">
-                    <a class="nav-link" href="/example/year">연별 내용 검색</a>
+                    <a class="nav-link" href="/example/year">연간 내용 검색</a>
                 </li>
             </ul>
         </div>
@@ -31,11 +31,11 @@
         <div class="card">
             <div class="card-header card-header-danger">
                 {% if sub_menu=='day' %}
-                <h4 class="card-title">일별 신재생 에너지 최적 발전량 검색</h4>
+                <h4 class="card-title">일간 신재생 에너지 최적 발전량 검색</h4>
                 {% elif sub_menu=='month' %}
-                <h4 class="card-title">월별 신재생 에너지 최적 발전량 검색</h4>
+                <h4 class="card-title">월간 신재생 에너지 최적 발전량 검색</h4>
                 {% else %}
-                <h4 class="card-title">연별 재생 에너지 최적 발전량 검색</h4>
+                <h4 class="card-title">연간 재생 에너지 최적 발전량 검색</h4>
                 {% endif %}
             </div>
             <div class="card-body">
@@ -64,7 +64,7 @@
     </div>
 </div>
 
-{% if res == None %}
+{% if code == 3 %}
 
 <div class="row">
     <div class="card">
@@ -72,16 +72,31 @@
                 <h4 class="card-title">검색어 에러</h4>
         </div>
         <div class="card-body">
+            <pre>
             검색어를 다시 입력해주세요
             지역명을 바르게 입력해 주세요
                 '경기도', '강원도', '경상남도', '경상북도', '전라남도', '전라북도', '충청남도', '충청북도', '제주도',
                 '서울특별시', '인천광역시', '대전광역시', '광주광역시', '대구광역시', '울산광역시', '부산광역시'
             날짜를 바르게 입력해 주세요
                 2019-01-01
+            </pre>
         </div>
     </div>
-    </div>
+</div>
 
+{% elif code == 2 %}
+<div class="row">
+    <div class="card">
+        <div class="card-header card-header-danger">
+                <h4 class="card-title">최적값을 계산할 수 없음.</h4>
+        </div>
+        <div class="card-body">
+            <pre>
+                 관측일자 {{res['Observation']}} 의 {{res['Administrative_Area']}} 지역에서의 최적의 값은 계산되지 않습니다.
+            </pre>
+        </div>
+    </div>
+</div>
 {% else %}
 <div class="row">
     <div class="card">
@@ -132,7 +147,7 @@
                 <div class="col-md">
                     <div class="card">
                         <div class="card-header card-header-primary">
-                            <h4> 최적의 발전 량 </h4>
+                            <h4> 최적의 발전량 </h4>
                         </div>
                         <div class="card-body">
                             <canvas id="myChart"></canvas>
@@ -145,15 +160,18 @@
                 <div class="col-md">
                     <div class="card">
                         <div class="card-header card-chart card-header-success">
-                            <h4> 그 외 발전 량 정보 </h4>
+                            <h4> 그 외 발전량 정보 </h4>
                         </div>
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <canvas id="etcChart"></canvas>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <canvas id="etcChart2"></canvas>
+                                </div>
+                                <div class="col-md-4">
+                                    <canvas id="etcChart3"></canvas>
                                 </div>
                             </div>
                         </div>
@@ -220,7 +238,7 @@ new Chart(document.getElementById("etcChart"), {
             borderColor: "rgba(28, 163, 146, 1)",
             data: {{ res['Optimal_p_load']| safe }},
             fill: false,
-        }, ]
+        } ]
     },
     options: options
 });
@@ -247,8 +265,7 @@ new Chart(document.getElementById("myChart"), {
             borderColor: "rgba(28, 163, 146, 1)",
             data: {{ res['Optimal_p_load']| safe }},
             fill: false,
-        }
-        ]
+        }]
     },
     options: options
 });
@@ -280,9 +297,52 @@ new Chart(document.getElementById("etcChart2"), {
     options: options
 });
 
+new Chart(document.getElementById("etcChart3"), {
+    type: 'line',
+    data: {
+        labels: labels,
+        datasets: [{
+            label: 'Optimal_SOC',
+            backgroundColor: "rgba(241, 86, 40, 1)",
+            borderColor: "rgba(241, 86, 40, 1)",
+            data: {{ res['Optimal_soc']|safe }},
+            fill: false,
+        }]
+    },
+    options:  {
+        responsive: true,
+        tooltips: {
+            mode: 'index',
+            intersect: false,
+        },
+        hover: {
+            mode: 'nearest',
+            intersect: true
+        },
+        scales: {
+            xAxes: [{
+                display: true,
+                scaleLabel: {
+                    display: true,
+                    labelString: '시간(h)'
+                }
+            }],
+            yAxes: [{
+                display: true,
+                ticks: {
+                    suggestedMin: 0,
+                },
+                scaleLabel: {
+                    display: true,
+                    labelString: '%'
+                }
+            }]
+        }
+    }
+});
+
 
 </script>
 
 {% endif %}
 {% endblock %}
-
