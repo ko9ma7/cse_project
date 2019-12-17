@@ -1,9 +1,15 @@
-from flask import Flask, render_template
+import json
+import os
+import pprint
+
+from flask import Flask, render_template, session, request
 from flask_restful import Api
 import logging
+import requests
+
 from rest_client.example import example_blueprint
 from rest_client.execute import execute_blueprint
-from rest_server.rest_energy import EnergyDayResource, EnergyMonthResource
+from rest_server.rest_energy import EnergyDayResource, EnergyMonthResource, EnergyYearResource
 
 application = Flask(__name__)
 application.debug = True
@@ -14,6 +20,7 @@ application.register_blueprint(example_blueprint, url_prefix='/example')
 api = Api(application)
 api.add_resource(EnergyDayResource, "/day-energy/<date>/area/<area>")
 api.add_resource(EnergyMonthResource, "/month-energy/<date>/area/<area>")
+api.add_resource(EnergyYearResource, "/year-energy/<date>/area/<area>")
 
 
 @application.route('/manual')
