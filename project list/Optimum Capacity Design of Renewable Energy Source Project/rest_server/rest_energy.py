@@ -1,6 +1,6 @@
 from flask_restful import Resource, reqparse, abort
 
-from database.renewable_energy_database_by_day_access import EnergyDatabase
+from database.renewable_energy_database_access import EnergyDatabase
 
 
 class EnergyDayResource(Resource):
@@ -24,7 +24,7 @@ class EnergyMonthResource(Resource):
         self.Energy_resource_db = EnergyDatabase()
 
     def get(self, date, area):
-        energy = self.Energy_resource_db.readByMonth(date=date, area=area)
+        energy = self.Energy_resource_db.readByMonth(date = date, area=area)
         if energy is None:
             abort(404, message="Wrong date")
         else:
@@ -36,7 +36,7 @@ class EnergyYearResource(Resource):
         self.Energy_resource_db = EnergyDatabase()
 
     def get(self, date, area):
-        energy = self.Energy_resource_db.readByYear(date=date, area=area)
+        energy = self.Energy_resource_db.readByYear(date = date, area=area)
         if energy is None:
             abort(404, message="Wrong date")
         else:

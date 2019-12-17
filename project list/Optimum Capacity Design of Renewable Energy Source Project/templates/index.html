@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 {% block title %} Home {% endblock %}
-
+{% block style %}
+    <style>
+        .card .card-header-info .card-icon, .card .card-header-info .card-text, .card .card-header-info:not(.card-header-icon):not(.card-header-text), .card.bg-info, .card.card-rotate.bg-info .front, .card.card-rotate.bg-info .back {
+    background: linear-gradient(60deg, #46cb18, #46cb18);
+}
+    </style>
+{% endblock %}
 {% block body %}
     <div class="row">
         <div class="col-md-8">
@@ -33,7 +39,7 @@
         </div>
         <div class="col-md-4">
             <div class="card">
-                <div class="card-header card-header-info text-center">
+                <div class="card-header-info text-center">
                     <h4 class="card-title">팀원 소개</h4>
                 </div>
                 <div class="card-body">
