@@ -26,26 +26,33 @@ SOC Project
     
         + 투자의 경제적 이익 극대화를 목표로 한다.
         
-데이터 수집
+데이터 수집 및 제공(Feat. PSO Algorithm)
 ------
+![img1](./static/ppt/explain-1.png)
 
+![img2](./static/ppt/explain-2.png)
 
+![img3](./static/ppt/explain-3.png)
+
+![img4](./static/ppt/explain-4.png)
+
+![img5](./static/ppt/explain-5.png)
 
 구성도
 ------
-![img1](./static/ppt/7.jpg)
+![img6](./static/ppt/explain-6.jpg)
 
 웹 페이지 설명
 ------
-![img2](./static/ppt/explain-1.png)
+![img7](static/ppt/explain-7.png)
 
-![img3](./static/ppt/explain-2.png)
+![img8](static/ppt/explain-8.png)
 
-![img4](./static/ppt/explain-3.png)
+![img9](static/ppt/explain-9.png)
 
-![img5](./static/ppt/explain-4.png)
+![img10](static/ppt/explain-10.png)
 
-![img6](./static/ppt/explain-5.png)
+![img11](static/ppt/explain-11.png)
 
 수행 URL
 ------
