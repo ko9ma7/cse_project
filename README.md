@@ -28,11 +28,25 @@
 <br/>
 
 4. project list
-
-   + engineering design project
-   + graduation project
-   + data analysis project
-   + optimum capacity design of renewable energy source project
+  
+   ![#aff92c](https://placehold.it/15/aff92c/000000?text=+)
+   
+        【 engineering design project 】
+   
+   ![#e5e500](https://placehold.it/15/e5e500/000000?text=+)
+   
+   ![#ffa500](https://placehold.it/15/ffa500/000000?text=+)
+   
+        【 Data Acquisition and Visualization System for Team Projects 】
+        
+        【 optimum capacity design of renewable energy source project 】
+   
+   ![#e7641c](https://placehold.it/15/e7641c/000000?text=+)
+   
+   ![#ff280f](https://placehold.it/15/ff280f/000000?text=+)
+   
+   ![#960a0a](https://placehold.it/15/960a0a/000000?text=+)
+   
 <br/>
 
 5. experience list

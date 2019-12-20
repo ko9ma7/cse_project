@@ -192,11 +192,11 @@ if __name__ == '__main__':
 
     # pool = Pool(processes=4)
 
-    # json = ['C:/Users/battl/PycharmProjects/ComputerScienceEngineering/project list/Graduation Project/Selenium/json/5_1.json',
-    #         'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/project list/Graduation Project/Selenium/json/5_2.json',
-    #         'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/project list/Graduation Project/Selenium/json/5_3.json',
-    #         'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/project list/Graduation Project/Selenium/json/5_4.json',
-    #         'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/project list/Graduation Project/Selenium/json/5_5.json']
+    # json = ['C:/Users/battl/PycharmProjects/ComputerScienceEngineering/project list/Data Acquisition and Visualization System for Team Projects/Selenium/json/5_1.json',
+    #         'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/project list/Data Acquisition and Visualization System for Team Projects/Selenium/json/5_2.json',
+    #         'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/project list/Data Acquisition and Visualization System for Team Projects/Selenium/json/5_3.json',
+    #         'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/project list/Data Acquisition and Visualization System for Team Projects/Selenium/json/5_4.json',
+    #         'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/project list/Data Acquisition and Visualization System for Team Projects/Selenium/json/5_5.json']
 
     # start_time = time.time()
 
@@ -205,26 +205,26 @@ if __name__ == '__main__':
     # print("--- %s seconds ---" % (time.time() - start_time))
 
     # start_time = time.time()
-    # main1 = Main('C:/Users/battl/PycharmProjects/ComputerScienceEngineering/project list/Graduation Project/Selenium/json/5_1.json')
+    # main1 = Main('C:/Users/battl/PycharmProjects/ComputerScienceEngineering/project list/Data Acquisition and Visualization System for Team Projects/Selenium/json/5_1.json')
     # main1.crawl_data()
     # print("--- %s seconds ---" % (time.time() - start_time))
     #
     # start_time = time.time()
-    # main2 = Main('C:/Users/battl/PycharmProjects/ComputerScienceEngineering/project list/Graduation Project/Selenium/json/5_2.json')
+    # main2 = Main('C:/Users/battl/PycharmProjects/ComputerScienceEngineering/project list/Data Acquisition and Visualization System for Team Projects/Selenium/json/5_2.json')
     # main2.crawl_data()
     # print("--- %s seconds ---" % (time.time() - start_time))
     #
     # start_time = time.time()
-    # main3 = Main('C:/Users/battl/PycharmProjects/ComputerScienceEngineering/project list/Graduation Project/Selenium/json/5_3.json')
+    # main3 = Main('C:/Users/battl/PycharmProjects/ComputerScienceEngineering/project list/Data Acquisition and Visualization System for Team Projects/Selenium/json/5_3.json')
     # main3.crawl_data()
     # print("--- %s seconds ---" % (time.time() - start_time))
     #
     # start_time = time.time()
-    # main4 = Main('C:/Users/battl/PycharmProjects/ComputerScienceEngineering/project list/Graduation Project/Selenium/json/5_4.json')
+    # main4 = Main('C:/Users/battl/PycharmProjects/ComputerScienceEngineering/project list/Data Acquisition and Visualization System for Team Projects/Selenium/json/5_4.json')
     # main4.crawl_data()
     # print("--- %s seconds ---" % (time.time() - start_time))
     #
     # start_time = time.time()
-    # main5 = Main('C:/Users/battl/PycharmProjects/ComputerScienceEngineering/project list/Graduation Project/Selenium/json/5_5.json')
+    # main5 = Main('C:/Users/battl/PycharmProjects/ComputerScienceEngineering/project list/Data Acquisition and Visualization System for Team Projects/Selenium/json/5_5.json')
     # main5.crawl_data()
     # print("--- %s seconds ---" % (time.time() - start_time))
