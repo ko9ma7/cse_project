@@ -31,17 +31,17 @@
   
    ![#aff92c](https://placehold.it/15/aff92c/000000?text=+)
    
-        【 engineering design project 】
+        【 Engineering design project 】
    
    ![#e5e500](https://placehold.it/15/e5e500/000000?text=+)
    
    ![#ffa500](https://placehold.it/15/ffa500/000000?text=+)
    
+   ![#e7641c](https://placehold.it/15/e7641c/000000?text=+)
+   
         【 Data Acquisition and Visualization System for Team Projects 】
         
-        【 optimum capacity design of renewable energy source project 】
-   
-   ![#e7641c](https://placehold.it/15/e7641c/000000?text=+)
+        【 Optimum capacity design of renewable energy source project 】
    
    ![#ff280f](https://placehold.it/15/ff280f/000000?text=+)
    
