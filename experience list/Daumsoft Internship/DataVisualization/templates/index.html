@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<!-- saved from url=(0049)http://bootstrapk.com/examples/starter-template/# -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="http://bootstrapk.com/favicon.ico">
+
+    <title>[Python Flask] 웹 페이지 만들기 - kkamikoon</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/static/css/starter-template.css" rel="stylesheet">
+
+  </head>
+  <body>
+    <div class="container">
+        <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link" href="http://localhost:8000/file_upload">
+                    <p>파일 업로드 하기</p>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="table">
+        <table>
+            <tr>
+                <td>임베딩 방식</td>
+                <td><input type=checkbox value="BoW" onclick="confirm_checked(this)" style="width:50px; height:16px;">BoW</td>
+                <td><input type=checkbox value="TF-IDF" onclick="confirm_checked(this)" style="width:50px; height:16px;">TF-IDF</td>
+                <td><input type=checkbox value="Doc2Vec" onclick="confirm_checked(this)" style="width:56px; height:16px;">Doc2Vec</td>
+                <td><input type=checkbox value="user_defined_embedding" onclick="confirm_checked(this)" style="width:56px; height:16px;">사용자 정의</td>
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <td>기계학습 방식</td>
+                <td><input type=checkbox value="Logistic" onclick="confirm_checked(this)" style="width:50px; height:16px;;">Logistic</td>
+                <td><input type=checkbox value="SVM" onclick="confirm_checked(this)" style="width:50px; height:16px;">SVM</td>
+                <td><input type=checkbox value="RF" onclick="confirm_checked(this)" style="width:56px; height:16px;">RF</td>
+                <td><input type=checkbox value="FNN" onclick="confirm_checked(this)" style="width:56px; height:16px;">FNN</td>
+                <td><input type=checkbox value="user_defined_machine_learning" onclick="confirm_checked(this)" style="width:56px; height:16px;">사용자 정의</td>
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <td>차원 축소 방식</td>
+                <td><input type=checkbox value="PCA" onclick="confirm_checked(this)" style="width:50px; height:16px;">PCA</td>
+                <td><input type=checkbox value="MDS" onclick="confirm_checked(this)" style="width:50px; height:16px;">MDS</td>
+                <td><input type=checkbox value="TSNE" onclick="confirm_checked(this)" style="width:56px; height:16px;">TSNE</td>
+                <td><input type=checkbox value="user_defined_dimension_reduction" onclick="confirm_checked(this)" style="width:56px; height:16px;">사용자 정의</td>
+            </tr>
+        </table>
+    </div>
+    <form action=""
+          method="POST">
+        <input type="submit" value="시각화" name="checked_list" onclick="get_check_list()" />
+    </form>
+    <script>
+        var checked_list = new Array;
+
+        function confirm_checked(box) {
+                if (box.checked == true)
+                    checked_list.push(box.value);
+                    console.log(box.value);
+        }
+
+        var button = document.querySelector("input")
+
+        button.addEventListener("click", get_check_list);
+
+        function get_check_list() {
+            console.log(checked_list);
+            return checked_list;
+        }
+
+    </script>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.js/bootstrap.min.js"></script>
+
+  </body>
+</html>
