@@ -25,7 +25,7 @@
                 <table>
                     <tr>
                         <td>임베딩 방식</td>
-                        <td><input type=checkbox name="checked_list" value="BoW" onclick="confirm_checked(this)" style="width:50px; height:16px;">BoW</td>
+                        <td><input type=checkbox name="checked_list" value="One-Hot" onclick="confirm_checked(this)" style="width:50px; height:16px;">One-Hot</td>
                         <td><input type=checkbox name="checked_list" value="TF-IDF" onclick="confirm_checked(this)" style="width:50px; height:16px;">TF-IDF</td>
                         <td><input type=checkbox name="checked_list" value="Doc2Vec" onclick="confirm_checked(this)" style="width:56px; height:16px;">Doc2Vec</td>
                         <td><input type=checkbox name="checked_list" value="user_defined_embedding" onclick="confirm_checked(this)" style="width:56px; height:16px;">사용자 정의</td>
@@ -35,8 +35,8 @@
                     <tr>
                         <td>기계학습 방식</td>
                         <td><input type=checkbox name="checked_list" value="Logistic" onclick="confirm_checked(this)" style="width:50px; height:16px;;">Logistic</td>
-                        <td><input type=checkbox name="checked_list" value="SVM" onclick="confirm_checked(this)" style="width:50px; height:16px;">SVM</td>
-                        <td><input type=checkbox name="checked_list" value="RF" onclick="confirm_checked(this)" style="width:56px; height:16px;">RF</td>
+                        <td><input type=checkbox name="checked_list" value="SVC" onclick="confirm_checked(this)" style="width:50px; height:16px;">SVC</td>
+                        <td><input type=checkbox name="checked_list" value="RandomForest" onclick="confirm_checked(this)" style="width:56px; height:16px;">RandomForest</td>
                         <td><input type=checkbox name="checked_list" value="FNN" onclick="confirm_checked(this)" style="width:56px; height:16px;">FNN</td>
                         <td><input type=checkbox name="checked_list" value="user_defined_machine_learning" onclick="confirm_checked(this)" style="width:56px; height:16px;">사용자 정의</td>
                     </tr>
@@ -51,7 +51,7 @@
                     </tr>
                 </table>
             </div>
-            <input type="submit" value="시각화" onclick="get_check_list()" />
+            <input type="submit" value="시각화" name="visual_button" onclick="get_check_list()" />
         </form>
         <script>
             var checked_list = new Array;
