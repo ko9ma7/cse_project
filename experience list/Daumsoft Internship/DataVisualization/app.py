@@ -1,16 +1,10 @@
 import os
-import logging
 from flask import Flask, render_template, request
 from werkzeug.utils import secure_filename
-
 from embedding import embedding
-import machine_learning
+from machine_learning import machine_learning
 from dimension_reduction import dimension_reduction
-
 import pandas as pd
-
-from sklearn.metrics import accuracy_score
-
 
 UPLOAD_FOLDER = 'C:/Users/daumsoft/PycharmProjects/visualization/uploads'
 ALLOWED_EXTENSIONS = set(['csv'])
@@ -49,103 +43,88 @@ def main():
             train = pd.read_csv("C:/Users/daumsoft/PycharmProjects/visualization/uploads/train.csv", encoding='CP949')
             test = pd.read_csv("C:/Users/daumsoft/PycharmProjects/visualization/uploads/test.csv", encoding='CP949')
 
-            print(train)
-            print(test)
-
             # 첫 번째 순서: 임베딩
             X_train, X_test, y_train, y_test = embedding(checked_list[0], train, test)
-
             print('X_train shape: {}, y_train shape: {}'.format(X_train.shape, y_train.shape))
             print('X_test shape: {}, y_test shape: {}'.format(X_test.shape, y_test.shape))
 
-            logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s', level=logging.DEBUG)
-
             # 두 번째 순서: 기계학습
-            if checked_list[1] == 'Logistic':
+            y_test, test_y_pred = machine_learning(checked_list[1], X_train, X_test, y_train, y_test)
 
-                log_params = {
-                    "C": [0.001, 0.01, 0.1, 1, 10, 100, 1000],
-                    "eta0": [0.01, 0.001],
-                    'random_state': [42],
-                }
-                log_clf = machine_learning.myLogisticRegression(log_params)
+            # 세 번째 순서: 시각화(임베딩->기계학습)
+            from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
 
-            elif checked_list[1] == 'SVC':
+            # 히트맵
+            index = list(set(y_test))
+            confusion_matrix_df = pd.DataFrame(confusion_matrix(y_test, test_y_pred), index=index, columns=index)
+            confusion_matrix_df.to_csv('confusion_matrix.csv', index=False)
 
-                svc_params = {
-                    "C": [0.001, 0.01, 0.1, 1, 10, 100, 1000],
-                    "gamma": [0.01, 0.1, 1],  # 커널 폭의 역수, 작을 수록 커널 폭이 넓어져, 데이터 영향 범위 증가
-                    "probability": [True],  # SVC가 'predict_proba'를 계산하기 위해 지정
-                    'random_state': [42],
-                }
-                svc_clf = machine_learning.mySVC(svc_params)
+            # 분류 평가 지표
+            accuracy = accuracy_score(y_test, test_y_pred)
+            precision = precision_score(y_test, test_y_pred, average='macro')
+            recall = recall_score(y_test, test_y_pred, average='macro')
+            f1 = f1_score(y_test, test_y_pred, average='macro')
 
-                svc_clf.fit(X_train, y_train)
+            metrix_score_df = pd.DataFrame(columns=['Metrics', 'Score'])
 
-                # 평가
-                train_y_pred = svc_clf.predict(X_test)
-                train_acc = accuracy_score(y_test, train_y_pred)
-                test_y_pred = svc_clf.predict(X_test)
-                test_acc = accuracy_score(y_test, test_y_pred)
+            metrix_score_df['Metrics'] = ['accuracy', 'precision', 'recall', 'f1']
+            metrix_score_df['Score'] = [int(accuracy * 100), int(precision * 100), int(recall * 100), int(f1 * 100)]
+            metrix_score_df.to_csv('metrics_score.csv', index=False)
 
-                print("svc train acc : {:.4f}, test acc :{:.4f}".format(train_acc, test_acc))
+            # # 세 번째 순서: 차원축소
+            # dimension_reduction_train_data = dimension_reduction(checked_list[2], machine_learning_train_data)
+            # dimension_reduction_test_data = dimension_reduction(checked_list[2], machine_learning_test_data)
 
-            elif checked_list[1] == 'RandomForest':
-
-                rnd_params = {
-                    "n_estimators": [100],  # [100, 300, 500, 700],
-                    "max_depth": [3],  # [i for i in range(1, 31)],
-                    'random_state': [42],
-                }
-                rnd_clf = machine_learning.myRandomForestClassifier(rnd_params)
-
-                rnd_clf.fit(X_train, y_train)
-
-                # 평가
-                train_y_pred = rnd_clf.predict(X_test)
-                train_acc = accuracy_score(y_test, train_y_pred)
-                test_y_pred = rnd_clf.predict(X_test)
-                test_acc = accuracy_score(y_test, test_y_pred)
-
-                print("random forest train acc : {:.4f}, test acc :{:.4f}".format(train_acc, test_acc))
-
-                # 히트맵으로 시각화하기
-                from sklearn.metrics import confusion_matrix
-
-                index = list(set(train.y))
-                rnd_clf_df = pd.DataFrame(confusion_matrix(y_test, test_y_pred), index=index, columns=index)
-
-                rnd_clf_df.to_csv('confusion_matrix.csv', index=False)
-                df_json = rnd_clf_df.to_json()
-
-
-
-            elif checked_list[1] == 'FNN':
-                pass
-            elif checked_list[1] == 'user_defined_machine_learning':
-                pass
-
-            # 세 번째 순서: 차원축소
-            dimension_reduction_train_data = dimension_reduction(checked_list[2], machine_learning_train_data)
-            dimension_reduction_test_data = dimension_reduction(checked_list[2], machine_learning_test_data)
+            return render_template("index.html")
 
         return render_template("index.html")
 
-    elif request.method == "GET":
-        return render_template("index.html")
+    return render_template('index.html')
 
-@app.route("/file_upload")
-def file_upload():
-    return render_template("upload.html")
-
-@app.route("/confusion_matrix")
-def matrix():
-    df = pd.read_csv('heatmap_data.csv')
+# 평가 지표 값을 받는 라우터
+@app.route('/metrics_score')
+def score():
+    df = pd.read_csv('metrics_score.csv')
     return df.to_csv()
 
-@app.route('/confusion_matrix/heatmap')
-def heatmap():
-    return render_template('visualization.html')
+# 오차 행렬 값을 받는 라우터
+@app.route('/confusion_matrix')
+def confusion_matrix():
+    df = pd.read_csv('confusion_matrix.csv')
+    values = df.values
+
+    # 그래프를 그리기 위한 데이터 정렬
+    new_df = pd.DataFrame(columns=['group', 'variable', 'value'])
+
+    cnt = 0
+    for idx in range(len(values)):
+        for jdx in range(len(values[idx])- 1, -1, -1):
+            new_df.loc[cnt, ['group']] = idx
+            new_df.loc[cnt, ['variable']] = jdx
+            new_df.loc[cnt, ['value']] = values[jdx][idx]
+            cnt += 1
+
+    new_df = new_df.astype('int')
+    print(new_df)
+    return new_df.to_csv()
+
+@app.route('/metrics_score/graph')
+def metrics_score_graph():
+    return render_template('metrics_score.html')
+
+@app.route('/confusion_matrix/graph')
+def confusion_matrix_graph():
+    return render_template('heatmap.html')
+
+@app.route('/embedding_and_machine_learning_visualization')
+def embedding_and_machine_learning_visualization():
+    return render_template('score_heatmap_visualization.html')
 
 if __name__ == "__main__":
-    app.run(host='localhost', port=5000, debug=True)
+    import os
+
+    port = 8080
+    os.system("open http://localhost:{0}".format(port))
+
+    app.debug = True
+    app.run(port=port)

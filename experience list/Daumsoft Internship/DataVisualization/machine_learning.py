@@ -1,91 +1,43 @@
-import logging
-from sklearn.linear_model import LogisticRegression
-from sklearn.svm import SVC
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import GridSearchCV
+import model
 
+def machine_learning(method, X_train, X_test, y_train, y_test):
 
-class Model(object):
-    """상속 받는 클래스는 아래의 4개의 함수를 모두 필히 구현해야함"""
+    if method == 'Logistic':
 
-    def __init__(self):
-        logging.debug("loading {}".format(self.__class__.__name__))
+        log_params = {
+            "C": [0.001, 0.01, 0.1, 1, 10, 100, 1000],
+            "eta0": [0.01, 0.001],
+            'random_state': [42],
+        }
+        log_clf = model.myLogisticRegression(log_params)
 
-    # 모델 구현 함수(밖으로 보이지 않는 함수)
-    def _build_model(self):
-        raise Exception("_build_model() method not implemented")
+    elif method == 'SVC':
 
-    # 학습 단계(밖으로 보여지는 함수)
-    def fit(self, x, y):
-        raise Exception("fit() method not implemented")
+        svc_params = {
+            "C": [0.001, 0.01, 0.1, 1, 10, 100, 1000],
+            "gamma": [0.01, 0.1, 1],  # 커널 폭의 역수, 작을 수록 커널 폭이 넓어져, 데이터 영향 범위 증가
+            "probability": [True],  # SVC가 'predict_proba'를 계산하기 위해 지정
+            'random_state': [42],
+        }
+        svc_clf = model.mySVC(svc_params)
 
-    # 예측 단계
-    def predict(self, x):
-        raise Exception("predict() method not implemented")
+    elif method == 'RandomForest':
 
-    # 예측 확률 출력 함수
-    def predict_proba(self, x):
-        raise Exception("predict_proba() method not implemented")
+        rnd_params = {
+            "n_estimators": [100],  # [100, 300, 500, 700],
+            "max_depth": [3],  # [i for i in range(1, 31)],
+            'random_state': [42],
+        }
+        rnd_clf = model.myRandomForestClassifier(rnd_params)
 
+        rnd_clf.fit(X_train, y_train)
 
-class myLogisticRegression(Model):
+        # 예측
+        test_y_pred = rnd_clf.predict(X_test)
 
-    def __init__(self, params, cv=4):
-        self.params = params
-        self.cv = cv # 교차검증
-        self.model = self._build_model()
+        return y_test, test_y_pred
 
-    # 하이퍼파라미터 조정
-    def _build_model(self):
-        return GridSearchCV(estimator=LogisticRegression(), param_grid=self.params, cv=self.cv)
-
-    def fit(self, x, y):
-        self.model.fit(x, y)
-
-    def predict(self, x):
-        return self.model.predict(x)
-
-    def predict_proba(self, x):
-        return self.model.predict_proba(x)
-
-
-class mySVC(Model):
-
-    def __init__(self, params, cv=4):
-        self.params = params
-        self.cv = cv
-        self.model = self._build_model()
-
-    # 하이퍼파라미터 조정
-    def _build_model(self):
-        return GridSearchCV(estimator=SVC(), param_grid=self.params, cv=self.cv)
-
-    def fit(self, x, y):
-        self.model.fit(x, y)
-
-    def predict(self, x):
-        return self.model.predict(x)
-
-    def predict_proba(self, x):
-        return self.model.predict_proba(x)
-
-
-class myRandomForestClassifier(Model):
-
-    def __init__(self, params, cv=4):
-        self.params = params
-        self.cv = cv
-        self.model = self._build_model()
-
-    # 하이퍼파라미터 조정
-    def _build_model(self):
-        return GridSearchCV(estimator=RandomForestClassifier(), param_grid=self.params, cv=self.cv)
-
-    def fit(self, x, y):
-        self.model.fit(x, y)
-
-    def predict(self, x):
-        return self.model.predict(x)
-
-    def predict_proba(self, x):
-        return self.model.predict_proba(x)
+    elif method == 'FNN':
+        pass
+    elif method == 'user_defined_machine_learning':
+        pass

@@ -1,5 +1,4 @@
 import pandas as pd
-from scipy.sparse import csr_matrix
 
 def embedding(method, train, test):
     # 데이터 섞어주기
@@ -35,23 +34,15 @@ def embedding(method, train, test):
         from collections import Counter
 
         X_train_counts = Counter(X_train_corpus2)
-        X_test_counts = Counter(X_test_corpus2)
-
         X_train_counts_sorted = sorted(X_train_counts.items(), key=lambda x: x[1], reverse=True)
-        X_test_counts_sorted = sorted(X_test_counts.items(), key=lambda x: x[1], reverse=True)
 
-        X_train_vocab = sorted(X_train_counts, key=X_train_counts.get, reverse=True)
-        X_test_vocab = sorted(X_test_counts, key=X_test_counts.get, reverse=True)
-
-        # 높은 빈도수를 가진 단어일수록 낮은 정수 인덱스 부여(훈련 데이터)
+        # 높은 빈도수를 가진 단어일수록 낮은 정수 인덱스 부여(훈련 데이터로만 만들어진 맵핑 테이블)
         word_mapping_table = {}
 
         idx = 0
         for (word, frequency) in X_train_counts_sorted:
             word_mapping_table[word] = idx
             idx += 1
-
-        word_mapping_table_sorted = sorted(word_mapping_table.items(), key=lambda x: x[1], reverse=False)
 
         X_train_Integer_Encoding = []
         for sentence in X_train_corpus:
@@ -86,28 +77,13 @@ def embedding(method, train, test):
                 letter[v] = 1
             X_test_Onehot_Encoding.append(letter)
 
-        sorted_mapping_keys = [word_mapping_table_sorted[idx][0] for idx in range(len(word_mapping_table_sorted))]
-
-        X_train_df = pd.DataFrame(X_train_Onehot_Encoding, columns=sorted_mapping_keys)
-        X_test_df = pd.DataFrame(X_test_Onehot_Encoding, columns=sorted_mapping_keys)
-
-        y_train_df = pd.DataFrame(train['y'].values, columns=['my_target'])
-        y_test_df = pd.DataFrame(test['y'].values, columns=['my_target'])
-
-        train_df = pd.concat([X_train_df, y_train_df], axis=1)
-        test_df = pd.concat([X_test_df, y_test_df], axis=1)
-
-        onehot_X_train = train_df.iloc[:, 0:len(sorted_mapping_keys)].values
-        onehot_y_train = train_df.loc[:, 'my_target'].values
-
-        onehot_X_test = test_df.iloc[:, 0:len(sorted_mapping_keys)].values
-        onehot_y_test = test_df.loc[:, 'my_target'].values
-
         # sparse data로 변환
         from scipy.sparse import csr_matrix
 
-        onehot_X_train = csr_matrix(onehot_X_train)
-        onehot_X_test = csr_matrix(onehot_X_test)
+        onehot_X_train = csr_matrix(X_train_Onehot_Encoding)
+        onehot_y_train = train['y'].values
+        onehot_X_test = csr_matrix(X_test_Onehot_Encoding)
+        onehot_y_test = test['y'].values
 
         return onehot_X_train, onehot_X_test, onehot_y_train, onehot_y_test
 
@@ -145,14 +121,6 @@ def embedding(method, train, test):
         tfidf_df = pd.concat([tfidf_df, target_df], axis=1)
 
 
-
-        print(tfidf_df)
-
-        X = tfidf_df.iloc[:, 0:len(vocabs)].values
-        y = tfidf_df.loc[:, 'target'].values
-
-        print(X.shape)
-        print(y.shape)
 
     elif method == "Doc2Vec":
         pass
