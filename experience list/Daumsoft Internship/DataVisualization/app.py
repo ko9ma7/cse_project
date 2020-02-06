@@ -7,89 +7,128 @@ from dimension_reduction import dimension_reduction
 import pandas as pd
 
 UPLOAD_FOLDER = 'C:/Users/daumsoft/PycharmProjects/visualization/uploads'
-ALLOWED_EXTENSIONS = set(['csv'])
 
 app = Flask(__name__)
 
 app.secret_key = "secret key"
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route("/", methods=["GET", "POST"])
-def main():
+def page1():
+    return render_template('introduction.html')
+
+
+@app.route('/fileUpload', methods=["GET", "POST"])
+def page2():
     if request.method == "POST":
 
         train_file = request.files["train_file"]
         test_file = request.files["test_file"]
 
-        if train_file and allowed_file(train_file.filename):
-            filename1 = secure_filename(train_file.filename)
-            train_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename1))
-            return render_template('index.html', filename1=filename1)
+        if train_file:
+            f1 = secure_filename(train_file.filename)
+            train_file.save(os.path.join(app.config['UPLOAD_FOLDER'], f1))
 
-        if test_file and allowed_file(test_file.filename):
-            filename2 = secure_filename(test_file.filename)
-            test_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename2))
-            return render_template('index.html', filename2=filename2)
+        if test_file:
+            f2 = secure_filename(test_file.filename)
+            test_file.save(os.path.join(app.config['UPLOAD_FOLDER'], f2))
 
-        checked_list = request.form.getlist('checked_list')
-        print(checked_list)
+        return render_template('fileUpload.html', filename1=f1, filename2=f2)
+
+    else:
+        return render_template('fileUpload.html')
+
+
+@app.route('/machineLearning', methods=["GET", "POST"])
+def page3():
+    if request.method == "POST":
 
         # 시각화 버튼을 눌렀을 경우
         if request.form.get("visual_button"):
 
+            checked_list = request.form.getlist('checked_list')
+            print('checked_list', checked_list)
+
             train = pd.read_csv("C:/Users/daumsoft/PycharmProjects/visualization/uploads/train.csv", encoding='CP949')
             test = pd.read_csv("C:/Users/daumsoft/PycharmProjects/visualization/uploads/test.csv", encoding='CP949')
 
-            # 첫 번째 순서: 임베딩
+            # 임베딩
             X_train, X_test, y_train, y_test = embedding(checked_list[0], train, test)
             print('X_train shape: {}, y_train shape: {}'.format(X_train.shape, y_train.shape))
             print('X_test shape: {}, y_test shape: {}'.format(X_test.shape, y_test.shape))
 
-            # 두 번째 순서: 기계학습
-            y_test, test_y_pred = machine_learning(checked_list[1], X_train, X_test, y_train, y_test)
+            # 임베딩 -> 머신러닝
+            if checked_list[1] in ['Logistic', 'SVM', 'RandomForest', 'FNN', 'user_defined_machine_learning']:
 
-            # 세 번째 순서: 시각화(임베딩->기계학습)
-            from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
+                y_test, test_y_pred = machine_learning(checked_list[1], X_train, X_test, y_train, y_test)
 
-            # 히트맵
-            index = list(set(y_test))
-            confusion_matrix_df = pd.DataFrame(confusion_matrix(y_test, test_y_pred), index=index, columns=index)
-            confusion_matrix_df.to_csv('confusion_matrix.csv', index=False)
+                from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
 
-            # 분류 평가 지표
-            accuracy = accuracy_score(y_test, test_y_pred)
-            precision = precision_score(y_test, test_y_pred, average='macro')
-            recall = recall_score(y_test, test_y_pred, average='macro')
-            f1 = f1_score(y_test, test_y_pred, average='macro')
+                # 오차행렬
+                index = list(set(y_test))
+                confusion_matrix_df = pd.DataFrame(confusion_matrix(y_test, test_y_pred), index=index, columns=index)
+                confusion_matrix_df.to_csv('confusion_matrix.csv', index=False)
 
-            metrix_score_df = pd.DataFrame(columns=['Metrics', 'Score'])
+                # 분류 평가 지표
+                accuracy = accuracy_score(y_test, test_y_pred)
+                precision = precision_score(y_test, test_y_pred, average='macro')
+                recall = recall_score(y_test, test_y_pred, average='macro')
+                f1 = f1_score(y_test, test_y_pred, average='macro')
 
-            metrix_score_df['Metrics'] = ['accuracy', 'precision', 'recall', 'f1']
-            metrix_score_df['Score'] = [int(accuracy * 100), int(precision * 100), int(recall * 100), int(f1 * 100)]
-            metrix_score_df.to_csv('metrics_score.csv', index=False)
+                metrix_score_df = pd.DataFrame(columns=['Metrics', 'Score'])
 
-            # # 세 번째 순서: 차원축소
-            # dimension_reduction_train_data = dimension_reduction(checked_list[2], machine_learning_train_data)
-            # dimension_reduction_test_data = dimension_reduction(checked_list[2], machine_learning_test_data)
+                metrix_score_df['Metrics'] = ['accuracy', 'precision', 'recall', 'f1']
+                metrix_score_df['Score'] = [round(accuracy, 2), round(precision, 2), round(recall, 2), round(f1, 2)]
+                metrix_score_df.to_csv('metrics_score.csv', index=False)
 
-            return render_template("index.html")
+                return render_template('visualization.html', visualization="embedding_machine_learning")
 
-        return render_template("index.html")
+            # 임베딩 -> 차원축소
+            elif checked_list[1] in ['PCA', 'MDS', 'TSNE', 'user_defined_dimension_reduction']:
 
-    return render_template('index.html')
+                # 훈련 데이터를 차원축소
+                dimension_reduction_result = dimension_reduction(checked_list[1], X_train)
+                print(dimension_reduction_result)
+
+                dimension_reduction_result_df = pd.DataFrame(dimension_reduction_result, columns=['r0', 'r1'])
+                y_df = pd.DataFrame(y_train, columns=['target'])
+
+                dimension_reduction_result_df = pd.concat([dimension_reduction_result_df, y_df], axis=1)
+                dimension_reduction_result_df.to_csv('dimension_reduction.csv', index=False)
+
+                return render_template('visualization.html', visualization="embedding_dimension_reduction")
+
+            # 임베딩 -> 머신러닝 -> 차원축소
+            elif checked_list[1] in ['Logistic', 'SVM', 'RandomForest', 'FNN', 'user_defined_machine_learning'] and \
+                checked_list[2] in ['PCA', 'MDS', 'TSNE', 'user_defined_dimension_reduction']:
+
+                return render_template('visualization.html', visualization="embedding_machine_learning_dimension_reduction")
+
+        return render_template("machineLearning.html")
+
+
+@app.route('/visualization', methods=["GET", "POST"])
+def page4():
+    return render_template('visualization.html')
 
 # 평가 지표 값을 받는 라우터
 @app.route('/metrics_score')
-def score():
+def data1():
     df = pd.read_csv('metrics_score.csv')
     return df.to_csv()
 
+
+# 정확도-재현율 값을 받는 라우터
+@app.route('/precision_recall_data')
+def data2():
+    df = pd.read_csv('pre_rec_data.csv')
+    return df.to_csv()
+
+
 # 오차 행렬 값을 받는 라우터
 @app.route('/confusion_matrix')
-def confusion_matrix():
+def data3():
     df = pd.read_csv('confusion_matrix.csv')
     values = df.values
 
@@ -108,20 +147,15 @@ def confusion_matrix():
     print(new_df)
     return new_df.to_csv()
 
-@app.route('/metrics_score/graph')
-def metrics_score_graph():
-    return render_template('metrics_score.html')
 
-@app.route('/confusion_matrix/graph')
-def confusion_matrix_graph():
-    return render_template('heatmap.html')
+# 차원 축소 값을 받는 라우터
+@app.route('/dimension_reduction')
+def data4():
+    df = pd.read_csv('dimension_reduction.csv')
+    return df.to_csv()
 
-@app.route('/embedding_and_machine_learning_visualization')
-def embedding_and_machine_learning_visualization():
-    return render_template('score_heatmap_visualization.html')
 
 if __name__ == "__main__":
-    import os
 
     port = 8080
     os.system("open http://localhost:{0}".format(port))

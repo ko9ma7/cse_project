@@ -7,7 +7,7 @@ def embedding(method, train, test):
     train = train.sample(frac=1).reset_index(drop=True)
     test = test.sample(frac=1).reset_index(drop=True)
 
-    if method == "One-Hot":
+    if method == "CounterVector":
 
         # 데이터 준비
         X_train_corpus = []

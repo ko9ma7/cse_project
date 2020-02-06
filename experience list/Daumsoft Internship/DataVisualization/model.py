@@ -1,9 +1,7 @@
 import logging
-from sklearn.linear_model import LogisticRegression
-from sklearn.svm import SVC
+from sklearn.linear_model import LogisticRegression, SGDClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import GridSearchCV
-
 
 class Model(object):
     """상속 받는 클래스는 아래의 4개의 함수를 모두 필히 구현해야함"""
@@ -49,7 +47,7 @@ class myLogisticRegression(Model):
         return self.model.predict_proba(x)
 
 
-class mySVC(Model):
+class mySVM(Model):
 
     def __init__(self, params, cv=4):
         self.params = params
@@ -58,7 +56,7 @@ class mySVC(Model):
 
     # 하이퍼파라미터 조정
     def _build_model(self):
-        return GridSearchCV(estimator=SVC(), param_grid=self.params, cv=self.cv)
+        return GridSearchCV(estimator=SGDClassifier(), param_grid=self.params, cv=self.cv)
 
     def fit(self, x, y):
         self.model.fit(x, y)
@@ -89,3 +87,11 @@ class myRandomForestClassifier(Model):
 
     def predict_proba(self, x):
         return self.model.predict_proba(x)
+
+
+class myFNN(Model):
+    pass
+
+
+class user_defined_machine_learning(Model):
+    pass
