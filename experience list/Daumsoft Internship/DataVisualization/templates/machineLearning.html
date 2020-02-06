@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>
+        데이터 시각화
+    </title>
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800" rel="stylesheet" />
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+    <!-- Nucleo Icons -->
+    <link href="../static/assets/css/nucleo-icons.css" rel="stylesheet" />
+    <!-- CSS Files -->
+    <link href="../static/assets/css/black-dashboard.css?v=1.0.0" rel="stylesheet" />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <script src="https://d3js.org/d3.v4.js"></script>
+    <style>
+        div.row2 {
+          position: relative;
+        }
+
+        input[type=text], select {
+            height: 50px;
+            width: 100px;
+            position: relative;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input[type=submit] {
+            height: 50px;
+            width: 100px;
+            position: relative;
+            background-color: #800080;
+            color: white;
+            padding: 14px 20px;
+            margin: 15px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        input[type=submit]:hover {
+            background-color: #800080;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="sidebar">
+            <ul class="nav">
+                <li>
+                    <a href="./">
+                        <i class="tim-icons icon-notes"></i>
+                            <p>Introduction</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="./fileUpload">
+                        <i class="tim-icons icon-cloud-upload-94"></i>
+                            <p>File Upload</p>
+                    </a>
+                </li>
+                <li class="active ">
+                    <a href="./machineLearning">
+                        <i class="tim-icons icon-spaceship"></i>
+                            <p>Machine Learning</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="./visualization">
+                        <i class="tim-icons icon-molecule-40"></i>
+                            <p>Data Visualization</p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="main-panel">
+            <div class="content">
+                <div class="row1">
+                    <div class="col-12">
+                        <div class="card card-chart">
+                            <div class="card-header ">
+                                <div class="row">
+                                    <div class="col-sm-6 text-left">
+                                        <h4 class="card-category" style="font-size:14px">Daumsoft AI LAB</h4>
+                                        <h2 class="card-title">Machine Learning</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row2">
+                    <div class="col-12">
+                        <form action="./machineLearning" method="POST" enctype="multipart/form-data">
+                            <div class="align-self-sm-auto">
+                                <div id="radio_group1">
+                                    <p style="color: white; font-size: 14pt">임베딩 방식(필수)</p><br>
+                                    <input type=radio name="radio_group1" value="CounterVector" onclick="confirm_radio_group1(this)" style="width:50px; height:16px;">CounterVector
+                                    <input type=radio name="radio_group1" value="TF-IDF" onclick="confirm_radio_group1(this)" style="width:50px; height:16px;">TF-IDF
+                                    <input type=radio name="radio_group1" value="Doc2Vec" onclick="confirm_radio_group1(this)" style="width:56px; height:16px;">Doc2Vec
+                                    <input type=radio name="radio_group1" value="user_defined_embedding" onclick="confirm_radio_group1(this)" style="width:56px; height:16px;">사용자 정의
+                                </div>
+                            </div><br>
+                            <div class="align-self-sm-auto">
+                                <div id="radio_group2">
+                                    <p style="color: white; font-size: 14pt">기계학습 방식(선택)</p><br>
+                                    <input type=radio name="radio_group2" value="Logistic" onclick="confirm_radio_group2(this)" style="width:50px; height:16px;;">Logistic
+                                    <input type=radio name="radio_group2" value="SVM" onclick="confirm_radio_group2(this)" style="width:50px; height:16px;">SVM
+                                    <input type=radio name="radio_group2" value="RandomForest" onclick="confirm_radio_group2(this)" style="width:56px; height:16px;">RandomForest
+                                    <input type=radio name="radio_group2" value="FNN" onclick="confirm_radio_group2(this)" style="width:56px; height:16px;">FNN
+                                    <input type=radio name="radio_group2" value="user_defined_machine_learning" onclick="confirm_radio_group2(this)" style="width:56px; height:16px;">사용자 정의
+                                </div>
+                            </div><br>
+                            <div class="align-self-sm-auto">
+                                <div id="radio_group3">
+                                    <p style="color: white; font-size: 14pt">차원 축소 방식(선택)</p><br>
+                                    <input type=radio name="radio_group3" value="PCA" onclick="confirm_radio_group3(this)" style="width:50px; height:16px;">PCA
+                                    <input type=radio name="radio_group3" value="MDS" onclick="confirm_radio_group3(this)" style="width:50px; height:16px;">MDS
+                                    <input type=radio name="radio_group3" value="TSNE" onclick="confirm_radio_group3(this)" style="width:56px; height:16px;">TSNE
+                                    <input type=radio name="radio_group3" value="user_defined_dimension_reduction" onclick="confirm_radio_group3(this)" style="width:56px; height:16px;">사용자 정의
+                                </div>
+                            </div><br>
+                            <input type="submit" value="시각화" name="visual_button" onclick="get_check_list(this)">
+                        </form>
+                        <script type="text/javascript">
+                            var checked_list = new Array;
+
+                            function confirm_radio_group1(box) {
+                                if (document.getElementsByID("radio_group1"))
+                                if (box.checked == true) {
+                                    checked_list.push(box.value);
+                                    console.log(checked_list);
+                                }
+                            }
+
+                            function confirm_radio_group2(box) {
+                                if (box.checked == true) {
+                                    checked_list.push(box.value);
+                                    console.log(checked_list);
+                                }
+                            }
+
+                            function confirm_radio_group3(box) {
+                                if (box.checked == true) {
+                                    checked_list.push(box.value);
+                                    console.log(checked_list);
+                                }
+                            }
+
+                            var button = document.querySelector("input")
+                            button.addEventListener("click", get_check_list);
+
+                            function get_check_list() {
+                                console.log(checked_list);
+                                return checked_list;
+                            }
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
