@@ -126,31 +126,39 @@
                                     <input type=radio name="radio_group3" value="user_defined_dimension_reduction" onclick="confirm_radio_group3(this)" style="width:56px; height:16px;">사용자 정의
                                 </div>
                             </div><br>
-                            <input type="submit" value="시각화" name="visual_button" onclick="get_check_list(this)">
+                            <input type="submit" value="시각화" name="visual_button" onclick="get_check_list()">
                         </form>
-                        <script type="text/javascript">
-                            var checked_list = new Array;
+                        <script>
+                            var checked_list = [];
+                            var embedding, ml, dimension;
 
                             function confirm_radio_group1(box) {
-                                if (document.getElementsByID("radio_group1"))
-                                if (box.checked == true) {
-                                    checked_list.push(box.value);
-                                    console.log(checked_list);
-                                }
+                                embedding = box.value;
+                                print_console()
                             }
 
                             function confirm_radio_group2(box) {
-                                if (box.checked == true) {
-                                    checked_list.push(box.value);
-                                    console.log(checked_list);
-                                }
+                                ml = box.value;
+                                print_console()
                             }
 
                             function confirm_radio_group3(box) {
-                                if (box.checked == true) {
-                                    checked_list.push(box.value);
-                                    console.log(checked_list);
+                                dimension = box.value;
+                                print_console()
+                            }
+
+                            function print_console() {
+                                checked_list = [];
+                                if (embedding) {
+                                    checked_list.push(embedding)
                                 }
+                                if (ml) {
+                                    checked_list.push(ml)
+                                }
+                                if (dimension) {
+                                    checked_list.push(dimension)
+                                }
+                                console.log(checked_list)
                             }
 
                             var button = document.querySelector("input")

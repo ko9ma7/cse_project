@@ -42,69 +42,75 @@ def page2():
 
 @app.route('/machineLearning', methods=["GET", "POST"])
 def page3():
+
     if request.method == "POST":
 
         # 시각화 버튼을 눌렀을 경우
         if request.form.get("visual_button"):
 
             checked_list = request.form.getlist('checked_list')
-            print('checked_list', checked_list)
+            print(checked_list)
 
-            train = pd.read_csv("C:/Users/daumsoft/PycharmProjects/visualization/uploads/train.csv", encoding='CP949')
-            test = pd.read_csv("C:/Users/daumsoft/PycharmProjects/visualization/uploads/test.csv", encoding='CP949')
+            return render_template("machineLearning.html")
 
-            # 임베딩
-            X_train, X_test, y_train, y_test = embedding(checked_list[0], train, test)
-            print('X_train shape: {}, y_train shape: {}'.format(X_train.shape, y_train.shape))
-            print('X_test shape: {}, y_test shape: {}'.format(X_test.shape, y_test.shape))
+            # train = pd.read_csv("C:/Users/daumsoft/PycharmProjects/visualization/uploads/train.csv", encoding='CP949')
+            # test = pd.read_csv("C:/Users/daumsoft/PycharmProjects/visualization/uploads/test.csv", encoding='CP949')
+            #
+            # # 임베딩
+            # X_train, X_test, y_train, y_test = embedding(checked_list[0], train, test)
+            # print('X_train shape: {}, y_train shape: {}'.format(X_train.shape, y_train.shape))
+            # print('X_test shape: {}, y_test shape: {}'.format(X_test.shape, y_test.shape))
+            #
+            # # 임베딩 -> 머신러닝
+            # if checked_list[1] in ['Logistic', 'SVM', 'RandomForest', 'FNN', 'user_defined_machine_learning']:
+            #
+            #     y_test, test_y_pred = machine_learning(checked_list[1], X_train, X_test, y_train, y_test)
+            #
+            #     from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
+            #
+            #     # 오차행렬
+            #     index = list(set(y_test))
+            #     confusion_matrix_df = pd.DataFrame(confusion_matrix(y_test, test_y_pred), index=index, columns=index)
+            #     confusion_matrix_df.to_csv('confusion_matrix.csv', index=False)
+            #
+            #     # 분류 평가 지표
+            #     accuracy = accuracy_score(y_test, test_y_pred)
+            #     precision = precision_score(y_test, test_y_pred, average='macro')
+            #     recall = recall_score(y_test, test_y_pred, average='macro')
+            #     f1 = f1_score(y_test, test_y_pred, average='macro')
+            #
+            #     metrix_score_df = pd.DataFrame(columns=['Metrics', 'Score'])
+            #
+            #     metrix_score_df['Metrics'] = ['accuracy', 'precision', 'recall', 'f1']
+            #     metrix_score_df['Score'] = [round(accuracy, 2), round(precision, 2), round(recall, 2), round(f1, 2)]
+            #     metrix_score_df.to_csv('metrics_score.csv', index=False)
+            #
+            #     return render_template('visualization.html', visualization="embedding_machine_learning")
+            #
+            # # 임베딩 -> 차원축소
+            # elif checked_list[1] in ['PCA', 'MDS', 'TSNE', 'user_defined_dimension_reduction']:
+            #
+            #     # 훈련 데이터를 차원축소
+            #     dimension_reduction_result = dimension_reduction(checked_list[1], X_train)
+            #     print(dimension_reduction_result)
+            #
+            #     dimension_reduction_result_df = pd.DataFrame(dimension_reduction_result, columns=['r0', 'r1'])
+            #     y_df = pd.DataFrame(y_train, columns=['target'])
+            #
+            #     dimension_reduction_result_df = pd.concat([dimension_reduction_result_df, y_df], axis=1)
+            #     dimension_reduction_result_df.to_csv('dimension_reduction.csv', index=False)
+            #
+            #     return render_template('visualization.html', visualization="embedding_dimension_reduction")
+            #
+            # # 임베딩 -> 머신러닝 -> 차원축소
+            # elif checked_list[1] in ['Logistic', 'SVM', 'RandomForest', 'FNN', 'user_defined_machine_learning'] and \
+            #     checked_list[2] in ['PCA', 'MDS', 'TSNE', 'user_defined_dimension_reduction']:
+            #
+            #     return render_template('visualization.html', visualization="embedding_machine_learning_dimension_reduction")
 
-            # 임베딩 -> 머신러닝
-            if checked_list[1] in ['Logistic', 'SVM', 'RandomForest', 'FNN', 'user_defined_machine_learning']:
+        return render_template("machineLearning.html")
 
-                y_test, test_y_pred = machine_learning(checked_list[1], X_train, X_test, y_train, y_test)
-
-                from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
-
-                # 오차행렬
-                index = list(set(y_test))
-                confusion_matrix_df = pd.DataFrame(confusion_matrix(y_test, test_y_pred), index=index, columns=index)
-                confusion_matrix_df.to_csv('confusion_matrix.csv', index=False)
-
-                # 분류 평가 지표
-                accuracy = accuracy_score(y_test, test_y_pred)
-                precision = precision_score(y_test, test_y_pred, average='macro')
-                recall = recall_score(y_test, test_y_pred, average='macro')
-                f1 = f1_score(y_test, test_y_pred, average='macro')
-
-                metrix_score_df = pd.DataFrame(columns=['Metrics', 'Score'])
-
-                metrix_score_df['Metrics'] = ['accuracy', 'precision', 'recall', 'f1']
-                metrix_score_df['Score'] = [round(accuracy, 2), round(precision, 2), round(recall, 2), round(f1, 2)]
-                metrix_score_df.to_csv('metrics_score.csv', index=False)
-
-                return render_template('visualization.html', visualization="embedding_machine_learning")
-
-            # 임베딩 -> 차원축소
-            elif checked_list[1] in ['PCA', 'MDS', 'TSNE', 'user_defined_dimension_reduction']:
-
-                # 훈련 데이터를 차원축소
-                dimension_reduction_result = dimension_reduction(checked_list[1], X_train)
-                print(dimension_reduction_result)
-
-                dimension_reduction_result_df = pd.DataFrame(dimension_reduction_result, columns=['r0', 'r1'])
-                y_df = pd.DataFrame(y_train, columns=['target'])
-
-                dimension_reduction_result_df = pd.concat([dimension_reduction_result_df, y_df], axis=1)
-                dimension_reduction_result_df.to_csv('dimension_reduction.csv', index=False)
-
-                return render_template('visualization.html', visualization="embedding_dimension_reduction")
-
-            # 임베딩 -> 머신러닝 -> 차원축소
-            elif checked_list[1] in ['Logistic', 'SVM', 'RandomForest', 'FNN', 'user_defined_machine_learning'] and \
-                checked_list[2] in ['PCA', 'MDS', 'TSNE', 'user_defined_dimension_reduction']:
-
-                return render_template('visualization.html', visualization="embedding_machine_learning_dimension_reduction")
-
+    else:
         return render_template("machineLearning.html")
 
 
