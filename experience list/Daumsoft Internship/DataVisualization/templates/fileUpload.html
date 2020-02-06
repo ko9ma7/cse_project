@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>
+        데이터 시각화
+    </title>
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800" rel="stylesheet" />
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+    <!-- Nucleo Icons -->
+    <link href="../static/assets/css/nucleo-icons.css" rel="stylesheet" />
+    <!-- CSS Files -->
+    <link href="../static/assets/css/black-dashboard.css?v=1.0.0" rel="stylesheet" />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <script src="https://d3js.org/d3.v4.js"></script>
+    <style>
+        input[type=text], select {
+            height: 50px;
+            width: 100px;
+            position: relative;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input[type=submit] {
+            height: 50px;
+            width: 100px;
+            position: relative;
+            background-color: #800080;
+            color: white;
+            padding: 14px 20px;
+            margin: 15px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        input[type=submit]:hover {
+            background-color: #800080;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="sidebar">
+            <ul class="nav">
+                <li>
+                    <a href="./">
+                        <i class="tim-icons icon-notes"></i>
+                            <p>Introduction</p>
+                    </a>
+                </li>
+                <li class="active ">
+                    <a href="./fileUpload">
+                        <i class="tim-icons icon-cloud-upload-94"></i>
+                            <p>File Upload</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="./machineLearning">
+                        <i class="tim-icons icon-spaceship"></i>
+                            <p>Machine Learning</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="./visualization">
+                        <i class="tim-icons icon-molecule-40"></i>
+                            <p>Data Visualization</p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="main-panel">
+            <div class="content">
+                <div class="row1">
+                    <div class="col-12">
+                        <div class="card card-chart">
+                            <div class="card-header ">
+                                <div class="row">
+                                    <div class="col-sm-6 text-left">
+                                        <h4 class="card-category" style="font-size:14px">Daumsoft AI LAB</h4>
+                                        <h2 class="card-title">File upload</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row2">
+                    <div class="col-12">
+                        <form action="http://127.0.0.1:8080/fileUpload" method="POST" enctype="multipart/form-data">
+                            <div class="table">
+                                <tr>
+                                    <p style="font-size:20px">select train data(.csv)</p>
+                                    <td><input type="file" value="파일 선택" name="train_file" accept=".csv"></td>
+                                    {% if filename1 %}
+                                        <td>{{ filename1 }} 업로드 완료</td>
+                                    {% endif %}
+                                </tr><br><br>
+                                <tr>
+                                    <p style="font-size:20px">select test data(.csv)</p>
+                                    <td><input type="file" value="파일 선택" name="test_file" accept=".csv"></td>
+                                    {% if filename2 %}
+                                        <td>{{ filename2 }} 업로드 완료</td>
+                                    {% endif %}
+                                </tr>
+                            </div>
+                            <div>
+                                <td><input type="submit" value="업로드"/></td>
+                            </div>
+                        </form>
+                    </div>
+                </div><br><br>
+                <div class="row3">
+                    <div class="col-12">
+                        <div class="w3-bar w3-black">
+                            <button class="w3-bar-item w3-button" onclick="openDatabase('Uploded File')">Uploded File</button>
+                            <button class="w3-bar-item w3-button" onclick="openDatabase('Embedding Model')">Embedding Model</button>
+                            <button class="w3-bar-item w3-button" onclick="openDatabase('MachineLearning Model')">MachineLearning Model</button>
+                        </div>
+                        <div id="Uploded File" class="w3-container w3-display-container openDatabase">
+                            <span onclick="this.parentElement.style.display='none'"
+                            class="w3-button w3-large w3-display-topright"></span>
+                            <h2>Uploded File</h2>
+                            <p>지금까지 업로드 된 파일 목록</p>
+                        </div>
+                        <div id="Embedding Model" class="w3-container w3-display-container openDatabase" style="display:none">
+                            <span onclick="this.parentElement.style.display='none'"
+                            class="w3-button w3-large w3-display-topright"></span>
+                            <h2>Embedding Model</h2>
+                            <p>지금까지 만들어진 임베딩 모델 목록</p>
+                        </div>
+                        <div id="MachineLearning Model" class="w3-container w3-display-container openDatabase" style="display:none">
+                            <span onclick="this.parentElement.style.display='none'"
+                            class="w3-button w3-large w3-display-topright"></span>
+                            <h2>MachineLearning Model</h2>
+                            <p>지금까지 만들어진 머신러닝 모델 목록</p>
+                        </div>
+                        <script>
+                            function openDatabase(databaseName) {
+                                var i;
+                                var x = document.getElementsByClassName("openDatabase");
+                                for (i = 0; i < x.length; i++) {
+                                    x[i].style.display = "none";
+                                }
+                                document.getElementById(databaseName).style.display = "block";
+                            }
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
