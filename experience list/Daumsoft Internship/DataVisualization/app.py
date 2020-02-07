@@ -42,16 +42,18 @@ def page2():
 
 @app.route('/machineLearning', methods=["GET", "POST"])
 def page3():
-
     if request.method == "POST":
 
         # 시각화 버튼을 눌렀을 경우
         if request.form.get("visual_button"):
+            print('시각화 버튼 눌림')
+            checked = request.args.getlist('visual_button')
+            print(checked)
 
-            checked_list = request.form.getlist('checked_list')
-            print(checked_list)
-
-            return render_template("machineLearning.html")
+            # return render_template('machineLearning.html')
+            # return render_template('visualization.html', visualization="embedding_machine_learning")
+            return render_template('visualization.html', visualization="embedding_and_machineLearning_visualization")
+            # return render_template('visualization.html', visualization="embedding_machine_learning_dimension_reduction")
 
             # train = pd.read_csv("C:/Users/daumsoft/PycharmProjects/visualization/uploads/train.csv", encoding='CP949')
             # test = pd.read_csv("C:/Users/daumsoft/PycharmProjects/visualization/uploads/test.csv", encoding='CP949')
@@ -108,8 +110,7 @@ def page3():
             #
             #     return render_template('visualization.html', visualization="embedding_machine_learning_dimension_reduction")
 
-        return render_template("machineLearning.html")
-
+        return render_template('machineLearning.html')
     else:
         return render_template("machineLearning.html")
 
@@ -159,6 +160,20 @@ def data3():
 def data4():
     df = pd.read_csv('dimension_reduction.csv')
     return df.to_csv()
+
+
+@app.route('/embedding_and_visualization_1')
+def b_p_t_d1():
+    df = pd.read_csv('embedding_and_visualization_1.csv')
+    return df.to_csv()
+
+
+@app.route('/embedding_and_visualization_2')
+def b_p_t_d2():
+    df = pd.read_csv('embedding_and_visualization_2.csv')
+    return df.to_csv()
+
+
 
 
 if __name__ == "__main__":
