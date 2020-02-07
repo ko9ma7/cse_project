@@ -15,6 +15,7 @@
     <link href="../static/assets/css/black-dashboard.css?v=1.0.0" rel="stylesheet" />
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <script src="https://d3js.org/d3.v4.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <style>
         div.row2 {
           position: relative;
@@ -126,46 +127,44 @@
                                     <input type=radio name="radio_group3" value="user_defined_dimension_reduction" onclick="confirm_radio_group3(this)" style="width:56px; height:16px;">사용자 정의
                                 </div>
                             </div><br>
-                            <input type="submit" value="시각화" name="visual_button" onclick="get_check_list()">
+                            <input id="submit" type="submit" name="visual_button" value="시각화" onclick="get_check_list()">
                         </form>
-                        <script>
-                            var checked_list = [];
-                            var embedding, ml, dimension;
+                        <script type="text/javascript">
+
+                            var e_checked;
+                            var m_checked;
+                            var d_checked;
+                            var checked_list = new Array;
+
+                            var button = document.getElementById("submit");
+                            button.addEventListener("click", get_check_list);
 
                             function confirm_radio_group1(box) {
-                                embedding = box.value;
-                                print_console()
+                                if (box.checked == true) {
+                                    console.log(box.value);
+                                    e_checked = box.value;
+                                }
                             }
 
                             function confirm_radio_group2(box) {
-                                ml = box.value;
-                                print_console()
+                                if (box.checked == true) {
+                                    console.log(box.value);
+                                    m_checked = box.value;
+                                }
                             }
 
                             function confirm_radio_group3(box) {
-                                dimension = box.value;
-                                print_console()
+                                if (box.checked == true) {
+                                    console.log(box.value);
+                                    d_checked = box.value;
+                                }
                             }
-
-                            function print_console() {
-                                checked_list = [];
-                                if (embedding) {
-                                    checked_list.push(embedding)
-                                }
-                                if (ml) {
-                                    checked_list.push(ml)
-                                }
-                                if (dimension) {
-                                    checked_list.push(dimension)
-                                }
-                                console.log(checked_list)
-                            }
-
-                            var button = document.querySelector("input")
-                            button.addEventListener("click", get_check_list);
 
                             function get_check_list() {
-                                console.log(checked_list);
+                                checked_list.push(e_checked);
+                                checked_list.push(m_checked);
+                                checked_list.push(d_checked);
+                                {#console.log(e_checked, m_checked, d_checked);#}
                                 return checked_list;
                             }
                         </script>
