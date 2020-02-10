@@ -13,6 +13,9 @@ class Visualization(object):
     def fit(self, X, y=None):
         raise Exception("fit() method not implemented")
 
+    def transform(self, X):
+        raise Exception("transform() method not implemented")
+
     def fit_transform(self, X, y=None):
         raise Exception("fit_transform() method not implemented")
 
@@ -28,6 +31,9 @@ class myPCA(Visualization):
     def fit(self, X, y=None):
         return self.visualization.fit(X, y)
 
+    def transform(self, X):
+        return self.visualization.transform(X)
+
     def fit_transform(self, X, y=None):
         return self.visualization.fit_transform(X, y)
 
@@ -42,6 +48,9 @@ class myMDS(Visualization):
 
     def fit(self, X, y=None):
         return self.visualization.fit(X, y)
+
+    def transform(self, X):
+        return self.visualization.transform(X)
 
     def fit_transform(self, X, y=None):
         return self.visualization.fit_transform(X, y)
@@ -59,6 +68,9 @@ class myTSNE(Visualization):
 
     def fit(self, X, y=None):
         return self.visualization.fit(X, y)
+
+    def transform(self, X):
+        return self.visualization.transform(X)
 
     def fit_transform(self, X, y=None):
         return self.visualization.fit_transform(X, y)
