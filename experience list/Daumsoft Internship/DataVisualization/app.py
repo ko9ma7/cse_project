@@ -48,37 +48,33 @@ def page3():
         # 시각화 버튼을 눌렀을 경우
         if request.form.get("visual_button"):
 
-            checked_list = request.args.getlist('visual_button')
+            checked_list = request.form.getlist("visual_button")
+            checked_list = checked_list[0].split(",")
             print(checked_list)
-            checked_list = ['CounterVector', 'RandomForest', 'PCA']
+
+
 
             train = pd.read_csv(UPLOAD_FOLDER + "train.csv")
             test = pd.read_csv(UPLOAD_FOLDER + "test.csv")
-
-            print(train.shape)
-            print(test.shape)
 
             X_train, X_test, y_train, y_test = embedding(checked_list[0], train, test)
             print('X_train shape: {}, y_train shape: {}'.format(X_train.shape, y_train.shape))
             print('X_test shape: {}, y_test shape: {}'.format(X_test.shape, y_test.shape))
 
             # 임베딩만 시각화할 경우
-            if len(checked_list) == 2:
-                dimension_reduction(checked_list[1], X_train, X_test, y_train, y_test)
+            if checked_list[1] == '':
+                dimension_reduction(checked_list[2], X_train, X_test, y_train, y_test)
                 return render_template('visualization.html', visualization="embedding_and_visualization")
 
             # 임베딩 -> 머신러닝 -> 시각화할 경우
             if len(checked_list) == 3:
 
-                rnd_params = {
-                    "n_estimators": [100],  # [100, 300, 500, 700],
-                    "max_depth": [3],  # [i for i in range(1, 31)],
-                    'random_state': [42],
+                params = {
+                    "max_depth": [3],
+                    "random_state": [42],
                 }
 
-                train_y_pred, test_y_pred = machine_learning(checked_list[1], X_train, X_test, y_train, y_test, params=rnd_params)
-
-
+                train_y_pred, test_y_pred = machine_learning(checked_list[1], X_train, X_test, y_train, y_test, params=params)
 
                 train_df = pd.read_csv(path + 'embedding_and_visualization_train.csv')
                 test_df = pd.read_csv(path + 'embedding_and_visualization_test.csv')
@@ -91,11 +87,12 @@ def page3():
                 test_df['success'] = test_df['pred'] == test_df['target']
                 test_df['success'] = test_df['success'].astype(int)
 
-
                 train_df.to_csv(path + 'embedding_and_machinelearning_visualization_train.csv', index=False)
                 test_df.to_csv(path + 'embedding_and_machinelearning_visualization_test.csv', index=False)
 
                 return render_template('visualization.html', visualization="embedding_and_machineLearning_visualization")
+
+            return render_template('visualization.html', visualization="embedding_and_machineLearning_visualization")
 
         return render_template('machineLearning.html')
     else:
@@ -104,8 +101,7 @@ def page3():
 
 @app.route('/visualization', methods=["GET", "POST"])
 def page4():
-    return render_template('visualization.html')
-
+    return render_template('visualization.html', visualization="embedding_and_machineLearning_visualization")
 
 # 평가 지표 값을 받는 라우터
 @app.route('/metrics_score_train')

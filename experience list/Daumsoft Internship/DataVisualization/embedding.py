@@ -13,50 +13,53 @@ def embedding(method, train, test):
     if pd.isnull(test['x']).sum() > 0 or pd.isnull(test['y']).sum() > 0:
         test = test.dropna()
 
+    X_train_corpus = []
+    for words in train['x']:
+        sentence = ""
+        for word in words.split(","):
+            sentence += word + " "
+        sentence = sentence[:len(sentence) - 1]
+
+        X_train_corpus.append(sentence)
+
+    X_test_corpus = []
+    for words in test['x']:
+        sentence = ""
+        for word in words.split(","):
+            sentence += word + " "
+        sentence = sentence[:len(sentence) - 1]
+
+        X_test_corpus.append(sentence)
+
+    target_names = list(set(train['y']))
+    target_mapping_table = {}
+    for idx, names in enumerate(target_names):
+        target_mapping_table[names] = idx
+
+    train['y'] = train['y'].map(target_mapping_table)
+    test['y'] = test['y'].map(target_mapping_table)
+
     if method == "CounterVector":
 
-        X_train_corpus = []
-        for words in train['x']:
-            sentence = ""
-            for word in words.split(","):
-                sentence += word + " "
-            sentence = sentence[:len(sentence) - 1]
-
-            X_train_corpus.append(sentence)
-
-        X_test_corpus = []
-        for words in test['x']:
-            sentence = ""
-            for word in words.split(","):
-                sentence += word + " "
-            sentence = sentence[:len(sentence) - 1]
-
-            X_test_corpus.append(sentence)
-
-
         from sklearn.feature_extraction.text import CountVectorizer
-        vectorizer = CountVectorizer(min_df=1)
+        cnt_vectorizer = CountVectorizer(min_df=1)
 
-        X_train_vectors = vectorizer.fit_transform(X_train_corpus)
-
+        X_train_vectors = cnt_vectorizer.fit_transform(X_train_corpus)
         # 테스트 데이터는 훈련 데이터로 맞춰놓은 벡터 변환기를 사용해야 함
-        X_test_vectors = vectorizer.transform(X_test_corpus)
-
-        target_names = list(set(train['y']))
-        target_mapping_table = {}
-        for idx, names in enumerate(target_names):
-            target_mapping_table[names] = idx
-
-        train['y'] = train['y'].map(target_mapping_table)
-        test['y'] = test['y'].map(target_mapping_table)
-
-        return X_train_vectors, X_test_vectors, train['y'].values, test['y'].values
+        X_test_vectors = cnt_vectorizer.transform(X_test_corpus)
 
     elif method == "TF-IDF":
-        pass
+
+        from sklearn.feature_extraction.text import TfidfVectorizer
+        tfidf_vectorizer = TfidfVectorizer()
+
+        X_train_vectors = tfidf_vectorizer.fit_transform(X_train_corpus)
+        X_test_vectors = tfidf_vectorizer.transform(X_test_corpus)
 
     elif method == "Doc2Vec":
         pass
 
     elif method == "user_defined_embedding":
         pass
+
+    return X_train_vectors, X_test_vectors, train['y'].values, test['y'].values

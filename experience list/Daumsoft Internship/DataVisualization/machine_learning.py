@@ -25,7 +25,6 @@ def machine_learning(method, X_train, X_test, y_train, y_test, params):
         rnd_clf = model.myRandomForestClassifier(params)
         rnd_clf.fit(X_train, y_train)
 
-        # 평가
         train_y_pred = rnd_clf.predict(X_train)
         test_y_pred = rnd_clf.predict(X_test)
 
@@ -69,13 +68,13 @@ def machine_learning(method, X_train, X_test, y_train, y_test, params):
 
     train_score_df = pd.DataFrame(columns=['Metrics', 'Score'])
     train_score_df['Metrics'] = ['accuracy', 'precision', 'recall', 'f1']
-    train_score_df['Score'] = [round(train_accuracy, 4), round(train_precision, 4), round(train_recall, 4), round(train_f1, 4)]
+    train_score_df['Score'] = [round(train_accuracy, 2), round(train_precision, 2), round(train_recall, 2), round(train_f1, 2)]
 
     train_score_df.to_csv(path + 'metrics_score_train.csv', index=False)
 
     test_score_df = pd.DataFrame(columns=['Metrics', 'Score'])
     test_score_df['Metrics'] = ['accuracy', 'precision', 'recall', 'f1']
-    test_score_df['Score'] = [round(test_accuracy, 4), round(test_precision, 4), round(test_recall, 4), round(test_f1, 4)]
+    test_score_df['Score'] = [round(test_accuracy, 2), round(test_precision, 2), round(test_recall, 2), round(test_f1, 2)]
 
     test_score_df.to_csv(path + 'metrics_score_test.csv', index=False)
 
