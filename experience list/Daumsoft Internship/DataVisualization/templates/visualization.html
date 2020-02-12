@@ -130,7 +130,7 @@
                     <div class="col-12">
                         {% if visualization == 'embedding_and_visualization' %}
 
-                            <div class="row"">
+                            <div class="row">
                                     <div><h3>Train Set Embedding</h3></div>
                                     <div class="col" id="area1"></div>
                             </div>
@@ -144,12 +144,12 @@
                             <div class="row3" style="background-color:">
                                 <div class="col-container">
                                     <div class="col">
-                                        <h3 class="card-category" style="font-size:14px">평가지표(훈련)</h3>
+                                        <h3 class="card-category" style="font-size:18px">평가지표(훈련)</h3>
                                         <div class="col3_1" id="area3"></div>
                                     </div>
 
                                     <div class="col">
-                                        <h3 class="card-category" style="font-size:14px">평가지표(테스트)</h3>
+                                        <h3 class="card-category" style="font-size:18px">평가지표(테스트)</h3>
                                         <div class="col3_2" id="area4"></div>
                                     </div>
                                 </div>
@@ -158,67 +158,67 @@
                             <div class="row4" style="background-color:">
                                 <div class="col-container">
                                     <div class="col">
-                                        <h3 class="card-category" style="font-size:14px">오차행렬(훈련)</h3>
+                                        <h3 class="card-category" style="font-size:18px">오차행렬(훈련)</h3>
                                         <div class="col4_1" id="area5"></div>
                                     </div>
 
                                     <div class="col">
-                                        <h3 class="card-category" style="font-size:14px">오차행렬(테스트)</h3>
+                                        <h3 class="card-category" style="font-size:18px">오차행렬(테스트)</h3>
                                         <div class="col4_2" id="area6"></div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="row5" style="background-color:">
+                            <div class="row5" align="center" style="background-color:">
                                 <div class="col-container">
                                     <div class="col">
-                                        <h3 class="card-category" style="font-size:14px">임베딩 방식 분포도(훈련)</h3>
+                                        <h3 class="card-category" style="font-size:18px">임베딩 방식 분포도(훈련)</h3>
                                         <div class="col5_1" id="area7"></div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="row6" style="background-color:">
+                            <div class="row6" align="center" style="background-color:">
                                 <div class="col-container">
                                     <div class="col">
-                                        <h3 class="card-category" style="font-size:14px">분류 모델 예측 분포도(훈련)</h3>
+                                        <h3 class="card-category" style="font-size:18px">분류 모델 예측 분포도(훈련)</h3>
                                         <div class="col6_1" id="area9"></div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="row7" style="background-color:">
+                            <div class="row7" align="center" style="background-color:">
                                 <div class="col-container">
                                     <div class="col">
-                                        <h3 class="card-category" style="font-size:14px">예측 결과 분포도(훈련)</h3>
+                                        <h3 class="card-category" style="font-size:18px">예측 결과 분포도(훈련)</h3>
                                         <div class="col7_1" id="area11"></div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="row5" style="background-color:">
+                            <div class="row5" align="center" style="background-color:">
                                 <div class="col-container">
                                     <div class="col">
-                                        <h3 class="card-category" style="font-size:14px">임베딩 방식 분포도(테스트)</h3>
+                                        <h3 class="card-category" style="font-size:18px">임베딩 방식 분포도(테스트)</h3>
                                         <div class="col5_2" id="area8"></div>
                                     </div>
                                 </div>
                             </div>
 
 
-                            <div class="row6" style="background-color:">
+                            <div class="row6" align="center" style="background-color:">
                                 <div class="col-container">
                                     <div class="col">
-                                        <h3 class="card-category" style="font-size:14px">분류 모델 예측 분포도(테스트)</h3>
+                                        <h3 class="card-category" style="font-size:18px">분류 모델 예측 분포도(테스트)</h3>
                                         <div class="col6_2" id="area10"></div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="row7" style="background-color:">
+                            <div class="row7" align="center" style="background-color:">
                                 <div class="col-container">
                                     <div class="col">
-                                        <h3 class="card-category" style="font-size:14px">예측 결과 분포도(테스트)</h3>
+                                        <h3 class="card-category" style="font-size:18px">예측 결과 분포도(테스트)</h3>
                                         <div class="col7_2" id="area12"></div>
                                     </div>
                                 </div>
@@ -303,7 +303,7 @@
             SVG.append("text")
                 .attr("text-anchor", "end")
                 .attr("transform", "rotate(-90)")
-                .attr("y", -margin.left+20)
+                .attr("y", -margin.left+10)
                 .attr("x", -margin.top)
                 .text("dimension 1")
                 .style("fill", "white")
@@ -418,7 +418,7 @@
             SVG2.append("text")
                 .attr("text-anchor", "end")
                 .attr("transform", "rotate(-90)")
-                .attr("y", -margin2.left+20)
+                .attr("y", -margin2.left+10)
                 .attr("x", -margin2.top)
                 .text("dimension 1")
                 .style("fill", "white")
@@ -506,13 +506,16 @@
                 .selectAll("text")
                 .attr("transform", "translate(10, 0)rotate(-45)")
                 .style("text-anchor", "end")
+                .style("font-size", "14px")
 
             var y = d3.scaleLinear()
                 .domain([0, 1.0])
-                .range([height3, 0]);
+                .range([height3, 0])
 
             svg3.append("g")
-                .call(d3.axisLeft(y));
+                .call(d3.axisLeft(y))
+                .selectAll("text")
+                .style("font-size", "14px")
 
             var color = d3.scaleOrdinal()
                 .range([`#dc6750`, `#c5dc50`, `#50c5dc`, `#6750dc`])
@@ -577,6 +580,7 @@
                 .attr("x", function(d) { return x(d.Metrics) + 18;})
                 .attr("y", function(d) { return y(d.Score) - 5;})
                 .style("font-size", "13px")
+                .style("fill", "black")
         })
 
         var margin4 = {top: 10, right: 30, bottom: 40, left: 50},
@@ -603,13 +607,16 @@
                 .selectAll("text")
                 .attr("transform", "translate(10, 0)rotate(-45)")
                 .style("text-anchor", "end")
+                .style("font-size", "14px")
 
             var y = d3.scaleLinear()
                 .domain([0, 1.0])
                 .range([height4, 0]);
 
             svg4.append("g")
-                .call(d3.axisLeft(y));
+                .call(d3.axisLeft(y))
+                .selectAll("text")
+                .style("font-size", "14px")
 
             var color = d3.scaleOrdinal()
                 .range([`#dc6750`, `#c5dc50`, `#50c5dc`, `#6750dc`])
@@ -748,6 +755,7 @@
                 .style("left", (d3.mouse(this)[0]+70) + "px")
                 .style("top", (d3.mouse(this)[1]) + "px")
             }
+
             var mouseleave = function(d) {
                 tooltip.style("opacity", 0)
 
@@ -790,7 +798,8 @@
                 .text(function(d) { return d; })
                 .attr("x", width5 / 2 - 20)
                 .attr("y", height5 + 35)
-                .style('fill', 'black')
+                .style("fill", "black")
+                .style("font-size", "18px")
 
             ylabel = ['true']
             svg5.selectAll("text")
@@ -800,6 +809,7 @@
                 .attr("x", 0 - 50)
                 .attr("y", height5 - 190)
                 .style('fill', 'black')
+                .style("font-size", "18px")
 
         })
 
@@ -912,6 +922,7 @@
                 .attr("x", width5 / 2 - 20)
                 .attr("y", height5 + 35)
                 .style('fill', 'black')
+                .style("font-size", "18px")
 
             ylabel = ['true']
             svg6.selectAll("text")
@@ -921,6 +932,7 @@
                 .attr("x", 0 - 50)
                 .attr("y", height5 - 190)
                 .style('fill', 'black')
+                .style("font-size", "18px")
         })
     </script>
 
@@ -995,7 +1007,7 @@
 
             // Add Y axis
             var y = d3.scaleLinear()
-                .domain([-1, parseFloat(domain_range_y[1]) + 1])
+                .domain([parseFloat(domain_range_y[0]), parseFloat(domain_range_y[1]) + 1])
                 .range([height7, 0])
                 .nice()
 
@@ -1015,7 +1027,7 @@
             SVG7.append("text")
                 .attr("text-anchor", "end")
                 .attr("transform", "rotate(-90)")
-                .attr("y", -margin7.left+20)
+                .attr("y", -margin7.left+10)
                 .attr("x", -margin7.top)
                 .text("dimension 1")
                 .style("font-size", "15px")
@@ -1039,12 +1051,12 @@
             // Add dots
             SVG7.append('g')
                 .selectAll("dot")
-                .data(newData)
+                .data(data)
                 .enter()
                 .append("circle")
                 .attr("cx", function (d) { return x(d.r0); } )
                 .attr("cy", function (d) { return y(d.r1); } )
-                .attr("r", 4)
+                .attr("r", 5)
                 .attr("data-legend",function(d) { return d.target})
                 .style("fill", function (d) { return color(d.target) } )
                 {#.style("stroke", "black")#}
@@ -1059,7 +1071,7 @@
                 .append("circle")
                     .attr("cx", -margin7.left + 70)
                     .attr("cy", function(d, i) { return 15 + i * 25 })
-                    .attr("r", 4)
+                    .attr("r", 5)
                     .style("fill", function(d) { return color(d) })
                     {#.attr("stroke", "black")#}
                     {#.style("stroke-width", 1)#}
@@ -1123,7 +1135,7 @@
 
             // Add Y axis
             var y = d3.scaleLinear()
-                .domain([-1, parseFloat(domain_range_y[1]) + 1])
+                .domain([parseFloat(domain_range_y[0]), parseFloat(domain_range_y[1]) + 1])
                 .range([height8, 0])
                 .nice()
 
@@ -1172,7 +1184,7 @@
                 .append("circle")
                 .attr("cx", function (d) { return x(d.r0); } )
                 .attr("cy", function (d) { return y(d.r1); } )
-                .attr("r", 4)
+                .attr("r", 5)
                 .attr("data-legend",function(d) { return d.target})
                 .style("fill", function (d) { return color(d.target) } )
                 {#.style("stroke", "black")#}
@@ -1187,7 +1199,7 @@
                 .append("circle")
                     .attr("cx", -margin8.left + 70)
                     .attr("cy", function(d, i) { return 15 + i * 25 })
-                    .attr("r", 4)
+                    .attr("r", 5)
                     .style("fill", function(d) { return color(d) })
                     {#.attr("stroke", "black")#}
                     {#.style("stroke-width", 1)#}
@@ -1255,7 +1267,7 @@
 
             // Add Y axis
             var y = d3.scaleLinear()
-                .domain([-1, parseFloat(domain_range_y[1]) + 1])
+                .domain([parseFloat(domain_range_y[0]), parseFloat(domain_range_y[1]) + 1])
                 .range([height9, 0])
                 .nice()
 
@@ -1275,7 +1287,7 @@
             SVG9.append("text")
                 .attr("text-anchor", "end")
                 .attr("transform", "rotate(-90)")
-                .attr("y", -margin9.left+20)
+                .attr("y", -margin9.left+10)
                 .attr("x", -margin9.top)
                 .text("dimension 1")
                 .style("font-size", "15px")
@@ -1304,7 +1316,7 @@
                 .append("circle")
                 .attr("cx", function (d) { return x(d.r0); } )
                 .attr("cy", function (d) { return y(d.r1); } )
-                .attr("r", 4)
+                .attr("r", 5)
                 .attr("data-legend",function(d) { return d.pred})
                 .style("fill", function (d) { return color(d.pred) } )
                 {#.style("stroke", "black")#}
@@ -1319,7 +1331,7 @@
                 .append("circle")
                     .attr("cx", -margin9.left + 70)
                     .attr("cy", function(d, i) { return 15 + i * 25 })
-                    .attr("r", 4)
+                    .attr("r", 5)
                     .style("fill", function(d) { return color(d) })
                     {#.attr("stroke", "black")#}
                     {#.style("stroke-width", 1)#}
@@ -1382,7 +1394,7 @@
 
             // Add Y axis
             var y = d3.scaleLinear()
-                .domain([-1, parseFloat(domain_range_y[1]) + 1])
+                .domain([parseFloat(domain_range_y[0]), parseFloat(domain_range_y[1]) + 1])
                 .range([height10, 0])
                 .nice()
 
@@ -1431,7 +1443,7 @@
                 .append("circle")
                 .attr("cx", function (d) { return x(d.r0); } )
                 .attr("cy", function (d) { return y(d.r1); } )
-                .attr("r", 4)
+                .attr("r", 5)
                 .attr("data-legend",function(d) { return d.pred})
                 .style("fill", function (d) { return color(d.pred) } )
                 {#.style("stroke", "black")#}
@@ -1446,7 +1458,7 @@
                 .append("circle")
                     .attr("cx", -margin10.left + 70)
                     .attr("cy", function(d, i) { return 15 + i * 25 })
-                    .attr("r", 4)
+                    .attr("r", 5)
                     .style("fill", function(d) { return color(d) })
                     {#.attr("stroke", "black")#}
                     {#.style("stroke-width", 1)#}
@@ -1513,7 +1525,7 @@
 
             // Add Y axis
             var y = d3.scaleLinear()
-                .domain([-1, parseFloat(domain_range_y[1]) + 1])
+                .domain([parseFloat(domain_range_y[0]), parseFloat(domain_range_y[1]) + 1])
                 .range([height11, 0])
                 .nice()
 
@@ -1533,7 +1545,7 @@
             SVG11.append("text")
                 .attr("text-anchor", "end")
                 .attr("transform", "rotate(-90)")
-                .attr("y", -margin11.left+20)
+                .attr("y", -margin11.left+10)
                 .attr("x", -margin11.top)
                 .text("dimension 1")
                 .style("font-size", "15px")
@@ -1563,7 +1575,7 @@
                 .append("circle")
                 .attr("cx", function (d) { return x(d.r0); } )
                 .attr("cy", function (d) { return y(d.r1); } )
-                .attr("r", 4)
+                .attr("r", 5)
                 .attr("data-legend",function(d) { return d.success})
                 .style("fill", function (d) { return color(d.success) } )
                 {#.style("stroke", "black")#}
@@ -1578,7 +1590,7 @@
                 .append("circle")
                     .attr("cx", -margin11.left + 70)
                     .attr("cy", function(d, i) { return 15 + i * 25 })
-                    .attr("r", 4)
+                    .attr("r", 5)
                     .style("fill", function(d) { return color(d) })
                     {#.attr("stroke", "black")#}
                     {#.style("stroke-width", 1)#}
@@ -1641,7 +1653,7 @@
 
             // Add Y axis
             var y = d3.scaleLinear()
-                .domain([-1, parseFloat(domain_range_y[1]) + 1])
+                .domain([parseFloat(domain_range_y[0]), parseFloat(domain_range_y[1]) + 1])
                 .range([height12, 0])
                 .nice()
 
@@ -1691,7 +1703,7 @@
                 .append("circle")
                 .attr("cx", function (d) { return x(d.r0); } )
                 .attr("cy", function (d) { return y(d.r1); } )
-                .attr("r", 4)
+                .attr("r", 5)
                 .attr("data-legend",function(d) { return d.success})
                 .style("fill", function (d) { return color(d.success) } )
                 {#.style("stroke", "black")#}
@@ -1706,7 +1718,7 @@
                 .append("circle")
                     .attr("cx", -margin12.left + 70)
                     .attr("cy", function(d, i) { return 15 + i * 25 })
-                    .attr("r", 4)
+                    .attr("r", 5)
                     .style("fill", function(d) { return color(d) })
                     {#.attr("stroke", "black")#}
                     {#.style("stroke-width", 1)#}

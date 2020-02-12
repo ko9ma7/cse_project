@@ -36,12 +36,6 @@
             padding: 10px;
             color: white;
         }
-        .closebtn {
-            float: right;
-            color: white;
-            font-size: 35px;
-            cursor: pointer;
-        }
         input[type=text], select {
             height: 50px;
             width: 100px;
@@ -156,47 +150,23 @@
                                         </div>
 
                                         <div id="b1" class="containerTab" style="display:none;background-color:black">
-                                            <span onclick="this.parentElement.style.display='none'" class="closebtn">&times;</span>
-
-                                            <h5 id="p_id1">C</h5>
-                                            <div class="slidecontainer">
-                                                <input type="range" min="1" max="100" value="50" class="slider" id="RangeBar1">
-                                                <p>Value: <span id="value_range1"></span></p>
-                                            </div>
-
+                                            <td>C&nbsp;&nbsp;&nbsp;</td>
+                                            <input type="text" id="TextBar1">
                                         </div>
                                         <div id="b2" class="containerTab" style="display:none;background-color:black">
-                                            <span onclick="this.parentElement.style.display='none'" class="closebtn">&times;</span>
-
-                                            <h5 id="p_id2">alpha</h5>
-                                            <div class="slidecontainer">
-                                                <input type="range" min="1" max="100" value="50" class="slider" id="RangeBar2">
-                                                <p>Value: <span id="value_range2"></span></p>
-                                            </div>
-
+                                            <td>alpha&nbsp;&nbsp;&nbsp;</td>
+                                            <input type="text" id="TextBar2">
                                         </div>
                                         <div id="b3" class="containerTab" style="display:none;background-color:black">
-                                            <span onclick="this.parentElement.style.display='none'" class="closebtn">&times;</span>
-
-                                            <div class="col">
-                                                <h5 id="p_id3">n_estimators</h5>
-                                                <div class="slidecontainer">
-                                                    <input type="range" min="1" max="100" value="50" class="slider" id="RangeBar3">
-                                                    <p>Value: <span id="value_range3"></span></p>
-                                                </div>
-                                                <h5 id="p_id4">max_depth</h5>
-                                                <div class="slidecontainer">
-                                                    <input type="range" min="1" max="100" value="50" class="slider" id="RangeBar4">
-                                                    <p>Value: <span id="value_range4"></span></p>
-                                                </div>
-                                            </div>
-
+                                            <td>n_estimators&nbsp;&nbsp;&nbsp;</td>
+                                            <input type="text" id="TextBar3">
+                                            <td>&nbsp;&nbsp;</td>
+                                            <td>max_depth&nbsp;&nbsp;&nbsp;</td>
+                                            <input type="text" id="TextBar4">
                                         </div>
                                         <div id="b4" class="containerTab" style="display:none;background-color:black">
-                                            <span onclick="this.parentElement.style.display='none'" class="closebtn">&times;</span>
                                         </div>
                                         <div id="b5" class="containerTab" style="display:none;background-color:black">
-                                            <span onclick="this.parentElement.style.display='none'" class="closebtn">&times;</span>
                                         </div>
                                     </div>
                                 </div>
@@ -218,38 +188,10 @@
                             var m_checked;
                             var d_checked;
 
-                            var slider1 = document.getElementById("RangeBar1");
-                            var output1 = document.getElementById("value_range1");
-
-                            var slider2 = document.getElementById("RangeBar2");
-                            var output2 = document.getElementById("value_range2");
-
-                            var slider3 = document.getElementById("RangeBar3");
-                            var output3 = document.getElementById("value_range3");
-
-                            var slider4 = document.getElementById("RangeBar4");
-                            var output4 = document.getElementById("value_range4");
-
-
-                            output1.innerHTML = slider1.value;
-                            slider1.oninput = function() {
-                                output1.innerHTML = this.value;
-                            }
-
-                            output2.innerHTML = slider2.value;
-                            slider2.oninput = function() {
-                                output2.innerHTML = this.value;
-                            }
-
-                            output3.innerHTML = slider3.value;
-                            slider3.oninput = function() {
-                                output3.innerHTML = this.value;
-                            }
-
-                            output4.innerHTML = slider4.value;
-                            slider4.oninput = function() {
-                                output4.innerHTML = this.value;
-                            }
+                            var textbar1 = document.getElementById("TextBar1");
+                            var textbar2 = document.getElementById("TextBar2");
+                            var textbar3 = document.getElementById("TextBar3");
+                            var textbar4 = document.getElementById("TextBar4");
 
                             function confirm_radio_group1(box) {
                                 if (box.checked == true) {
@@ -284,10 +226,20 @@
                             function get_check_list(input) {
 
                                 var checked_list = new Array;
+                                var parameters = new Array;
 
                                 checked_list.push(e_checked);
                                 checked_list.push(m_checked);
                                 checked_list.push(d_checked);
+
+                                console.log((textbar3.value).split(","));
+
+                                parameters.push((textbar1.value).split(","));
+                                parameters.push((textbar2.value).split(","));
+                                parameters.push((textbar3.value).split(","));
+                                parameters.push((textbar4.value).split(","));
+
+                                checked_list.push(parameters)
 
                                 document.getElementById('submit').value = checked_list;
                             }
