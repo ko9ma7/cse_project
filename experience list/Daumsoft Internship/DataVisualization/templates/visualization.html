@@ -25,13 +25,13 @@
             height: 550px;
         }
         .row5 {
-            height: 650px;
+            height: 900px;
         }
         .row6 {
-            height: 650px;
+            height: 900px;
         }
         .row7 {
-            height: 650px;
+            height: 900px;
         }
         .col-container {
             display: flex;
@@ -175,11 +175,6 @@
                                         <h3 class="card-category" style="font-size:14px">임베딩 방식 분포도(훈련)</h3>
                                         <div class="col5_1" id="area7"></div>
                                     </div>
-
-                                    <div class="col">
-                                        <h3 class="card-category" style="font-size:14px">임베딩 방식 분포도(테스트)</h3>
-                                        <div class="col5_2" id="area8"></div>
-                                    </div>
                                 </div>
                             </div>
 
@@ -188,11 +183,6 @@
                                     <div class="col">
                                         <h3 class="card-category" style="font-size:14px">분류 모델 예측 분포도(훈련)</h3>
                                         <div class="col6_1" id="area9"></div>
-                                    </div>
-
-                                    <div class="col">
-                                        <h3 class="card-category" style="font-size:14px">분류 모델 예측 분포도(테스트)</h3>
-                                        <div class="col6_2" id="area10"></div>
                                     </div>
                                 </div>
                             </div>
@@ -203,7 +193,30 @@
                                         <h3 class="card-category" style="font-size:14px">예측 결과 분포도(훈련)</h3>
                                         <div class="col7_1" id="area11"></div>
                                     </div>
+                                </div>
+                            </div>
 
+                            <div class="row5" style="background-color:">
+                                <div class="col-container">
+                                    <div class="col">
+                                        <h3 class="card-category" style="font-size:14px">임베딩 방식 분포도(테스트)</h3>
+                                        <div class="col5_2" id="area8"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row6" style="background-color:">
+                                <div class="col-container">
+                                    <div class="col">
+                                        <h3 class="card-category" style="font-size:14px">분류 모델 예측 분포도(테스트)</h3>
+                                        <div class="col6_2" id="area10"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row7" style="background-color:">
+                                <div class="col-container">
                                     <div class="col">
                                         <h3 class="card-category" style="font-size:14px">예측 결과 분포도(테스트)</h3>
                                         <div class="col7_2" id="area12"></div>
@@ -261,7 +274,7 @@
 
             // Add X axis
             var x = d3.scaleLinear()
-                .domain([domain_range_x[0], domain_range_x[1]])
+                .domain([-1, domain_range_x[1]])
                 .range([0, width])
                 .nice()
 
@@ -271,7 +284,7 @@
 
             // Add Y axis
             var y = d3.scaleLinear()
-                .domain([domain_range_y[0], domain_range_y[1]])
+                .domain([-1, domain_range_y[1]])
                 .range([height, 0])
                 .nice()
 
@@ -376,7 +389,7 @@
 
             // Add X axis
             var x = d3.scaleLinear()
-                .domain([domain_range_x[0], domain_range_x[1]])
+                .domain([-1, domain_range_x[1]])
                 .range([0, width2])
                 .nice()
 
@@ -386,7 +399,7 @@
 
             // Add Y axis
             var y = d3.scaleLinear()
-                .domain([domain_range_y[0], domain_range_y[1]])
+                .domain([-1, domain_range_y[1]])
                 .range([height2, 0])
                 .nice()
 
@@ -921,8 +934,8 @@
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // 임베딩 데이터 시각화(훈련)
         var margin7 = {top: 10, right: 30, bottom: 40, left: 50},
-            width7 = 550 - margin7.left - margin7.right,
-            height7 = 550 - margin7.top - margin7.bottom;
+            width7 = 800 - margin7.left - margin7.right,
+            height7 = 800 - margin7.top - margin7.bottom;
 
         // append the SVg object to the body of the page
         var SVG7 = d3.select("#area7")
@@ -955,25 +968,24 @@
         //Read the data
         d3.csv("http://127.0.0.1:8080/embedding_and_machinelearning_visualization_train", function(data) {
 
-            domain_range_x.push(d3.min(data, function(d) { return d.r0 }) - 1);
-            domain_range_x.push(d3.max(data, function(d) { return d.r0 }) + 1);
-            domain_range_y.push(d3.min(data, function(d) { return d.r1 }) - 1);
-            domain_range_y.push(d3.max(data, function(d) { return d.r1 }) + 1);
+            domain_range_x.push(d3.min(data, function(d) { return d.r0 }));
+            domain_range_x.push(d3.max(data, function(d) { return d.r0 }));
+            domain_range_y.push(d3.min(data, function(d) { return d.r1 }));
+            domain_range_y.push(d3.max(data, function(d) { return d.r1 }));
 
             var min = 0;
             var max = data.length;
 
-            for(var i = 0; i < 500; i++) {
+            for(var i = 0; i < 2000; i++) {
                 var rand_index = Math.floor(Math.random() * (max - min)) + min;
                 newData.push(data[rand_index]);
             }
 
-            console.log("임베딩 훈련 데이터");
-            console.log(newData);
+            console.log(newData)
 
             // Add X axis
             var x = d3.scaleLinear()
-                .domain([domain_range_x[0], domain_range_x[1]])
+                .domain([-1, parseFloat(domain_range_x[1]) + 1])
                 .range([0, width7])
                 .nice()
 
@@ -983,7 +995,7 @@
 
             // Add Y axis
             var y = d3.scaleLinear()
-                .domain([domain_range_y[0], domain_range_y[1]])
+                .domain([-1, parseFloat(domain_range_y[1]) + 1])
                 .range([height7, 0])
                 .nice()
 
@@ -1032,7 +1044,7 @@
                 .append("circle")
                 .attr("cx", function (d) { return x(d.r0); } )
                 .attr("cy", function (d) { return y(d.r1); } )
-                .attr("r", 3)
+                .attr("r", 4)
                 .attr("data-legend",function(d) { return d.target})
                 .style("fill", function (d) { return color(d.target) } )
                 {#.style("stroke", "black")#}
@@ -1047,7 +1059,7 @@
                 .append("circle")
                     .attr("cx", -margin7.left + 70)
                     .attr("cy", function(d, i) { return 15 + i * 25 })
-                    .attr("r", 3)
+                    .attr("r", 4)
                     .style("fill", function(d) { return color(d) })
                     {#.attr("stroke", "black")#}
                     {#.style("stroke-width", 1)#}
@@ -1071,8 +1083,8 @@
         // 임베딩 데이터 시각화(테스트)
 
         var margin8 = {top: 10, right: 30, bottom: 40, left: 50},
-            width8 = 550 - margin8.left - margin8.right,
-            height8 = 550 - margin8.top - margin8.bottom;
+            width8 = 800 - margin8.left - margin8.right,
+            height8 = 800 - margin8.top - margin8.bottom;
 
         // append the SVg object to the body of the page
         var SVG8 = d3.select("#area8")
@@ -1099,12 +1111,9 @@
         //Read the data
         d3.csv("http://127.0.0.1:8080/embedding_and_machinelearning_visualization_test", function(data) {
 
-            console.log("임베딩 테스트 데이터");
-            console.log(newData);
-
             // Add X axis
             var x = d3.scaleLinear()
-                .domain([domain_range_x[0], domain_range_x[1]])
+                .domain([-1, parseFloat(domain_range_x[1]) + 1])
                 .range([0, width8])
                 .nice()
 
@@ -1114,7 +1123,7 @@
 
             // Add Y axis
             var y = d3.scaleLinear()
-                .domain([domain_range_y[0], domain_range_y[1]])
+                .domain([-1, parseFloat(domain_range_y[1]) + 1])
                 .range([height8, 0])
                 .nice()
 
@@ -1158,12 +1167,12 @@
             // Add dots
             SVG8.append('g')
                 .selectAll("dot")
-                .data(newData)
+                .data(data)
                 .enter()
                 .append("circle")
                 .attr("cx", function (d) { return x(d.r0); } )
                 .attr("cy", function (d) { return y(d.r1); } )
-                .attr("r", 3)
+                .attr("r", 4)
                 .attr("data-legend",function(d) { return d.target})
                 .style("fill", function (d) { return color(d.target) } )
                 {#.style("stroke", "black")#}
@@ -1178,7 +1187,7 @@
                 .append("circle")
                     .attr("cx", -margin8.left + 70)
                     .attr("cy", function(d, i) { return 15 + i * 25 })
-                    .attr("r", 3)
+                    .attr("r", 4)
                     .style("fill", function(d) { return color(d) })
                     {#.attr("stroke", "black")#}
                     {#.style("stroke-width", 1)#}
@@ -1206,8 +1215,8 @@
         // 분류 모델 예측 분포도(훈련)
 
         var margin9 = {top: 10, right: 30, bottom: 40, left: 50},
-            width9 = 550 - margin9.left - margin9.right,
-            height9 = 550 - margin9.top - margin9.bottom;
+            width9 = 800 - margin9.left - margin9.right,
+            height9 = 800 - margin9.top - margin9.bottom;
 
         // append the SVg object to the body of the page
         var SVG9 = d3.select("#area9")
@@ -1234,12 +1243,9 @@
         //Read the data
         d3.csv("http://127.0.0.1:8080/embedding_and_machinelearning_visualization_train", function(data) {
 
-            console.log("분류 모델 훈련 데이터");
-            console.log(newData);
-
             // Add X axis
             var x = d3.scaleLinear()
-                .domain([domain_range_x[0], domain_range_x[1]])
+                .domain([-1, parseFloat(domain_range_x[1]) + 1])
                 .range([0, width9])
                 .nice()
 
@@ -1249,7 +1255,7 @@
 
             // Add Y axis
             var y = d3.scaleLinear()
-                .domain([domain_range_y[0], domain_range_y[1]])
+                .domain([-1, parseFloat(domain_range_y[1]) + 1])
                 .range([height9, 0])
                 .nice()
 
@@ -1293,12 +1299,12 @@
             // Add dots
             SVG9.append('g')
                 .selectAll("dot")
-                .data(newData)
+                .data(data)
                 .enter()
                 .append("circle")
                 .attr("cx", function (d) { return x(d.r0); } )
                 .attr("cy", function (d) { return y(d.r1); } )
-                .attr("r", 3)
+                .attr("r", 4)
                 .attr("data-legend",function(d) { return d.pred})
                 .style("fill", function (d) { return color(d.pred) } )
                 {#.style("stroke", "black")#}
@@ -1313,7 +1319,7 @@
                 .append("circle")
                     .attr("cx", -margin9.left + 70)
                     .attr("cy", function(d, i) { return 15 + i * 25 })
-                    .attr("r", 3)
+                    .attr("r", 4)
                     .style("fill", function(d) { return color(d) })
                     {#.attr("stroke", "black")#}
                     {#.style("stroke-width", 1)#}
@@ -1336,8 +1342,8 @@
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // 분류 모델 예측 분포도(테스트)
         var margin10 = {top: 10, right: 30, bottom: 40, left: 50},
-            width10 = 550 - margin10.left - margin10.right,
-            height10 = 550 - margin10.top - margin10.bottom;
+            width10 = 800 - margin10.left - margin10.right,
+            height10 = 800 - margin10.top - margin10.bottom;
 
         // append the SVg object to the body of the page
         var SVG10 = d3.select("#area10")
@@ -1364,12 +1370,9 @@
         //Read the data
         d3.csv("http://127.0.0.1:8080/embedding_and_machinelearning_visualization_test", function(data) {
 
-            console.log("분류 모델 테스트 데이터");
-            console.log(newData);
-
             // Add X axis
             var x = d3.scaleLinear()
-                .domain([domain_range_x[0], domain_range_x[1]])
+                .domain([-1, parseFloat(domain_range_x[1]) + 1])
                 .range([0, width10])
                 .nice()
 
@@ -1379,7 +1382,7 @@
 
             // Add Y axis
             var y = d3.scaleLinear()
-                .domain([domain_range_y[0], domain_range_y[1]])
+                .domain([-1, parseFloat(domain_range_y[1]) + 1])
                 .range([height10, 0])
                 .nice()
 
@@ -1423,12 +1426,12 @@
             // Add dots
             SVG10.append('g')
                 .selectAll("dot")
-                .data(newData)
+                .data(data)
                 .enter()
                 .append("circle")
                 .attr("cx", function (d) { return x(d.r0); } )
                 .attr("cy", function (d) { return y(d.r1); } )
-                .attr("r", 3)
+                .attr("r", 4)
                 .attr("data-legend",function(d) { return d.pred})
                 .style("fill", function (d) { return color(d.pred) } )
                 {#.style("stroke", "black")#}
@@ -1443,7 +1446,7 @@
                 .append("circle")
                     .attr("cx", -margin10.left + 70)
                     .attr("cy", function(d, i) { return 15 + i * 25 })
-                    .attr("r", 3)
+                    .attr("r", 4)
                     .style("fill", function(d) { return color(d) })
                     {#.attr("stroke", "black")#}
                     {#.style("stroke-width", 1)#}
@@ -1470,8 +1473,8 @@
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // 예측 결과(훈련)
         var margin11 = {top: 10, right: 30, bottom: 40, left: 50},
-            width11 = 550 - margin11.left - margin11.right,
-            height11 = 550 - margin11.top - margin11.bottom;
+            width11 = 800 - margin11.left - margin11.right,
+            height11 = 800 - margin11.top - margin11.bottom;
 
         // append the SVg object to the body of the page
         var SVG11 = d3.select("#area11")
@@ -1498,12 +1501,9 @@
         //Read the data
         d3.csv("http://127.0.0.1:8080/embedding_and_machinelearning_visualization_train", function(data) {
 
-            console.log("예측 훈련 데이터");
-            console.log(newData);
-
             // Add X axis
             var x = d3.scaleLinear()
-                .domain([domain_range_x[0], domain_range_x[1]])
+                .domain([-1, parseFloat(domain_range_x[1]) + 1])
                 .range([0, width11])
                 .nice()
 
@@ -1513,7 +1513,7 @@
 
             // Add Y axis
             var y = d3.scaleLinear()
-                .domain([domain_range_y[0], domain_range_y[1]])
+                .domain([-1, parseFloat(domain_range_y[1]) + 1])
                 .range([height11, 0])
                 .nice()
 
@@ -1558,12 +1558,12 @@
             // Add dots
             SVG11.append('g')
                 .selectAll("dot")
-                .data(newData)
+                .data(data)
                 .enter()
                 .append("circle")
                 .attr("cx", function (d) { return x(d.r0); } )
                 .attr("cy", function (d) { return y(d.r1); } )
-                .attr("r", 3)
+                .attr("r", 4)
                 .attr("data-legend",function(d) { return d.success})
                 .style("fill", function (d) { return color(d.success) } )
                 {#.style("stroke", "black")#}
@@ -1578,7 +1578,7 @@
                 .append("circle")
                     .attr("cx", -margin11.left + 70)
                     .attr("cy", function(d, i) { return 15 + i * 25 })
-                    .attr("r", 3)
+                    .attr("r", 4)
                     .style("fill", function(d) { return color(d) })
                     {#.attr("stroke", "black")#}
                     {#.style("stroke-width", 1)#}
@@ -1601,8 +1601,8 @@
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // 예측 결과(테스트)
         var margin12 = {top: 10, right: 30, bottom: 40, left: 50},
-            width12 = 550 - margin12.left - margin12.right,
-            height12 = 550 - margin12.top - margin12.bottom;
+            width12 = 800 - margin12.left - margin12.right,
+            height12 = 800 - margin12.top - margin12.bottom;
 
         // append the SVg object to the body of the page
         var SVG12 = d3.select("#area12")
@@ -1629,12 +1629,9 @@
         //Read the data
         d3.csv("http://127.0.0.1:8080/embedding_and_machinelearning_visualization_test", function(data) {
 
-            console.log("예측 테스트 데이터");
-            console.log(newData);
-
             // Add X axis
             var x = d3.scaleLinear()
-                .domain([domain_range_x[0], domain_range_x[1]])
+                .domain([-1, parseFloat(domain_range_x[1]) + 1])
                 .range([0, width12])
                 .nice()
 
@@ -1644,7 +1641,7 @@
 
             // Add Y axis
             var y = d3.scaleLinear()
-                .domain([domain_range_y[0], domain_range_y[1]])
+                .domain([-1, parseFloat(domain_range_y[1]) + 1])
                 .range([height12, 0])
                 .nice()
 
@@ -1689,12 +1686,12 @@
             // Add dots
             SVG12.append('g')
                 .selectAll("dot")
-                .data(newData)
+                .data(data)
                 .enter()
                 .append("circle")
                 .attr("cx", function (d) { return x(d.r0); } )
                 .attr("cy", function (d) { return y(d.r1); } )
-                .attr("r", 3)
+                .attr("r", 4)
                 .attr("data-legend",function(d) { return d.success})
                 .style("fill", function (d) { return color(d.success) } )
                 {#.style("stroke", "black")#}
@@ -1709,7 +1706,7 @@
                 .append("circle")
                     .attr("cx", -margin12.left + 70)
                     .attr("cy", function(d, i) { return 15 + i * 25 })
-                    .attr("r", 3)
+                    .attr("r", 4)
                     .style("fill", function(d) { return color(d) })
                     {#.attr("stroke", "black")#}
                     {#.style("stroke-width", 1)#}
