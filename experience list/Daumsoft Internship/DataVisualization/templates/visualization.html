@@ -196,7 +196,7 @@
                                 </div>
                             </div>
 
-                            <div class="row5" align="center" style="background-color:">
+                            <div class="row5" align="center" style="background-color:white">
                                 <div class="col-container">
                                     <div class="col">
                                         <h3 class="card-category" style="font-size:18px">임베딩 방식 분포도(테스트)</h3>
@@ -206,7 +206,7 @@
                             </div>
 
 
-                            <div class="row6" align="center" style="background-color:">
+                            <div class="row6" align="center" style="background-color:white">
                                 <div class="col-container">
                                     <div class="col">
                                         <h3 class="card-category" style="font-size:18px">분류 모델 예측 분포도(테스트)</h3>
@@ -215,7 +215,7 @@
                                 </div>
                             </div>
 
-                            <div class="row7" align="center" style="background-color:">
+                            <div class="row7" align="center" style="background-color:white">
                                 <div class="col-container">
                                     <div class="col">
                                         <h3 class="card-category" style="font-size:18px">예측 결과 분포도(테스트)</h3>
@@ -942,15 +942,12 @@
 
 
     <script class="d">
-
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // 임베딩 데이터 시각화(훈련)
+        // set the dimensions and margins of the graph
         var margin7 = {top: 10, right: 30, bottom: 40, left: 50},
             width7 = 800 - margin7.left - margin7.right,
             height7 = 800 - margin7.top - margin7.bottom;
 
-        // append the SVg object to the body of the page
-        var SVG7 = d3.select("#area7")
+        SVG7 = d3.select("#area7")
             .style("background-color", "none")
             .append("svg")
             .attr("width", width7 + margin7.left + margin7.right)
@@ -971,10 +968,6 @@
             .style("stroke-width", 2)
             .style("opacity", 0.6)
 
-
-        var domain_range_x = new Array;
-        var domain_range_y = new Array;
-
         var newData = new Array;
 
         //Read the data
@@ -985,34 +978,25 @@
             domain_range_y.push(d3.min(data, function(d) { return d.r1 }));
             domain_range_y.push(d3.max(data, function(d) { return d.r1 }));
 
-            var min = 0;
-            var max = data.length;
-
-            for(var i = 0; i < 2000; i++) {
-                var rand_index = Math.floor(Math.random() * (max - min)) + min;
-                newData.push(data[rand_index]);
-            }
-
-            console.log(newData)
+            console.log('훈련');
+            console.log(newData);
 
             // Add X axis
             var x = d3.scaleLinear()
                 .domain([-1, parseFloat(domain_range_x[1]) + 1])
-                .range([0, width7])
-                .nice()
+                .range([0, width7]);
 
-            SVG7.append("g")
+            var xAxis = SVG7.append("g")
                 .attr("transform", "translate(0," + height7 + ")")
-                .call(d3.axisBottom(x))
+                .call(d3.axisBottom(x));
 
             // Add Y axis
             var y = d3.scaleLinear()
                 .domain([parseFloat(domain_range_y[0]), parseFloat(domain_range_y[1]) + 1])
-                .range([height7, 0])
-                .nice()
+                .range([height7, 0]);
 
             SVG7.append("g")
-                .call(d3.axisLeft(y))
+                .call(d3.axisLeft(y));
 
             // Add X axis label:
             SVG7.append("text")
@@ -1037,6 +1021,16 @@
             SVG7.selectAll(".tick line").attr("stroke", "black").style("stroke-width", 1)
             SVG7.selectAll(".tick text").attr("stroke", "black").style("stroke-width", 1).style("font-size", 13)
 
+            // Add a clipPath: everything out of this area won't be drawn.
+            var clip = SVG7.append("defs")
+                .append("svg:clipPath")
+                .attr("id", "clip")
+                .append("svg:rect")
+                .attr("width", width7)
+                .attr("height", height7)
+                .attr("x", 0)
+                .attr("y", 0);
+
             var target_names = new Set();
 
             for (var i = 0; i < data.length; i++) {
@@ -1048,19 +1042,59 @@
                 .domain(target_names)
                 .range(d3.schemeSet1)
 
-            // Add dots
-            SVG7.append('g')
-                .selectAll("dot")
-                .data(data)
+
+            // Add brushing
+            var brush = d3.brushX()                 // Add the brush feature using the d3.brush function
+                .extent( [[0, 0], [width7, height7]] ) // initialise the brush area: start at 0,0 and finishes at width,height: it means I select the whole graph area
+                .on("end", updateChart) // Each time the brush selection changes, trigger the 'updateChart' function
+
+            // Create the scatter variable: where both the circles and the brush take place
+            var scatter = SVG7.append('g')
+                .attr("clip-path", "url(#clip)")
+
+            // Add circles
+            scatter
+                .selectAll("circle")
+                .data(newData)
                 .enter()
                 .append("circle")
                 .attr("cx", function (d) { return x(d.r0); } )
                 .attr("cy", function (d) { return y(d.r1); } )
-                .attr("r", 5)
-                .attr("data-legend",function(d) { return d.target})
+                .attr("r", 7)
                 .style("fill", function (d) { return color(d.target) } )
-                {#.style("stroke", "black")#}
-                {#.style("stroke-width", 1)#}
+
+            // Add the brushing
+            scatter
+                .append("g")
+                .attr("class", "brush")
+                .call(brush);
+
+            // A function that set idleTimeOut to null
+            var idleTimeout
+            function idled() { idleTimeout = null; }
+
+            // A function that update the chart for given boundaries
+            function updateChart() {
+
+                extent = d3.event.selection
+
+                // If no selection, back to initial coordinate. Otherwise, update X axis domain
+                if(!extent){
+                if (!idleTimeout) return idleTimeout = setTimeout(idled, 350); // This allows to wait a little bit
+                    x.domain([-1, parseFloat(domain_range_x[1]) + 1])
+                } else {
+                    x.domain([x.invert(extent[0]), x.invert(extent[1])])
+                    scatter.select(".brush").call(brush.move, null) // This remove the grey brush area as soon as the selection has been done
+                }
+
+                // Update axis and circle position
+                xAxis.transition().duration(1000).call(d3.axisBottom(x))
+                scatter
+                    .selectAll("circle")
+                    .transition().duration(1000)
+                    .attr("cx", function (d) { return x(d.r0); } )
+                    .attr("cy", function (d) { return y(d.r1); } )
+            }
 
             var keys = Array.from(target_names)
 
@@ -1071,10 +1105,8 @@
                 .append("circle")
                     .attr("cx", -margin7.left + 70)
                     .attr("cy", function(d, i) { return 15 + i * 25 })
-                    .attr("r", 5)
+                    .attr("r", 7)
                     .style("fill", function(d) { return color(d) })
-                    {#.attr("stroke", "black")#}
-                    {#.style("stroke-width", 1)#}
 
             SVG7.append("g")
                 .selectAll("labels")
@@ -1086,10 +1118,158 @@
                     .style("fill", function(d) { return color(d) })
                     .text(function(d) { return d })
                     .attr("text-anchor", "left")
-                    {#.attr("stroke", "black")#}
-                    {#.style("stroke-width", 1)#}
                     .style("alignment-baseline", "middle")
+
         })
+
+        {#////////////////////////////////////////////////////////////////////////////////////////////////////////////////#}
+        {#// 임베딩 데이터 시각화(훈련)#}
+        {#var margin7 = {top: 10, right: 30, bottom: 40, left: 50},#}
+        {#    width7 = 800 - margin7.left - margin7.right,#}
+        {#    height7 = 800 - margin7.top - margin7.bottom;#}
+        {##}
+        {#// append the SVg object to the body of the page#}
+        {#var SVG7 = d3.select("#area7")#}
+        {#    .style("background-color", "none")#}
+        {#    .append("svg")#}
+        {#    .attr("width", width7 + margin7.left + margin7.right)#}
+        {#    .attr("height", height7+ margin7.top + margin7.bottom)#}
+        {#    .append("g")#}
+        {#    .attr("transform",#}
+        {#    "translate(" + margin7.left + "," + margin7.top + ")")#}
+        {##}
+        {#// Add the black box around the chart#}
+        {#SVG7#}
+        {#    .append("rect")#}
+        {#    .attr("x",0)#}
+        {#    .attr("y",0)#}
+        {#    .attr("height", height7)#}
+        {#    .attr("width", width7)#}
+        {#    .style("fill", "none")#}
+        {#    .style("stroke", "black")#}
+        {#    .style("stroke-width", 2)#}
+        {#    .style("opacity", 0.6)#}
+        {##}
+        {##}
+        {#var domain_range_x = new Array;#}
+        {#var domain_range_y = new Array;#}
+        {##}
+        {#var newData = new Array;#}
+        {##}
+        {#//Read the data#}
+        {#d3.csv("http://127.0.0.1:8080/embedding_and_machinelearning_visualization_train", function(data) {#}
+        {##}
+        {#    domain_range_x.push(d3.min(data, function(d) { return d.r0 }));#}
+        {#    domain_range_x.push(d3.max(data, function(d) { return d.r0 }));#}
+        {#    domain_range_y.push(d3.min(data, function(d) { return d.r1 }));#}
+        {#    domain_range_y.push(d3.max(data, function(d) { return d.r1 }));#}
+        {##}
+        {#    var min = 0;#}
+        {#    var max = data.length;#}
+        {##}
+        {#    for(var i = 0; i < 2000; i++) {#}
+        {#        var rand_index = Math.floor(Math.random() * (max - min)) + min;#}
+        {#        newData.push(data[rand_index]);#}
+        {#    }#}
+        {##}
+        {#    console.log(newData)#}
+        {##}
+        {#    // Add X axis#}
+        {#    var x = d3.scaleLinear()#}
+        {#        .domain([-1, parseFloat(domain_range_x[1]) + 1])#}
+        {#        .range([0, width7])#}
+        {#        .nice()#}
+        {##}
+        {#    SVG7.append("g")#}
+        {#        .attr("transform", "translate(0," + height7 + ")")#}
+        {#        .call(d3.axisBottom(x))#}
+        {##}
+        {#    // Add Y axis#}
+        {#    var y = d3.scaleLinear()#}
+        {#        .domain([parseFloat(domain_range_y[0]), parseFloat(domain_range_y[1]) + 1])#}
+        {#        .range([height7, 0])#}
+        {#        .nice()#}
+        {##}
+        {#    SVG7.append("g")#}
+        {#        .call(d3.axisLeft(y))#}
+        {##}
+        {#    // Add X axis label:#}
+        {#    SVG7.append("text")#}
+        {#        .attr("text-anchor", "end")#}
+        {#        .attr("x", width7)#}
+        {#        .attr("y", height7 + margin7.top + 30)#}
+        {#        .text("dimension 0")#}
+        {#        .style("font-size", "15px")#}
+        {#        .style("fill", "black")#}
+        {##}
+        {#    // Y axis label:#}
+        {#    SVG7.append("text")#}
+        {#        .attr("text-anchor", "end")#}
+        {#        .attr("transform", "rotate(-90)")#}
+        {#        .attr("y", -margin7.left+10)#}
+        {#        .attr("x", -margin7.top)#}
+        {#        .text("dimension 1")#}
+        {#        .style("font-size", "15px")#}
+        {#        .style("fill", "black")#}
+        {##}
+        {#    // Customization#}
+        {#    SVG7.selectAll(".tick line").attr("stroke", "black").style("stroke-width", 1)#}
+        {#    SVG7.selectAll(".tick text").attr("stroke", "black").style("stroke-width", 1).style("font-size", 13)#}
+        {##}
+        {#    var target_names = new Set();#}
+        {##}
+        {#    for (var i = 0; i < data.length; i++) {#}
+        {#        target_names.add(data[i]['target'])#}
+        {#    }#}
+        {#    target_names = Array.from(target_names).sort();#}
+        {##}
+        {#    var color = d3.scaleOrdinal()#}
+        {#        .domain(target_names)#}
+        {#        .range(d3.schemeSet1)#}
+        {##}
+        {##}
+        {#    // Add dots#}
+        {#    SVG7.append('g')#}
+        {#        .selectAll("dot")#}
+        {#        .data(data)#}
+        {#        .enter()#}
+        {#        .append("circle")#}
+        {#        .attr("cx", function (d) { return x(d.r0); } )#}
+        {#        .attr("cy", function (d) { return y(d.r1); } )#}
+        {#        .attr("r", 5)#}
+        {#        .attr("data-legend",function(d) { return d.target})#}
+        {#        .style("fill", function (d) { return color(d.target) } )#}
+        {#        .style("stroke", "black")#}
+        {#        .style("stroke-width", 1)#}
+        {##}
+        {#    var keys = Array.from(target_names)#}
+        {##}
+        {#    SVG7.append("g")#}
+        {#        .selectAll("legend")#}
+        {#        .data(keys)#}
+        {#        .enter()#}
+        {#        .append("circle")#}
+        {#            .attr("cx", -margin7.left + 70)#}
+        {#            .attr("cy", function(d, i) { return 15 + i * 25 })#}
+        {#            .attr("r", 5)#}
+        {#            .style("fill", function(d) { return color(d) })#}
+        {#            .attr("stroke", "black")#}
+        {#            .style("stroke-width", 1)#}
+        {##}
+        {#    SVG7.append("g")#}
+        {#        .selectAll("labels")#}
+        {#        .data(keys)#}
+        {#        .enter()#}
+        {#        .append("text")#}
+        {#            .attr("x", -margin7.left + 80)#}
+        {#            .attr("y", function(d, i) { return 15 + i * 25 })#}
+        {#            .style("fill", function(d) { return color(d) })#}
+        {#            .text(function(d) { return d })#}
+        {#            .attr("text-anchor", "left")#}
+        {#            .attr("stroke", "black")#}
+        {#            .style("stroke-width", 1)#}
+        {#            .style("alignment-baseline", "middle")#}
+        {#})#}
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // 임베딩 데이터 시각화(테스트)
@@ -1122,6 +1302,17 @@
 
         //Read the data
         d3.csv("http://127.0.0.1:8080/embedding_and_machinelearning_visualization_test", function(data) {
+
+            var min = 0;
+            var max = data.length;
+
+            for(var i = 0; i < 2000; i++) {
+                var rand_index = Math.floor(Math.random() * (max - min)) + min;
+                newData.push(data[rand_index]);
+            }
+
+            console.log('테스트');
+            console.log(newData);
 
             // Add X axis
             var x = d3.scaleLinear()
@@ -1176,19 +1367,52 @@
                 .domain(target_names)
                 .range(d3.schemeSet1)
 
+
+
+
+            ////////////////////////////////////////////////////////////////
+            // Highlight the specie that is hovered
+            var highlight = function(d) {
+
+                selected_target = d.target
+
+                d3.selectAll(".dot")
+                    .transition()
+                    .duration(200)
+                    .style("fill", "lightgrey")
+                    .attr("r", 7)
+
+                d3.selectAll("." + selected_target)
+                    .transition()
+                    .duration(200)
+                    .style("fill", color(selected_target))
+                    .attr("r", 7)
+            }
+
+            // Highlight the specie that is hovered
+            var doNotHighlight = function(d) {
+                d3.selectAll(".dot")
+                    .transition()
+                    .duration(200)
+                    .style("fill", function (d) { return color(d.target) })
+                    .attr("r", 7)
+            }
+            /////////////////////////////////////////////////////////////////////////////////
+
             // Add dots
             SVG8.append('g')
                 .selectAll("dot")
-                .data(data)
+                .data(newData)
                 .enter()
                 .append("circle")
+                .attr("class", function (d) { return "dot " + d.target } )
                 .attr("cx", function (d) { return x(d.r0); } )
                 .attr("cy", function (d) { return y(d.r1); } )
-                .attr("r", 5)
+                .attr("r", 7)
                 .attr("data-legend",function(d) { return d.target})
-                .style("fill", function (d) { return color(d.target) } )
-                {#.style("stroke", "black")#}
-                {#.style("stroke-width", 1)#}
+                .style("fill", function (d) { return color(d.target) })
+                .on("click", highlight)
+                .on("dblclick", doNotHighlight)
 
             var keys = Array.from(target_names)
 
@@ -1199,10 +1423,9 @@
                 .append("circle")
                     .attr("cx", -margin8.left + 70)
                     .attr("cy", function(d, i) { return 15 + i * 25 })
-                    .attr("r", 5)
+                    .attr("r", 7)
                     .style("fill", function(d) { return color(d) })
-                    {#.attr("stroke", "black")#}
-                    {#.style("stroke-width", 1)#}
+
 
             SVG8.append("g")
                 .selectAll("labels")
@@ -1311,12 +1534,12 @@
             // Add dots
             SVG9.append('g')
                 .selectAll("dot")
-                .data(data)
+                .data(newData)
                 .enter()
                 .append("circle")
                 .attr("cx", function (d) { return x(d.r0); } )
                 .attr("cy", function (d) { return y(d.r1); } )
-                .attr("r", 5)
+                .attr("r", 7)
                 .attr("data-legend",function(d) { return d.pred})
                 .style("fill", function (d) { return color(d.pred) } )
                 {#.style("stroke", "black")#}
@@ -1331,7 +1554,7 @@
                 .append("circle")
                     .attr("cx", -margin9.left + 70)
                     .attr("cy", function(d, i) { return 15 + i * 25 })
-                    .attr("r", 5)
+                    .attr("r", 7)
                     .style("fill", function(d) { return color(d) })
                     {#.attr("stroke", "black")#}
                     {#.style("stroke-width", 1)#}
@@ -1438,12 +1661,12 @@
             // Add dots
             SVG10.append('g')
                 .selectAll("dot")
-                .data(data)
+                .data(newData)
                 .enter()
                 .append("circle")
                 .attr("cx", function (d) { return x(d.r0); } )
                 .attr("cy", function (d) { return y(d.r1); } )
-                .attr("r", 5)
+                .attr("r", 7)
                 .attr("data-legend",function(d) { return d.pred})
                 .style("fill", function (d) { return color(d.pred) } )
                 {#.style("stroke", "black")#}
@@ -1458,7 +1681,7 @@
                 .append("circle")
                     .attr("cx", -margin10.left + 70)
                     .attr("cy", function(d, i) { return 15 + i * 25 })
-                    .attr("r", 5)
+                    .attr("r", 7)
                     .style("fill", function(d) { return color(d) })
                     {#.attr("stroke", "black")#}
                     {#.style("stroke-width", 1)#}
@@ -1570,18 +1793,18 @@
             // Add dots
             SVG11.append('g')
                 .selectAll("dot")
-                .data(data)
+                .data(newData)
                 .enter()
                 .append("circle")
                 .attr("cx", function (d) { return x(d.r0); } )
                 .attr("cy", function (d) { return y(d.r1); } )
-                .attr("r", 5)
+                .attr("r", 7)
                 .attr("data-legend",function(d) { return d.success})
                 .style("fill", function (d) { return color(d.success) } )
                 {#.style("stroke", "black")#}
                 {#.style("stroke-width", 1)#}
 
-            var keys = Array.from(target_names)
+            var keys = ["실패", "성공"]
 
             SVG11.append("g")
                 .selectAll("legend")
@@ -1590,7 +1813,7 @@
                 .append("circle")
                     .attr("cx", -margin11.left + 70)
                     .attr("cy", function(d, i) { return 15 + i * 25 })
-                    .attr("r", 5)
+                    .attr("r", 7)
                     .style("fill", function(d) { return color(d) })
                     {#.attr("stroke", "black")#}
                     {#.style("stroke-width", 1)#}
@@ -1698,18 +1921,18 @@
             // Add dots
             SVG12.append('g')
                 .selectAll("dot")
-                .data(data)
+                .data(newData)
                 .enter()
                 .append("circle")
                 .attr("cx", function (d) { return x(d.r0); } )
                 .attr("cy", function (d) { return y(d.r1); } )
-                .attr("r", 5)
+                .attr("r", 7)
                 .attr("data-legend",function(d) { return d.success})
                 .style("fill", function (d) { return color(d.success) } )
                 {#.style("stroke", "black")#}
                 {#.style("stroke-width", 1)#}
 
-            var keys = Array.from(target_names)
+            var keys = ["실패", "성공"]
 
             SVG12.append("g")
                 .selectAll("legend")
@@ -1718,7 +1941,7 @@
                 .append("circle")
                     .attr("cx", -margin12.left + 70)
                     .attr("cy", function(d, i) { return 15 + i * 25 })
-                    .attr("r", 5)
+                    .attr("r", 7)
                     .style("fill", function(d) { return color(d) })
                     {#.attr("stroke", "black")#}
                     {#.style("stroke-width", 1)#}
