@@ -58,13 +58,11 @@ class myMDS(Visualization):
 
 class myTSNE(Visualization):
 
-    def __init__(self, params):
-        self.params = params
+    def __init__(self):
         self.visualization = self._build_visualization()
 
     def _build_visualization(self):
-        return TSNE(n_components=2, perplexity=self.params['perplexity'],
-                    learning_rate=self.params['learning_rate'], random_state=42)
+        return TSNE(n_components=2, random_state=42)
 
     def fit(self, X, y=None):
         return self.visualization.fit(X, y)

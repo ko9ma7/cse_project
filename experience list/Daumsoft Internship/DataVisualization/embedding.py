@@ -36,8 +36,8 @@ def embedding(method, train, test):
     for idx, names in enumerate(target_names):
         target_mapping_table[names] = idx
 
-    train['y'] = train['y'].map(target_mapping_table)
-    test['y'] = test['y'].map(target_mapping_table)
+    # train['y'] = train['y'].map(target_mapping_table)
+    # test['y'] = test['y'].map(target_mapping_table)
 
     if method == "CounterVector":
 

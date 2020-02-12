@@ -52,7 +52,36 @@ def page3():
             checked_list = checked_list[0].split(",")
             print(checked_list)
 
+            parameters = []
+            if checked_list[1] == 'Logistic':
+                checked_list[3] = checked_list[3].split(" ")
+                parameters.append([float(i) for i in checked_list[3]])
 
+                params = {
+                    "C": parameters[0],
+                    "random_state": [42],
+                }
+
+            elif checked_list[1] == 'SVM':
+                checked_list[4] = checked_list[4].split(" ")
+                parameters.append([float(i) for i in checked_list[4]])
+
+                params = {
+                    "alpha": parameters[0],
+                    "random_state": [42],
+                }
+
+            elif checked_list[1] == 'RandomForest':
+                checked_list[5] = checked_list[5].split(" ")
+                checked_list[6] = checked_list[6].split(" ")
+                parameters.append([float(i) for i in checked_list[5]])
+                parameters.append([float(i) for i in checked_list[6]])
+
+                params = {
+                    "n_estimators": parameters[0],
+                    "max_depth": parameters[1],
+                    "random_state": [42],
+                }
 
             train = pd.read_csv(UPLOAD_FOLDER + "train.csv")
             test = pd.read_csv(UPLOAD_FOLDER + "test.csv")
@@ -61,18 +90,14 @@ def page3():
             print('X_train shape: {}, y_train shape: {}'.format(X_train.shape, y_train.shape))
             print('X_test shape: {}, y_test shape: {}'.format(X_test.shape, y_test.shape))
 
+            dimension_reduction(checked_list[2], X_train, X_test, y_train, y_test)
+
             # 임베딩만 시각화할 경우
             if checked_list[1] == '':
-                dimension_reduction(checked_list[2], X_train, X_test, y_train, y_test)
                 return render_template('visualization.html', visualization="embedding_and_visualization")
 
             # 임베딩 -> 머신러닝 -> 시각화할 경우
-            if len(checked_list) == 3:
-
-                params = {
-                    "max_depth": [3],
-                    "random_state": [42],
-                }
+            else:
 
                 train_y_pred, test_y_pred = machine_learning(checked_list[1], X_train, X_test, y_train, y_test, params=params)
 
@@ -121,19 +146,18 @@ def data1_2():
 def data2_1():
     df = pd.read_csv(path + 'confusion_matrix_train.csv')
     values = df.values
+    columns = df.columns
 
     # 그래프를 그리기 위한 데이터 정렬
     new_df = pd.DataFrame(columns=['group', 'variable', 'value'])
 
     cnt = 0
     for idx in range(len(values)):
-        for jdx in range(len(values[idx])- 1, -1, -1):
-            new_df.loc[cnt, ['group']] = idx
-            new_df.loc[cnt, ['variable']] = jdx
+        for jdx in range(len(values[idx]) - 1, -1, -1):
+            new_df.loc[cnt, ['group']] = columns[idx]
+            new_df.loc[cnt, ['variable']] = columns[jdx]
             new_df.loc[cnt, ['value']] = values[jdx][idx]
             cnt += 1
-
-    new_df = new_df.astype('int')
 
     return new_df.to_csv()
 
@@ -142,6 +166,7 @@ def data2_1():
 def data2_2():
     df = pd.read_csv(path + 'confusion_matrix_test.csv')
     values = df.values
+    columns = df.columns
 
     # 그래프를 그리기 위한 데이터 정렬
     new_df = pd.DataFrame(columns=['group', 'variable', 'value'])
@@ -149,12 +174,11 @@ def data2_2():
     cnt = 0
     for idx in range(len(values)):
         for jdx in range(len(values[idx])- 1, -1, -1):
-            new_df.loc[cnt, ['group']] = idx
-            new_df.loc[cnt, ['variable']] = jdx
+            new_df.loc[cnt, ['group']] = columns[idx]
+            new_df.loc[cnt, ['variable']] = columns[jdx]
             new_df.loc[cnt, ['value']] = values[jdx][idx]
             cnt += 1
 
-    new_df = new_df.astype('int')
     return new_df.to_csv()
 
 
