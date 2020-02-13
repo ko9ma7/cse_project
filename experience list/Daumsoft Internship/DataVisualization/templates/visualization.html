@@ -33,6 +33,9 @@
         .row7 {
             height: 900px;
         }
+        .row8 {
+            height: 900px;
+        }
         .col-container {
             display: flex;
             width: 100%;
@@ -70,6 +73,12 @@
             height: 600px;
         }
         .col7_2 {
+            height: 600px;
+        }
+        .col8_1 {
+            height: 600px;
+        }
+        .col8_2 {
             height: 600px;
         }
         .legend rect {
@@ -134,6 +143,7 @@
                                     <div><h3>Train Set Embedding</h3></div>
                                     <div class="col" id="area1"></div>
                             </div>
+
                             <div class="row">
                                     <div><h3>Test Set Embedding</h3></div>
                                     <div class="col" id="area2"></div>
@@ -196,7 +206,16 @@
                                 </div>
                             </div>
 
-                            <div class="row5" align="center" style="background-color:white">
+                            <div class="row8" align="center" style="background-color:">
+                                <div class="col-container">
+                                    <div class="col">
+                                        <h3 class="card-category" style="font-size:18px">틀린 결과 분포도(훈련)</h3>
+                                        <div class="col8_1" id="area13"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row5" align="center" style="background-color:">
                                 <div class="col-container">
                                     <div class="col">
                                         <h3 class="card-category" style="font-size:18px">임베딩 방식 분포도(테스트)</h3>
@@ -205,8 +224,7 @@
                                 </div>
                             </div>
 
-
-                            <div class="row6" align="center" style="background-color:white">
+                            <div class="row6" align="center" style="background-color:">
                                 <div class="col-container">
                                     <div class="col">
                                         <h3 class="card-category" style="font-size:18px">분류 모델 예측 분포도(테스트)</h3>
@@ -215,11 +233,20 @@
                                 </div>
                             </div>
 
-                            <div class="row7" align="center" style="background-color:white">
+                            <div class="row7" align="center" style="background-color:">
                                 <div class="col-container">
                                     <div class="col">
                                         <h3 class="card-category" style="font-size:18px">예측 결과 분포도(테스트)</h3>
                                         <div class="col7_2" id="area12"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row8" align="center" style="background-color:">
+                                <div class="col-container">
+                                    <div class="col">
+                                        <h3 class="card-category" style="font-size:18px">틀린 결과 분포도(테스트)</h3>
+                                        <div class="col8_2" id="area14"></div>
                                     </div>
                                 </div>
                             </div>
@@ -257,24 +284,24 @@
             .attr("height", height)
             .attr("width", width)
             .style("fill", "none")
-            .style("stroke", "white")
+            .style("stroke", "black")
             .style("stroke-width", 2)
             .style("opacity", 0.6)
 
-        var domain_range_x = new Array;
-        var domain_range_y = new Array;
+        var f_train_domain_range_x = new Array;
+        var f_train_domain_range_y = new Array;
 
         //Read the data
         d3.csv("http://127.0.0.1:8080/embedding_and_visualization_train", function(data) {
 
-            domain_range_x.push(d3.min(data, function(d) { return d.r0 }) - 1);
-            domain_range_x.push(d3.max(data, function(d) { return d.r0 }) + 1);
-            domain_range_y.push(d3.min(data, function(d) { return d.r1 }) - 1);
-            domain_range_y.push(d3.max(data, function(d) { return d.r1 }) + 1);
+            f_train_domain_range_x.push(d3.min(data, function(d) { return d.r0 }) - 1);
+            f_train_domain_range_x.push(d3.max(data, function(d) { return d.r0 }) + 1);
+            f_train_domain_range_y.push(d3.min(data, function(d) { return d.r1 }) - 1);
+            f_train_domain_range_y.push(d3.max(data, function(d) { return d.r1 }) + 1);
 
             // Add X axis
             var x = d3.scaleLinear()
-                .domain([-1, domain_range_x[1]])
+                .domain([-1, parseFloat(f_train_domain_range_x[1]) + 1])
                 .range([0, width])
                 .nice()
 
@@ -284,7 +311,7 @@
 
             // Add Y axis
             var y = d3.scaleLinear()
-                .domain([-1, domain_range_y[1]])
+                .domain([parseFloat(f_train_domain_range_y[0]) - 1, parseFloat(f_train_domain_range_y[1]) + 1])
                 .range([height, 0])
                 .nice()
 
@@ -297,7 +324,7 @@
                 .attr("x", width)
                 .attr("y", height + margin.top + 30)
                 .text("dimension 0")
-                .style("fill", "white")
+                .style("fill", "black")
 
             // Y axis label:
             SVG.append("text")
@@ -306,11 +333,11 @@
                 .attr("y", -margin.left+10)
                 .attr("x", -margin.top)
                 .text("dimension 1")
-                .style("fill", "white")
+                .style("fill", "black")
 
             // Customization
-            SVG.selectAll(".tick line").attr("stroke", "white").style("stroke-width", 1)
-            SVG.selectAll(".tick text").attr("stroke", "white").style("stroke-width", 0.2).style("font-size", 13)
+            SVG.selectAll(".tick line").attr("stroke", "black").style("stroke-width", 1)
+            SVG.selectAll(".tick text").attr("stroke", "black").style("stroke-width", 0.2).style("font-size", 13)
 
             var target_names = new Set();
 
@@ -381,15 +408,23 @@
             .attr("height", height2)
             .attr("width", width2)
             .style("fill", "none")
-            .style("stroke", "white")
+            .style("stroke", "black")
             .style("stroke-width", 2)
             .style("opacity", 0.6)
 
+        var f_test_domain_range_x = new Array;
+        var f_test_domain_range_y = new Array;
+
         d3.csv("http://127.0.0.1:8080/embedding_and_visualization_test", function(data) {
+
+            f_test_domain_range_x.push(d3.min(data, function(d) { return d.r0 }) - 1);
+            f_test_domain_range_x.push(d3.max(data, function(d) { return d.r0 }) + 1);
+            f_test_domain_range_y.push(d3.min(data, function(d) { return d.r1 }) - 1);
+            f_test_domain_range_y.push(d3.max(data, function(d) { return d.r1 }) + 1);
 
             // Add X axis
             var x = d3.scaleLinear()
-                .domain([-1, domain_range_x[1]])
+                .domain([-1, parseFloat(f_test_domain_range_x[1]) + 1])
                 .range([0, width2])
                 .nice()
 
@@ -399,7 +434,7 @@
 
             // Add Y axis
             var y = d3.scaleLinear()
-                .domain([-1, domain_range_y[1]])
+                .domain([parseFloat(f_test_domain_range_y[0]) - 1, parseFloat(f_test_domain_range_y[1]) + 1])
                 .range([height2, 0])
                 .nice()
 
@@ -412,7 +447,7 @@
                 .attr("x", width2)
                 .attr("y", height2 + margin2.top + 30)
                 .text("dimension 0")
-                .style("fill", "white")
+                .style("fill", "black")
 
             // Y axis label:
             SVG2.append("text")
@@ -421,11 +456,11 @@
                 .attr("y", -margin2.left+10)
                 .attr("x", -margin2.top)
                 .text("dimension 1")
-                .style("fill", "white")
+                .style("fill", "black")
 
             // Customization
-            SVG2.selectAll(".tick line").attr("stroke", "white").style("stroke-width", 1)
-            SVG2.selectAll(".tick text").attr("stroke", "white").style("stroke-width", 0.2).style("font-size", 13)
+            SVG2.selectAll(".tick line").attr("stroke", "black").style("stroke-width", 1)
+            SVG2.selectAll(".tick text").attr("stroke", "black").style("stroke-width", 0.2).style("font-size", 13)
 
             var target_names = new Set();
 
@@ -475,10 +510,6 @@
                     .style("alignment-baseline", "middle")
         })
     </script>
-
-
-
-
 
     {#  임베딩 및 머신러닝 전의 훈련 데이터의 평가 지표  #}
     <script class="b">
@@ -683,10 +714,6 @@
                 .style("font-size", "13px")
         })
     </script>
-
-
-
-
 
     {#  임베딩 및 머신러닝 전의 훈련 데이터의 오차행렬  #}
     <script class="c">
@@ -936,22 +963,18 @@
         })
     </script>
 
-
-
-
-
-
+    {#  임베딩 방식 분포도(훈련)  #}
     <script class="d">
-        // set the dimensions and margins of the graph
         var margin7 = {top: 10, right: 30, bottom: 40, left: 50},
             width7 = 800 - margin7.left - margin7.right,
             height7 = 800 - margin7.top - margin7.bottom;
 
-        SVG7 = d3.select("#area7")
+        // append the SVg object to the body of the page
+        var SVG7 = d3.select("#area7")
             .style("background-color", "none")
             .append("svg")
             .attr("width", width7 + margin7.left + margin7.right)
-            .attr("height", height7+ margin7.top + margin7.bottom)
+            .attr("height", height7 + margin7.top + margin7.bottom)
             .append("g")
             .attr("transform",
             "translate(" + margin7.left + "," + margin7.top + ")")
@@ -968,35 +991,152 @@
             .style("stroke-width", 2)
             .style("opacity", 0.6)
 
-        var newData = new Array;
+        var trainSampleData = new Array;
+        var domain_train_range_x = new Array;
+        var domain_train_range_y = new Array;
 
-        //Read the data
         d3.csv("http://127.0.0.1:8080/embedding_and_machinelearning_visualization_train", function(data) {
 
-            domain_range_x.push(d3.min(data, function(d) { return d.r0 }));
-            domain_range_x.push(d3.max(data, function(d) { return d.r0 }));
-            domain_range_y.push(d3.min(data, function(d) { return d.r1 }));
-            domain_range_y.push(d3.max(data, function(d) { return d.r1 }));
+            var min = 0;
+            var max = data.length;
+
+            for(var i = 0; i < 2000; i++) {
+                var rand_index = Math.floor(Math.random() * (max - min)) + min;
+                trainSampleData.push(data[rand_index]);
+            }
+
+            domain_train_range_x.push(d3.min(data, function(d) { return d.r0 }) - 1);
+            domain_train_range_x.push(d3.max(data, function(d) { return d.r0 }) + 1);
+            domain_train_range_y.push(d3.min(data, function(d) { return d.r1 }) - 1);
+            domain_train_range_y.push(d3.max(data, function(d) { return d.r1 }) + 1);
 
             console.log('훈련');
-            console.log(newData);
+            console.log(trainSampleData);
 
             // Add X axis
             var x = d3.scaleLinear()
-                .domain([-1, parseFloat(domain_range_x[1]) + 1])
-                .range([0, width7]);
+                .domain([-1, parseFloat(domain_train_range_x[1]) + 1])
+                .range([0, width7])
+                .nice()
 
-            var xAxis = SVG7.append("g")
+            SVG7.append("g")
                 .attr("transform", "translate(0," + height7 + ")")
-                .call(d3.axisBottom(x));
+                .call(d3.axisBottom(x))
 
             // Add Y axis
             var y = d3.scaleLinear()
-                .domain([parseFloat(domain_range_y[0]), parseFloat(domain_range_y[1]) + 1])
-                .range([height7, 0]);
+                .domain([parseFloat(domain_train_range_y[0]) - 1, parseFloat(domain_train_range_y[1]) + 1])
+                .range([height7, 0])
+                .nice()
 
             SVG7.append("g")
-                .call(d3.axisLeft(y));
+                .call(d3.axisLeft(y))
+
+            // 클립: 원이 SVG 그림판 밖으로 나가지 않도록
+            var clip = SVG9.append("defs").append("svg:clipPath")
+                .attr("id", "clip")
+                .append("svg:rect")
+                .attr("width", width9)
+                .attr("height", height9)
+                .attr("x", 0)
+                .attr("y", 0);
+
+            var xAxis = d3.axisBottom(x).ticks(12),
+                yAxis = d3.axisLeft(y).ticks(12 * height7 / width7);
+
+            var brush = d3.brush().extent([[0, 0], [width7, height7]]).on("end", brushended),
+                idleTimeout,
+                idleDelay = 350;
+
+            var scatter = SVG7.append("g")
+                 .attr("id", "scatterplot")
+                 .attr("clip-path", "url(#clip)");
+
+            var target_names = new Set();
+
+            for (var i = 0; i < trainSampleData.length; i++) {
+                target_names.add(trainSampleData[i]['target'])
+            }
+            target_names = Array.from(target_names).sort();
+
+            var color = d3.scaleOrdinal()
+                .domain(target_names)
+                .range(d3.schemeSet1)
+
+            // Highlight the specie that is hovered
+            var highlight = function(d) {
+
+                selected_target = d.target
+
+                d3.selectAll(".dot")
+                    .transition()
+                    .duration(200)
+                    .style("fill", "lightgrey")
+                    .attr("r", 7)
+
+                d3.selectAll("." + selected_target)
+                    .transition()
+                    .duration(200)
+                    .style("fill", color(selected_target))
+                    .attr("r", 7)
+            }
+
+            // Highlight the specie that is hovered
+            var doNotHighlight = function(d) {
+                d3.selectAll(".dot")
+                    .transition()
+                    .duration(200)
+                    .style("fill", function (d) { return color(d.target) })
+                    .attr("r", 7)
+            }
+
+            scatter.append("g")
+                .attr("class", "brush")
+                .call(brush);
+
+            scatter.selectAll(".dot")
+                .data(trainSampleData)
+                .enter()
+                .append("circle")
+                .attr("class", function (d) { return "dot " + d.target } )
+                .attr("cx", function (d) { return x(d.r0); })
+                .attr("cy", function (d) { return y(d.r1); })
+                .attr("r", 7)
+                .attr("data-legend",function(d) { return d.target})
+                .style("fill", function (d) { return color(d.target) } )
+                .on("click", highlight)
+                .on("dblclick", doNotHighlight)
+
+            function brushended() {
+
+                var s = d3.event.selection;
+
+                if (!s) {
+                    if (!idleTimeout) return idleTimeout = setTimeout(idled, idleDelay);
+                    x.domain([-1, parseFloat(domain_train_range_x[1]) + 1]).range([0, width7]).nice()
+                    y.domain([parseFloat(domain_train_range_y[0]) - 1, parseFloat(domain_train_range_y[1]) + 1]).range([height7, 0]).nice()
+                } else {
+                    x.domain([s[0][0], s[1][0]].map(x.invert, x));
+                    y.domain([s[1][1], s[0][1]].map(y.invert, y));
+                    scatter.select(".brush").call(brush.move, null);
+                }
+                zoom();
+            }
+
+            function idled() {
+                idleTimeout = null;
+            }
+
+            function zoom() {
+                var t = scatter.transition().duration(750);
+
+                SVG7.select("#axis--x").transition(t).call(xAxis);
+                SVG7.select("#axis--y").transition(t).call(yAxis);
+
+                scatter.selectAll("circle").transition(t)
+                .attr("cx", function (d) { return x(d.r0); })
+                .attr("cy", function (d) { return y(d.r1); });
+            }
 
             // Add X axis label:
             SVG7.append("text")
@@ -1011,7 +1151,7 @@
             SVG7.append("text")
                 .attr("text-anchor", "end")
                 .attr("transform", "rotate(-90)")
-                .attr("y", -margin7.left+10)
+                .attr("y", -margin7.left + 10)
                 .attr("x", -margin7.top)
                 .text("dimension 1")
                 .style("font-size", "15px")
@@ -1020,81 +1160,6 @@
             // Customization
             SVG7.selectAll(".tick line").attr("stroke", "black").style("stroke-width", 1)
             SVG7.selectAll(".tick text").attr("stroke", "black").style("stroke-width", 1).style("font-size", 13)
-
-            // Add a clipPath: everything out of this area won't be drawn.
-            var clip = SVG7.append("defs")
-                .append("svg:clipPath")
-                .attr("id", "clip")
-                .append("svg:rect")
-                .attr("width", width7)
-                .attr("height", height7)
-                .attr("x", 0)
-                .attr("y", 0);
-
-            var target_names = new Set();
-
-            for (var i = 0; i < data.length; i++) {
-                target_names.add(data[i]['target'])
-            }
-            target_names = Array.from(target_names).sort();
-
-            var color = d3.scaleOrdinal()
-                .domain(target_names)
-                .range(d3.schemeSet1)
-
-
-            // Add brushing
-            var brush = d3.brushX()                 // Add the brush feature using the d3.brush function
-                .extent( [[0, 0], [width7, height7]] ) // initialise the brush area: start at 0,0 and finishes at width,height: it means I select the whole graph area
-                .on("end", updateChart) // Each time the brush selection changes, trigger the 'updateChart' function
-
-            // Create the scatter variable: where both the circles and the brush take place
-            var scatter = SVG7.append('g')
-                .attr("clip-path", "url(#clip)")
-
-            // Add circles
-            scatter
-                .selectAll("circle")
-                .data(newData)
-                .enter()
-                .append("circle")
-                .attr("cx", function (d) { return x(d.r0); } )
-                .attr("cy", function (d) { return y(d.r1); } )
-                .attr("r", 7)
-                .style("fill", function (d) { return color(d.target) } )
-
-            // Add the brushing
-            scatter
-                .append("g")
-                .attr("class", "brush")
-                .call(brush);
-
-            // A function that set idleTimeOut to null
-            var idleTimeout
-            function idled() { idleTimeout = null; }
-
-            // A function that update the chart for given boundaries
-            function updateChart() {
-
-                extent = d3.event.selection
-
-                // If no selection, back to initial coordinate. Otherwise, update X axis domain
-                if(!extent){
-                if (!idleTimeout) return idleTimeout = setTimeout(idled, 350); // This allows to wait a little bit
-                    x.domain([-1, parseFloat(domain_range_x[1]) + 1])
-                } else {
-                    x.domain([x.invert(extent[0]), x.invert(extent[1])])
-                    scatter.select(".brush").call(brush.move, null) // This remove the grey brush area as soon as the selection has been done
-                }
-
-                // Update axis and circle position
-                xAxis.transition().duration(1000).call(d3.axisBottom(x))
-                scatter
-                    .selectAll("circle")
-                    .transition().duration(1000)
-                    .attr("cx", function (d) { return x(d.r0); } )
-                    .attr("cy", function (d) { return y(d.r1); } )
-            }
 
             var keys = Array.from(target_names)
 
@@ -1119,161 +1184,11 @@
                     .text(function(d) { return d })
                     .attr("text-anchor", "left")
                     .style("alignment-baseline", "middle")
-
         })
+    </script>
 
-        {#////////////////////////////////////////////////////////////////////////////////////////////////////////////////#}
-        {#// 임베딩 데이터 시각화(훈련)#}
-        {#var margin7 = {top: 10, right: 30, bottom: 40, left: 50},#}
-        {#    width7 = 800 - margin7.left - margin7.right,#}
-        {#    height7 = 800 - margin7.top - margin7.bottom;#}
-        {##}
-        {#// append the SVg object to the body of the page#}
-        {#var SVG7 = d3.select("#area7")#}
-        {#    .style("background-color", "none")#}
-        {#    .append("svg")#}
-        {#    .attr("width", width7 + margin7.left + margin7.right)#}
-        {#    .attr("height", height7+ margin7.top + margin7.bottom)#}
-        {#    .append("g")#}
-        {#    .attr("transform",#}
-        {#    "translate(" + margin7.left + "," + margin7.top + ")")#}
-        {##}
-        {#// Add the black box around the chart#}
-        {#SVG7#}
-        {#    .append("rect")#}
-        {#    .attr("x",0)#}
-        {#    .attr("y",0)#}
-        {#    .attr("height", height7)#}
-        {#    .attr("width", width7)#}
-        {#    .style("fill", "none")#}
-        {#    .style("stroke", "black")#}
-        {#    .style("stroke-width", 2)#}
-        {#    .style("opacity", 0.6)#}
-        {##}
-        {##}
-        {#var domain_range_x = new Array;#}
-        {#var domain_range_y = new Array;#}
-        {##}
-        {#var newData = new Array;#}
-        {##}
-        {#//Read the data#}
-        {#d3.csv("http://127.0.0.1:8080/embedding_and_machinelearning_visualization_train", function(data) {#}
-        {##}
-        {#    domain_range_x.push(d3.min(data, function(d) { return d.r0 }));#}
-        {#    domain_range_x.push(d3.max(data, function(d) { return d.r0 }));#}
-        {#    domain_range_y.push(d3.min(data, function(d) { return d.r1 }));#}
-        {#    domain_range_y.push(d3.max(data, function(d) { return d.r1 }));#}
-        {##}
-        {#    var min = 0;#}
-        {#    var max = data.length;#}
-        {##}
-        {#    for(var i = 0; i < 2000; i++) {#}
-        {#        var rand_index = Math.floor(Math.random() * (max - min)) + min;#}
-        {#        newData.push(data[rand_index]);#}
-        {#    }#}
-        {##}
-        {#    console.log(newData)#}
-        {##}
-        {#    // Add X axis#}
-        {#    var x = d3.scaleLinear()#}
-        {#        .domain([-1, parseFloat(domain_range_x[1]) + 1])#}
-        {#        .range([0, width7])#}
-        {#        .nice()#}
-        {##}
-        {#    SVG7.append("g")#}
-        {#        .attr("transform", "translate(0," + height7 + ")")#}
-        {#        .call(d3.axisBottom(x))#}
-        {##}
-        {#    // Add Y axis#}
-        {#    var y = d3.scaleLinear()#}
-        {#        .domain([parseFloat(domain_range_y[0]), parseFloat(domain_range_y[1]) + 1])#}
-        {#        .range([height7, 0])#}
-        {#        .nice()#}
-        {##}
-        {#    SVG7.append("g")#}
-        {#        .call(d3.axisLeft(y))#}
-        {##}
-        {#    // Add X axis label:#}
-        {#    SVG7.append("text")#}
-        {#        .attr("text-anchor", "end")#}
-        {#        .attr("x", width7)#}
-        {#        .attr("y", height7 + margin7.top + 30)#}
-        {#        .text("dimension 0")#}
-        {#        .style("font-size", "15px")#}
-        {#        .style("fill", "black")#}
-        {##}
-        {#    // Y axis label:#}
-        {#    SVG7.append("text")#}
-        {#        .attr("text-anchor", "end")#}
-        {#        .attr("transform", "rotate(-90)")#}
-        {#        .attr("y", -margin7.left+10)#}
-        {#        .attr("x", -margin7.top)#}
-        {#        .text("dimension 1")#}
-        {#        .style("font-size", "15px")#}
-        {#        .style("fill", "black")#}
-        {##}
-        {#    // Customization#}
-        {#    SVG7.selectAll(".tick line").attr("stroke", "black").style("stroke-width", 1)#}
-        {#    SVG7.selectAll(".tick text").attr("stroke", "black").style("stroke-width", 1).style("font-size", 13)#}
-        {##}
-        {#    var target_names = new Set();#}
-        {##}
-        {#    for (var i = 0; i < data.length; i++) {#}
-        {#        target_names.add(data[i]['target'])#}
-        {#    }#}
-        {#    target_names = Array.from(target_names).sort();#}
-        {##}
-        {#    var color = d3.scaleOrdinal()#}
-        {#        .domain(target_names)#}
-        {#        .range(d3.schemeSet1)#}
-        {##}
-        {##}
-        {#    // Add dots#}
-        {#    SVG7.append('g')#}
-        {#        .selectAll("dot")#}
-        {#        .data(data)#}
-        {#        .enter()#}
-        {#        .append("circle")#}
-        {#        .attr("cx", function (d) { return x(d.r0); } )#}
-        {#        .attr("cy", function (d) { return y(d.r1); } )#}
-        {#        .attr("r", 5)#}
-        {#        .attr("data-legend",function(d) { return d.target})#}
-        {#        .style("fill", function (d) { return color(d.target) } )#}
-        {#        .style("stroke", "black")#}
-        {#        .style("stroke-width", 1)#}
-        {##}
-        {#    var keys = Array.from(target_names)#}
-        {##}
-        {#    SVG7.append("g")#}
-        {#        .selectAll("legend")#}
-        {#        .data(keys)#}
-        {#        .enter()#}
-        {#        .append("circle")#}
-        {#            .attr("cx", -margin7.left + 70)#}
-        {#            .attr("cy", function(d, i) { return 15 + i * 25 })#}
-        {#            .attr("r", 5)#}
-        {#            .style("fill", function(d) { return color(d) })#}
-        {#            .attr("stroke", "black")#}
-        {#            .style("stroke-width", 1)#}
-        {##}
-        {#    SVG7.append("g")#}
-        {#        .selectAll("labels")#}
-        {#        .data(keys)#}
-        {#        .enter()#}
-        {#        .append("text")#}
-        {#            .attr("x", -margin7.left + 80)#}
-        {#            .attr("y", function(d, i) { return 15 + i * 25 })#}
-        {#            .style("fill", function(d) { return color(d) })#}
-        {#            .text(function(d) { return d })#}
-        {#            .attr("text-anchor", "left")#}
-        {#            .attr("stroke", "black")#}
-        {#            .style("stroke-width", 1)#}
-        {#            .style("alignment-baseline", "middle")#}
-        {#})#}
-
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // 임베딩 데이터 시각화(테스트)
-
+    {#  임베딩 방식 분포도(테스트)  #}
+    <script class="e">
         var margin8 = {top: 10, right: 30, bottom: 40, left: 50},
             width8 = 800 - margin8.left - margin8.right,
             height8 = 800 - margin8.top - margin8.bottom;
@@ -1300,6 +1215,10 @@
             .style("stroke-width", 2)
             .style("opacity", 0.6)
 
+        var testSampleData = new Array;
+        var domain_test_range_x = new Array;
+        var domain_test_range_y = new Array;
+
         //Read the data
         d3.csv("http://127.0.0.1:8080/embedding_and_machinelearning_visualization_test", function(data) {
 
@@ -1308,15 +1227,17 @@
 
             for(var i = 0; i < 2000; i++) {
                 var rand_index = Math.floor(Math.random() * (max - min)) + min;
-                newData.push(data[rand_index]);
+                testSampleData.push(data[rand_index]);
             }
 
-            console.log('테스트');
-            console.log(newData);
+            domain_test_range_x.push(d3.min(data, function(d) { return d.r0 }) - 1);
+            domain_test_range_x.push(d3.max(data, function(d) { return d.r0 }) + 1);
+            domain_test_range_y.push(d3.min(data, function(d) { return d.r1 }) - 1);
+            domain_test_range_y.push(d3.max(data, function(d) { return d.r1 }) + 1);
 
             // Add X axis
             var x = d3.scaleLinear()
-                .domain([-1, parseFloat(domain_range_x[1]) + 1])
+                .domain([-1, parseFloat(domain_test_range_x[1]) + 1])
                 .range([0, width8])
                 .nice()
 
@@ -1326,7 +1247,7 @@
 
             // Add Y axis
             var y = d3.scaleLinear()
-                .domain([parseFloat(domain_range_y[0]), parseFloat(domain_range_y[1]) + 1])
+                .domain([parseFloat(domain_test_range_y[0]) - 1, parseFloat(domain_test_range_y[1]) + 1])
                 .range([height8, 0])
                 .nice()
 
@@ -1358,8 +1279,8 @@
 
             var target_names = new Set();
 
-            for (var i = 0; i < data.length; i++) {
-                target_names.add(data[i]['target'])
+            for (var i = 0; i < testSampleData.length; i++) {
+                target_names.add(testSampleData[i]['target'])
             }
             target_names = Array.from(target_names).sort();
 
@@ -1367,10 +1288,6 @@
                 .domain(target_names)
                 .range(d3.schemeSet1)
 
-
-
-
-            ////////////////////////////////////////////////////////////////
             // Highlight the specie that is hovered
             var highlight = function(d) {
 
@@ -1397,20 +1314,72 @@
                     .style("fill", function (d) { return color(d.target) })
                     .attr("r", 7)
             }
-            /////////////////////////////////////////////////////////////////////////////////
 
-            // Add dots
-            SVG8.append('g')
-                .selectAll("dot")
-                .data(newData)
+            // 클립: 원이 SVG 그림판 밖으로 나가지 않도록
+            var clip = SVG8.append("defs").append("svg:clipPath")
+                .attr("id", "clip")
+                .append("svg:rect")
+                .attr("width", width8)
+                .attr("height", height8)
+                .attr("x", 0)
+                .attr("y", 0);
+
+            var xAxis = d3.axisBottom(x).ticks(12),
+                yAxis = d3.axisLeft(y).ticks(12 * height8 / width8);
+
+            var brush = d3.brush().extent([[0, 0], [width8, height8]]).on("end", brushended),
+                idleTimeout,
+                idleDelay = 350;
+
+            var scatter = SVG8.append("g")
+                 .attr("id", "scatterplot")
+                 .attr("clip-path", "url(#clip)");
+
+            function brushended() {
+
+                var s = d3.event.selection;
+
+                if (!s) {
+                    if (!idleTimeout) return idleTimeout = setTimeout(idled, idleDelay);
+                    x.domain([-1, parseFloat(domain_test_range_x[1]) + 1]).range([0, width8]).nice()
+                    y.domain([parseFloat(domain_test_range_y[0]) - 1, parseFloat(domain_test_range_y[1]) + 1]).range([height8, 0]).nice()
+                } else {
+                    x.domain([s[0][0], s[1][0]].map(x.invert, x));
+                    y.domain([s[1][1], s[0][1]].map(y.invert, y));
+                    scatter.select(".brush").call(brush.move, null);
+                }
+                zoom();
+            }
+
+            function idled() {
+                idleTimeout = null;
+            }
+
+            function zoom() {
+                var t = scatter.transition().duration(750);
+
+                SVG8.select("#axis--x").transition(t).call(xAxis);
+                SVG8.select("#axis--y").transition(t).call(yAxis);
+
+                scatter.selectAll("circle").transition(t)
+                .attr("cx", function (d) { return x(d.r0); })
+                .attr("cy", function (d) { return y(d.r1); });
+            }
+
+            scatter.append("g")
+                .attr("class", "brush")
+                .call(brush);
+
+            scatter.selectAll(".dot")
+                .data(testSampleData)
                 .enter()
                 .append("circle")
                 .attr("class", function (d) { return "dot " + d.target } )
-                .attr("cx", function (d) { return x(d.r0); } )
-                .attr("cy", function (d) { return y(d.r1); } )
+                .attr("cx", function (d) { return x(d.r0); })
+                .attr("cy", function (d) { return y(d.r1); })
                 .attr("r", 7)
                 .attr("data-legend",function(d) { return d.target})
-                .style("fill", function (d) { return color(d.target) })
+                .style("fill", function (d) { return color(d.target) } )
                 .on("click", highlight)
                 .on("dblclick", doNotHighlight)
 
@@ -1426,7 +1395,6 @@
                     .attr("r", 7)
                     .style("fill", function(d) { return color(d) })
 
-
             SVG8.append("g")
                 .selectAll("labels")
                 .data(keys)
@@ -1437,18 +1405,12 @@
                     .style("fill", function(d) { return color(d) })
                     .text(function(d) { return d })
                     .attr("text-anchor", "left")
-                    {#.attr("stroke", "black")#}
-                    {#.style("stroke-width", 1)#}
                     .style("alignment-baseline", "middle")
         })
+    </script>
 
-
-
-
-
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // 분류 모델 예측 분포도(훈련)
-
+    {#  분류 모델 예측 분포도(훈련)  #}
+    <script class="f">
         var margin9 = {top: 10, right: 30, bottom: 40, left: 50},
             width9 = 800 - margin9.left - margin9.right,
             height9 = 800 - margin9.top - margin9.bottom;
@@ -1475,12 +1437,12 @@
             .style("stroke-width", 2)
             .style("opacity", 0.6)
 
-        //Read the data
+
         d3.csv("http://127.0.0.1:8080/embedding_and_machinelearning_visualization_train", function(data) {
 
             // Add X axis
             var x = d3.scaleLinear()
-                .domain([-1, parseFloat(domain_range_x[1]) + 1])
+                .domain([-1, parseFloat(domain_train_range_x[1]) + 1])
                 .range([0, width9])
                 .nice()
 
@@ -1490,12 +1452,116 @@
 
             // Add Y axis
             var y = d3.scaleLinear()
-                .domain([parseFloat(domain_range_y[0]), parseFloat(domain_range_y[1]) + 1])
+                .domain([parseFloat(domain_train_range_y[0]) - 1, parseFloat(domain_train_range_y[1]) + 1])
                 .range([height9, 0])
                 .nice()
 
             SVG9.append("g")
                 .call(d3.axisLeft(y))
+
+            // 클립: 원이 SVG 그림판 밖으로 나가지 않도록
+            var clip = SVG9.append("defs").append("svg:clipPath")
+                .attr("id", "clip")
+                .append("svg:rect")
+                .attr("width", width9)
+                .attr("height", height9)
+                .attr("x", 0)
+                .attr("y", 0);
+
+            var xAxis = d3.axisBottom(x).ticks(12),
+                yAxis = d3.axisLeft(y).ticks(12 * height9 / width9);
+
+            var brush = d3.brush().extent([[0, 0], [width9, height9]]).on("end", brushended),
+                idleTimeout,
+                idleDelay = 350;
+
+            var scatter = SVG9.append("g")
+                 .attr("id", "scatterplot")
+                 .attr("clip-path", "url(#clip)");
+
+            var target_names = new Set();
+
+            for (var i = 0; i < trainSampleData.length; i++) {
+                target_names.add(trainSampleData[i]['pred'])
+            }
+            target_names = Array.from(target_names).sort();
+
+            var color = d3.scaleOrdinal()
+                .domain(target_names)
+                .range(d3.schemeSet1)
+
+            // Highlight the specie that is hovered
+            var highlight = function(d) {
+
+                selected_pred = d.pred
+
+                d3.selectAll(".dot")
+                    .transition()
+                    .duration(200)
+                    .style("fill", "lightgrey")
+                    .attr("r", 7)
+
+                d3.selectAll("." + selected_pred)
+                    .transition()
+                    .duration(200)
+                    .style("fill", color(selected_pred))
+                    .attr("r", 7)
+            }
+
+            // Highlight the specie that is hovered
+            var doNotHighlight = function(d) {
+                d3.selectAll(".dot")
+                    .transition()
+                    .duration(200)
+                    .style("fill", function (d) { return color(d.pred) })
+                    .attr("r", 7)
+            }
+
+            scatter.append("g")
+                .attr("class", "brush")
+                .call(brush);
+
+            scatter.selectAll(".dot")
+                .data(trainSampleData)
+                .enter()
+                .append("circle")
+                .attr("class", function (d) { return "dot " + d.pred } )
+                .attr("cx", function (d) { return x(d.r0); })
+                .attr("cy", function (d) { return y(d.r1); })
+                .attr("r", 7)
+                .attr("data-legend",function(d) { return d.pred})
+                .style("fill", function (d) { return color(d.pred) } )
+                .on("click", highlight)
+                .on("dblclick", doNotHighlight)
+
+            function brushended() {
+
+                var s = d3.event.selection;
+
+                if (!s) {
+                    if (!idleTimeout) return idleTimeout = setTimeout(idled, idleDelay);
+                    x.domain([-1, parseFloat(domain_train_range_x[1]) + 1]).range([0, width7]).nice()
+                    y.domain([parseFloat(domain_train_range_y[0]) - 1, parseFloat(domain_train_range_y[1]) + 1]).range([height7, 0]).nice()
+                } else {
+                    x.domain([s[0][0], s[1][0]].map(x.invert, x));
+                    y.domain([s[1][1], s[0][1]].map(y.invert, y));
+                    scatter.select(".brush").call(brush.move, null);
+                }
+                zoom();
+            }
+
+            function idled() {
+                idleTimeout = null;
+            }
+
+            function zoom() {
+                var t = scatter.transition().duration(750);
+                SVG9.select("#axis--x").transition(t).call(xAxis);
+                SVG9.select("#axis--y").transition(t).call(yAxis);
+                scatter.selectAll("circle").transition(t)
+                .attr("cx", function (d) { return x(d.r0); })
+                .attr("cy", function (d) { return y(d.r1); });
+            }
 
             // Add X axis label:
             SVG9.append("text")
@@ -1510,7 +1576,7 @@
             SVG9.append("text")
                 .attr("text-anchor", "end")
                 .attr("transform", "rotate(-90)")
-                .attr("y", -margin9.left+10)
+                .attr("y", -margin9.left + 10)
                 .attr("x", -margin9.top)
                 .text("dimension 1")
                 .style("font-size", "15px")
@@ -1520,30 +1586,6 @@
             SVG9.selectAll(".tick line").attr("stroke", "black").style("stroke-width", 1)
             SVG9.selectAll(".tick text").attr("stroke", "black").style("stroke-width", 1).style("font-size", 13)
 
-            var target_names = new Set();
-
-            for (var i = 0; i < data.length; i++) {
-                target_names.add(data[i]['target'])
-            }
-            target_names = Array.from(target_names).sort();
-
-            var color = d3.scaleOrdinal()
-                .domain(target_names)
-                .range(d3.schemeSet1)
-
-            // Add dots
-            SVG9.append('g')
-                .selectAll("dot")
-                .data(newData)
-                .enter()
-                .append("circle")
-                .attr("cx", function (d) { return x(d.r0); } )
-                .attr("cy", function (d) { return y(d.r1); } )
-                .attr("r", 7)
-                .attr("data-legend",function(d) { return d.pred})
-                .style("fill", function (d) { return color(d.pred) } )
-                {#.style("stroke", "black")#}
-                {#.style("stroke-width", 1)#}
 
             var keys = Array.from(target_names)
 
@@ -1556,8 +1598,6 @@
                     .attr("cy", function(d, i) { return 15 + i * 25 })
                     .attr("r", 7)
                     .style("fill", function(d) { return color(d) })
-                    {#.attr("stroke", "black")#}
-                    {#.style("stroke-width", 1)#}
 
             SVG9.append("g")
                 .selectAll("labels")
@@ -1569,13 +1609,12 @@
                     .style("fill", function(d) { return color(d) })
                     .text(function(d) { return d })
                     .attr("text-anchor", "left")
-                    {#.attr("stroke", "black")#}
-                    {#.style("stroke-width", 1)#}
                     .style("alignment-baseline", "middle")
         })
+    </script>
 
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // 분류 모델 예측 분포도(테스트)
+    {#  분류 모델 예측 분포도(테스트)  #}
+    <script class="g">
         var margin10 = {top: 10, right: 30, bottom: 40, left: 50},
             width10 = 800 - margin10.left - margin10.right,
             height10 = 800 - margin10.top - margin10.bottom;
@@ -1607,7 +1646,7 @@
 
             // Add X axis
             var x = d3.scaleLinear()
-                .domain([-1, parseFloat(domain_range_x[1]) + 1])
+                .domain([-1, parseFloat(domain_test_range_x[1]) + 1])
                 .range([0, width10])
                 .nice()
 
@@ -1617,7 +1656,7 @@
 
             // Add Y axis
             var y = d3.scaleLinear()
-                .domain([parseFloat(domain_range_y[0]), parseFloat(domain_range_y[1]) + 1])
+                .domain([parseFloat(domain_test_range_y[0]) - 1, parseFloat(domain_test_range_y[1]) + 1])
                 .range([height10, 0])
                 .nice()
 
@@ -1649,8 +1688,8 @@
 
             var target_names = new Set();
 
-            for (var i = 0; i < data.length; i++) {
-                target_names.add(data[i]['target'])
+            for (var i = 0; i < testSampleData.length; i++) {
+                target_names.add(testSampleData[i]['pred'])
             }
             target_names = Array.from(target_names).sort();
 
@@ -1658,19 +1697,100 @@
                 .domain(target_names)
                 .range(d3.schemeSet1)
 
-            // Add dots
-            SVG10.append('g')
-                .selectAll("dot")
-                .data(newData)
+            // Highlight the specie that is hovered
+            var highlight = function(d) {
+
+                selected_pred = d.pred
+
+                d3.selectAll(".dot")
+                    .transition()
+                    .duration(200)
+                    .style("fill", "lightgrey")
+                    .attr("r", 7)
+
+                d3.selectAll("." + selected_pred)
+                    .transition()
+                    .duration(200)
+                    .style("fill", color(selected_pred))
+                    .attr("r", 7)
+            }
+
+            // Highlight the specie that is hovered
+            var doNotHighlight = function(d) {
+                d3.selectAll(".dot")
+                    .transition()
+                    .duration(200)
+                    .style("fill", function (d) { return color(d.pred) })
+                    .attr("r", 7)
+            }
+
+            // 클립: 원이 SVG 그림판 밖으로 나가지 않도록
+            var clip = SVG10.append("defs").append("svg:clipPath")
+                .attr("id", "clip")
+                .append("svg:rect")
+                .attr("width", width10)
+                .attr("height", height10)
+                .attr("x", 0)
+                .attr("y", 0);
+
+            var xAxis = d3.axisBottom(x).ticks(12),
+                yAxis = d3.axisLeft(y).ticks(12 * height10 / width10);
+
+            var brush = d3.brush().extent([[0, 0], [width10, height10]]).on("end", brushended),
+                idleTimeout,
+                idleDelay = 350;
+
+            var scatter = SVG10.append("g")
+                 .attr("id", "scatterplot")
+                 .attr("clip-path", "url(#clip)");
+
+            function brushended() {
+
+                var s = d3.event.selection;
+
+                if (!s) {
+                    if (!idleTimeout) return idleTimeout = setTimeout(idled, idleDelay);
+                    x.domain([-1, parseFloat(domain_test_range_x[1]) + 1]).range([0, width10]).nice()
+                    y.domain([parseFloat(domain_test_range_y[0]) - 1, parseFloat(domain_test_range_y[1]) + 1]).range([height10, 0]).nice()
+                } else {
+                    x.domain([s[0][0], s[1][0]].map(x.invert, x));
+                    y.domain([s[1][1], s[0][1]].map(y.invert, y));
+                    scatter.select(".brush").call(brush.move, null);
+                }
+                zoom();
+            }
+
+            function idled() {
+                idleTimeout = null;
+            }
+
+            function zoom() {
+                var t = scatter.transition().duration(750);
+
+                SVG10.select("#axis--x").transition(t).call(xAxis);
+                SVG10.select("#axis--y").transition(t).call(yAxis);
+
+                scatter.selectAll("circle").transition(t)
+                .attr("cx", function (d) { return x(d.r0); })
+                .attr("cy", function (d) { return y(d.r1); });
+            }
+
+            scatter.append("g")
+                .attr("class", "brush")
+                .call(brush);
+
+            scatter.selectAll(".dot")
+                .data(testSampleData)
                 .enter()
                 .append("circle")
-                .attr("cx", function (d) { return x(d.r0); } )
-                .attr("cy", function (d) { return y(d.r1); } )
+                .attr("class", function (d) { return "dot " + d.pred } )
+                .attr("cx", function (d) { return x(d.r0); })
+                .attr("cy", function (d) { return y(d.r1); })
                 .attr("r", 7)
                 .attr("data-legend",function(d) { return d.pred})
                 .style("fill", function (d) { return color(d.pred) } )
-                {#.style("stroke", "black")#}
-                {#.style("stroke-width", 1)#}
+                .on("click", highlight)
+                .on("dblclick", doNotHighlight)
 
             var keys = Array.from(target_names)
 
@@ -1683,8 +1803,6 @@
                     .attr("cy", function(d, i) { return 15 + i * 25 })
                     .attr("r", 7)
                     .style("fill", function(d) { return color(d) })
-                    {#.attr("stroke", "black")#}
-                    {#.style("stroke-width", 1)#}
 
             SVG10.append("g")
                 .selectAll("labels")
@@ -1696,17 +1814,12 @@
                     .style("fill", function(d) { return color(d) })
                     .text(function(d) { return d })
                     .attr("text-anchor", "left")
-                    {#.attr("stroke", "black")#}
-                    {#.style("stroke-width", 1)#}
                     .style("alignment-baseline", "middle")
         })
+    </script>
 
-
-
-
-
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // 예측 결과(훈련)
+    {#  예측 결과(훈련)  #}
+    <script class="h">
         var margin11 = {top: 10, right: 30, bottom: 40, left: 50},
             width11 = 800 - margin11.left - margin11.right,
             height11 = 800 - margin11.top - margin11.bottom;
@@ -1733,12 +1846,11 @@
             .style("stroke-width", 2)
             .style("opacity", 0.6)
 
-        //Read the data
         d3.csv("http://127.0.0.1:8080/embedding_and_machinelearning_visualization_train", function(data) {
 
             // Add X axis
             var x = d3.scaleLinear()
-                .domain([-1, parseFloat(domain_range_x[1]) + 1])
+                .domain([-1, parseFloat(domain_train_range_x[1]) + 1])
                 .range([0, width11])
                 .nice()
 
@@ -1748,12 +1860,87 @@
 
             // Add Y axis
             var y = d3.scaleLinear()
-                .domain([parseFloat(domain_range_y[0]), parseFloat(domain_range_y[1]) + 1])
+                .domain([parseFloat(domain_train_range_y[0]) - 1, parseFloat(domain_train_range_y[1]) + 1])
                 .range([height11, 0])
                 .nice()
 
             SVG11.append("g")
                 .call(d3.axisLeft(y))
+
+            // 클립: 원이 SVG 그림판 밖으로 나가지 않도록
+            var clip = SVG11.append("defs").append("svg:clipPath")
+                .attr("id", "clip")
+                .append("svg:rect")
+                .attr("width", width11)
+                .attr("height", height11)
+                .attr("x", 0)
+                .attr("y", 0);
+
+            var xAxis = d3.axisBottom(x).ticks(12),
+                yAxis = d3.axisLeft(y).ticks(12 * height11 / width11);
+
+            var brush = d3.brush().extent([[0, 0], [width11, height11]]).on("end", brushended),
+                idleTimeout,
+                idleDelay = 350;
+
+            var scatter = SVG11.append("g")
+                 .attr("id", "scatterplot")
+                 .attr("clip-path", "url(#clip)");
+
+            var target_names = new Set();
+
+            for (var i = 0; i < trainSampleData.length; i++) {
+                target_names.add(trainSampleData[i]['success'])
+            }
+            target_names = Array.from(target_names).sort();
+
+            var color = d3.scaleOrdinal()
+                .domain(target_names)
+                .range([`#ff0000`, `#0000dc`])
+
+            scatter.append("g")
+                .attr("class", "brush")
+                .call(brush);
+
+            scatter.selectAll(".dot")
+                .data(trainSampleData)
+                .enter()
+                .append("circle")
+                .attr("class", function (d) { return "dot " + d.success } )
+                .attr("cx", function (d) { return x(d.r0); })
+                .attr("cy", function (d) { return y(d.r1); })
+                .attr("r", 7)
+                .attr("data-legend",function(d) { return d.success})
+                .style("fill", function (d) { return color(d.success) } )
+
+            function brushended() {
+
+                var s = d3.event.selection;
+
+                if (!s) {
+                    if (!idleTimeout) return idleTimeout = setTimeout(idled, idleDelay);
+                    x.domain([-1, parseFloat(domain_train_range_x[1]) + 1]).range([0, width11]).nice()
+                    y.domain([parseFloat(domain_train_range_y[0]) - 1, parseFloat(domain_train_range_y[1]) + 1]).range([height11, 0]).nice()
+                } else {
+                    x.domain([s[0][0], s[1][0]].map(x.invert, x));
+                    y.domain([s[1][1], s[0][1]].map(y.invert, y));
+                    scatter.select(".brush").call(brush.move, null);
+                }
+                zoom();
+            }
+
+            function idled() {
+                idleTimeout = null;
+            }
+
+            function zoom() {
+                var t = scatter.transition().duration(750);
+                SVG11.select("#axis--x").transition(t).call(xAxis);
+                SVG11.select("#axis--y").transition(t).call(yAxis);
+                scatter.selectAll("circle").transition(t)
+                .attr("cx", function (d) { return x(d.r0); })
+                .attr("cy", function (d) { return y(d.r1); });
+            }
 
             // Add X axis label:
             SVG11.append("text")
@@ -1768,7 +1955,7 @@
             SVG11.append("text")
                 .attr("text-anchor", "end")
                 .attr("transform", "rotate(-90)")
-                .attr("y", -margin11.left+10)
+                .attr("y", -margin11.left + 10)
                 .attr("x", -margin11.top)
                 .text("dimension 1")
                 .style("font-size", "15px")
@@ -1778,33 +1965,8 @@
             SVG11.selectAll(".tick line").attr("stroke", "black").style("stroke-width", 1)
             SVG11.selectAll(".tick text").attr("stroke", "black").style("stroke-width", 1).style("font-size", 13)
 
-            var target_names = new Set();
 
-            for (var i = 0; i < data.length; i++) {
-                target_names.add(data[i]['success'])
-            }
-            target_names = Array.from(target_names).sort();
-
-            var color = d3.scaleOrdinal()
-                .domain(target_names)
-                .range([`#ff0000`, `#0000dc`])
-
-
-            // Add dots
-            SVG11.append('g')
-                .selectAll("dot")
-                .data(newData)
-                .enter()
-                .append("circle")
-                .attr("cx", function (d) { return x(d.r0); } )
-                .attr("cy", function (d) { return y(d.r1); } )
-                .attr("r", 7)
-                .attr("data-legend",function(d) { return d.success})
-                .style("fill", function (d) { return color(d.success) } )
-                {#.style("stroke", "black")#}
-                {#.style("stroke-width", 1)#}
-
-            var keys = ["실패", "성공"]
+            var keys = Array.from(target_names)
 
             SVG11.append("g")
                 .selectAll("legend")
@@ -1815,8 +1977,6 @@
                     .attr("cy", function(d, i) { return 15 + i * 25 })
                     .attr("r", 7)
                     .style("fill", function(d) { return color(d) })
-                    {#.attr("stroke", "black")#}
-                    {#.style("stroke-width", 1)#}
 
             SVG11.append("g")
                 .selectAll("labels")
@@ -1828,13 +1988,12 @@
                     .style("fill", function(d) { return color(d) })
                     .text(function(d) { return d })
                     .attr("text-anchor", "left")
-                    {#.attr("stroke", "black")#}
-                    {#.style("stroke-width", 1)#}
                     .style("alignment-baseline", "middle")
         })
+    </script>
 
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // 예측 결과(테스트)
+    {#  예측 결과(테스트)  #}
+    <script class="i">
         var margin12 = {top: 10, right: 30, bottom: 40, left: 50},
             width12 = 800 - margin12.left - margin12.right,
             height12 = 800 - margin12.top - margin12.bottom;
@@ -1861,12 +2020,11 @@
             .style("stroke-width", 2)
             .style("opacity", 0.6)
 
-        //Read the data
-        d3.csv("http://127.0.0.1:8080/embedding_and_machinelearning_visualization_test", function(data) {
+        d3.csv("http://127.0.0.1:8080/embedding_and_machinelearning_visualization_train", function(data) {
 
             // Add X axis
             var x = d3.scaleLinear()
-                .domain([-1, parseFloat(domain_range_x[1]) + 1])
+                .domain([-1, parseFloat(domain_test_range_x[1]) + 1])
                 .range([0, width12])
                 .nice()
 
@@ -1876,12 +2034,87 @@
 
             // Add Y axis
             var y = d3.scaleLinear()
-                .domain([parseFloat(domain_range_y[0]), parseFloat(domain_range_y[1]) + 1])
+                .domain([parseFloat(domain_test_range_y[0]) - 1, parseFloat(domain_test_range_y[1]) + 1])
                 .range([height12, 0])
                 .nice()
 
             SVG12.append("g")
                 .call(d3.axisLeft(y))
+
+            // 클립: 원이 SVG 그림판 밖으로 나가지 않도록
+            var clip = SVG12.append("defs").append("svg:clipPath")
+                .attr("id", "clip")
+                .append("svg:rect")
+                .attr("width", width12)
+                .attr("height", height12)
+                .attr("x", 0)
+                .attr("y", 0);
+
+            var xAxis = d3.axisBottom(x).ticks(12),
+                yAxis = d3.axisLeft(y).ticks(12 * height12 / width12);
+
+            var brush = d3.brush().extent([[0, 0], [width12, height12]]).on("end", brushended),
+                idleTimeout,
+                idleDelay = 350;
+
+            var scatter = SVG12.append("g")
+                 .attr("id", "scatterplot")
+                 .attr("clip-path", "url(#clip)");
+
+            var target_names = new Set();
+
+            for (var i = 0; i < testSampleData.length; i++) {
+                target_names.add(testSampleData[i]['success'])
+            }
+            target_names = Array.from(target_names).sort();
+
+            var color = d3.scaleOrdinal()
+                .domain(target_names)
+                .range([`#ff0000`, `#0000dc`])
+
+            scatter.append("g")
+                .attr("class", "brush")
+                .call(brush);
+
+            scatter.selectAll(".dot")
+                .data(testSampleData)
+                .enter()
+                .append("circle")
+                .attr("class", function (d) { return "dot " + d.success } )
+                .attr("cx", function (d) { return x(d.r0); })
+                .attr("cy", function (d) { return y(d.r1); })
+                .attr("r", 7)
+                .attr("data-legend",function(d) { return d.success})
+                .style("fill", function (d) { return color(d.success) } )
+
+            function brushended() {
+
+                var s = d3.event.selection;
+
+                if (!s) {
+                    if (!idleTimeout) return idleTimeout = setTimeout(idled, idleDelay);
+                    x.domain([-1, parseFloat(domain_test_range_x[1]) + 1]).range([0, width12]).nice()
+                    y.domain([parseFloat(domain_test_range_y[0]) - 1, parseFloat(domain_test_range_y[1]) + 1]).range([height12, 0]).nice()
+                } else {
+                    x.domain([s[0][0], s[1][0]].map(x.invert, x));
+                    y.domain([s[1][1], s[0][1]].map(y.invert, y));
+                    scatter.select(".brush").call(brush.move, null);
+                }
+                zoom();
+            }
+
+            function idled() {
+                idleTimeout = null;
+            }
+
+            function zoom() {
+                var t = scatter.transition().duration(750);
+                SVG12.select("#axis--x").transition(t).call(xAxis);
+                SVG12.select("#axis--y").transition(t).call(yAxis);
+                scatter.selectAll("circle").transition(t)
+                .attr("cx", function (d) { return x(d.r0); })
+                .attr("cy", function (d) { return y(d.r1); });
+            }
 
             // Add X axis label:
             SVG12.append("text")
@@ -1896,7 +2129,7 @@
             SVG12.append("text")
                 .attr("text-anchor", "end")
                 .attr("transform", "rotate(-90)")
-                .attr("y", -margin12.left+10)
+                .attr("y", -margin12.left + 10)
                 .attr("x", -margin12.top)
                 .text("dimension 1")
                 .style("font-size", "15px")
@@ -1906,33 +2139,7 @@
             SVG12.selectAll(".tick line").attr("stroke", "black").style("stroke-width", 1)
             SVG12.selectAll(".tick text").attr("stroke", "black").style("stroke-width", 1).style("font-size", 13)
 
-            var target_names = new Set();
-
-            for (var i = 0; i < data.length; i++) {
-                target_names.add(data[i]['success'])
-            }
-            target_names = Array.from(target_names).sort();
-
-            var color = d3.scaleOrdinal()
-                .domain(target_names)
-                .range([`#ff0000`, `#0000dc`])
-
-
-            // Add dots
-            SVG12.append('g')
-                .selectAll("dot")
-                .data(newData)
-                .enter()
-                .append("circle")
-                .attr("cx", function (d) { return x(d.r0); } )
-                .attr("cy", function (d) { return y(d.r1); } )
-                .attr("r", 7)
-                .attr("data-legend",function(d) { return d.success})
-                .style("fill", function (d) { return color(d.success) } )
-                {#.style("stroke", "black")#}
-                {#.style("stroke-width", 1)#}
-
-            var keys = ["실패", "성공"]
+            var keys = Array.from(target_names)
 
             SVG12.append("g")
                 .selectAll("legend")
@@ -1943,8 +2150,6 @@
                     .attr("cy", function(d, i) { return 15 + i * 25 })
                     .attr("r", 7)
                     .style("fill", function(d) { return color(d) })
-                    {#.attr("stroke", "black")#}
-                    {#.style("stroke-width", 1)#}
 
             SVG12.append("g")
                 .selectAll("labels")
@@ -1956,10 +2161,135 @@
                     .style("fill", function(d) { return color(d) })
                     .text(function(d) { return d })
                     .attr("text-anchor", "left")
-                    {#.attr("stroke", "black")#}
-                    {#.style("stroke-width", 1)#}
                     .style("alignment-baseline", "middle")
         })
+    </script>
+
+    {#  틀린 결과 분포도(훈련)  #}
+    <script class="j">
+        {#var margin13 = {top: 10, right: 30, bottom: 40, left: 50},#}
+        {#    width13 = 800 - margin13.left - margin13.right,#}
+        {#    height13 = 800 - margin13.top - margin13.bottom;#}
+        {##}
+        {#// append the SVg object to the body of the page#}
+        {#var SVG13 = d3.select("#area13")#}
+        {#    .style("background-color", "none")#}
+        {#    .append("svg")#}
+        {#    .attr("width", width13 + margin13.left + margin13.right)#}
+        {#    .attr("height", height13 + margin13.top + margin13.bottom)#}
+        {#    .append("g")#}
+        {#    .attr("transform",#}
+        {#    "translate(" + margin13.left + "," + margin13.top + ")")#}
+        {##}
+        {#// Add the black box around the chart#}
+        {#SVG13#}
+        {#    .append("rect")#}
+        {#    .attr("x",0)#}
+        {#    .attr("y",0)#}
+        {#    .attr("height", height13)#}
+        {#    .attr("width", width13)#}
+        {#    .style("fill", "none")#}
+        {#    .style("stroke", "black")#}
+        {#    .style("stroke-width", 2)#}
+        {#    .style("opacity", 0.6)#}
+        {##}
+        {#//Read the data#}
+        {#d3.csv("http://127.0.0.1:8080/embedding_and_machinelearning_visualization_train", function(data) {#}
+        {##}
+        {#    // Add X axis#}
+        {#    var x = d3.scaleLinear()#}
+        {#        .domain([-1, parseFloat(domain_train_range_x[1]) + 1])#}
+        {#        .range([0, width13])#}
+        {#        .nice()#}
+        {##}
+        {#    SVG13.append("g")#}
+        {#        .attr("transform", "translate(0," + height13 + ")")#}
+        {#        .call(d3.axisBottom(x))#}
+        {##}
+        {#    // Add Y axis#}
+        {#    var y = d3.scaleLinear()#}
+        {#        .domain([parseFloat(domain_train_range_y[0]) - 1, parseFloat(domain_train_range_y[1]) + 1])#}
+        {#        .range([height13, 0])#}
+        {#        .nice()#}
+        {##}
+        {#    SVG13.append("g")#}
+        {#        .call(d3.axisLeft(y))#}
+        {##}
+        {#    // Add X axis label:#}
+        {#    SVG13.append("text")#}
+        {#        .attr("text-anchor", "end")#}
+        {#        .attr("x", width13)#}
+        {#        .attr("y", height13 + margin13.top + 30)#}
+        {#        .text("dimension 0")#}
+        {#        .style("font-size", "15px")#}
+        {#        .style("fill", "black")#}
+        {##}
+        {#    // Y axis label:#}
+        {#    SVG13.append("text")#}
+        {#        .attr("text-anchor", "end")#}
+        {#        .attr("transform", "rotate(-90)")#}
+        {#        .attr("y", -margin13.left+10)#}
+        {#        .attr("x", -margin13.top)#}
+        {#        .text("dimension 1")#}
+        {#        .style("font-size", "15px")#}
+        {#        .style("fill", "black")#}
+        {##}
+        {#    // Customization#}
+        {#    SVG13.selectAll(".tick line").attr("stroke", "black").style("stroke-width", 1)#}
+        {#    SVG13.selectAll(".tick text").attr("stroke", "black").style("stroke-width", 1).style("font-size", 13)#}
+        {##}
+        {#    var target_names = new Set();#}
+        {##}
+        {#    for (var i = 0; i < trainSampleData.length; i++) {#}
+        {#        target_names.add(trainSampleData[i]['success'])#}
+        {#    }#}
+        {#    target_names = Array.from(target_names).sort();#}
+        {##}
+        {#    var color = d3.scaleOrdinal()#}
+        {#        .domain(target_names)#}
+        {#        .range([`#ff0000`, `#0000dc`])#}
+        {##}
+        {#    // Add dots#}
+        {#    SVG13.append('g')#}
+        {#        .selectAll("dot")#}
+        {#        .data(trainSampleData)#}
+        {#        .enter()#}
+        {#        .append("circle")#}
+        {#        .attr("cx", function (d) { return x(d.r0); } )#}
+        {#        .attr("cy", function (d) { return y(d.r1); } )#}
+        {#        .attr("r", 7)#}
+        {#        .attr("data-legend",function(d) { return d.success})#}
+        {#        .style("fill", function (d) { return color(d.pred) } )#}
+        {##}
+        {#    var keys = Array.from(target_names)#}
+        {##}
+        {#    SVG13.append("g")#}
+        {#        .selectAll("legend")#}
+        {#        .data(keys)#}
+        {#        .enter()#}
+        {#        .append("circle")#}
+        {#            .attr("cx", -margin13.left + 70)#}
+        {#            .attr("cy", function(d, i) { return 15 + i * 25 })#}
+        {#            .attr("r", 7)#}
+        {#            .style("fill", function(d) { return color(d) })#}
+        {##}
+        {#    SVG13.append("g")#}
+        {#        .selectAll("labels")#}
+        {#        .data(keys)#}
+        {#        .enter()#}
+        {#        .append("text")#}
+        {#            .attr("x", -margin13.left + 80)#}
+        {#            .attr("y", function(d, i) { return 15 + i * 25 })#}
+        {#            .style("fill", function(d) { return color(d) })#}
+        {#            .text(function(d) { return d })#}
+        {#            .attr("text-anchor", "left")#}
+        {#            .style("alignment-baseline", "middle")#}
+        {#})#}
+    </script>
+
+    {#  틀린 결과 분포도(테스트)  #}
+    <script class="k">
+
     </script>
 </body>
 </html>
