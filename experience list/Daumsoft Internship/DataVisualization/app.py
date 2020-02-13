@@ -74,8 +74,8 @@ def page3():
             elif checked_list[1] == 'RandomForest':
                 checked_list[5] = checked_list[5].split(" ")
                 checked_list[6] = checked_list[6].split(" ")
-                parameters.append([float(i) for i in checked_list[5]])
-                parameters.append([float(i) for i in checked_list[6]])
+                parameters.append([int(i) for i in checked_list[5]])
+                parameters.append([int(i) for i in checked_list[6]])
 
                 params = {
                     "n_estimators": parameters[0],
