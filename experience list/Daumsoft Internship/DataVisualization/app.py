@@ -55,11 +55,8 @@ def page3():
             parameters = []
             # 5개 파라미터
             if checked_list[1] == 'Logistic':
-                checked_list[3] = checked_list[3].split(" ")
-                checked_list[4] = checked_list[4].split(" ")
-                checked_list[5] = checked_list[5].split(" ")
-                checked_list[6] = checked_list[6].split(" ")
-                checked_list[7] = checked_list[7].split(" ")
+                for i in range(3, len(checked_list)):
+                    checked_list[i] = checked_list[i].split(" ")
 
                 parameters.append([str(i) for i in checked_list[3]])
                 parameters.append([float(i) for i in checked_list[4]])
@@ -83,14 +80,8 @@ def page3():
 
             # 8개 파라미터
             elif checked_list[1] == 'SVM':
-                checked_list[3] = checked_list[3].split(" ")
-                checked_list[4] = checked_list[4].split(" ")
-                checked_list[5] = checked_list[5].split(" ")
-                checked_list[6] = checked_list[6].split(" ")
-                checked_list[7] = checked_list[7].split(" ")
-                checked_list[8] = checked_list[8].split(" ")
-                checked_list[9] = checked_list[9].split(" ")
-                checked_list[10] = checked_list[10].split(" ")
+                for i in range(3, len(checked_list)):
+                    checked_list[i] = checked_list[i].split(" ")
 
                 parameters.append([str(i) for i in checked_list[3]])
                 parameters.append([str(i) for i in checked_list[4]])
@@ -116,9 +107,8 @@ def page3():
 
             # 3개 파라미터
             elif checked_list[1] == 'RandomForest':
-                checked_list[3] = checked_list[3].split(" ")
-                checked_list[4] = checked_list[4].split(" ")
-                checked_list[5] = checked_list[5].split(" ")
+                for i in range(3, len(checked_list)):
+                    checked_list[i] = checked_list[i].split(" ")
 
                 parameters.append([int(i) for i in checked_list[3]])
 
@@ -184,20 +174,22 @@ def page3():
 def page4():
     return render_template('visualization.html', visualization="embedding_and_machineLearning_visualization")
 
-# 평가 지표 값을 받는 라우터
+
+# 훈련 데이터 평가 지표 값을 받는 라우터
 @app.route('/metrics_score_train')
 def data1_1():
     df = pd.read_csv(path + 'metrics_score_train.csv')
     return df.to_csv()
 
 
+# 테스트 데이터 평가 지표 값을 받는 라우터
 @app.route('/metrics_score_test')
 def data1_2():
     df = pd.read_csv(path + 'metrics_score_test.csv')
     return df.to_csv()
 
 
-# 오차 행렬 값을 받는 라우터
+# 훈련 데이터 오차 행렬 값을 받는 라우터
 @app.route('/confusion_matrix_train')
 def data2_1():
     df = pd.read_csv(path + 'confusion_matrix_train.csv')
@@ -218,6 +210,7 @@ def data2_1():
     return new_df.to_csv()
 
 
+# 테스트 데이터 오차 행렬 값을 받는 라우터
 @app.route('/confusion_matrix_test')
 def data2_2():
     df = pd.read_csv(path + 'confusion_matrix_test.csv')
@@ -238,7 +231,7 @@ def data2_2():
     return new_df.to_csv()
 
 
-# 차원 축소 값을 받는 라우터
+# 훈련 데이터 차원 축소 값을 받는 라우터
 @app.route('/embedding_and_visualization_train')
 def data3_1():
     print('훈련 csv 파일 생성 완료')
@@ -246,6 +239,7 @@ def data3_1():
     return df.to_csv()
 
 
+# 테스트 데이터 차원 축소 값을 받는 라우터
 @app.route('/embedding_and_visualization_test')
 def data3_2():
     print('테스트 csv 파일 생성 완료')
@@ -253,12 +247,14 @@ def data3_2():
     return df.to_csv()
 
 
+# 훈련 데이터 머신러닝 후의 차원 축소 값을 받는 라우터
 @app.route('/embedding_and_machinelearning_visualization_train')
 def data4_1():
     df = pd.read_csv(path + 'embedding_and_machinelearning_visualization_train.csv')
     return df.to_csv()
 
 
+# 테스트 데이터 머신러닝 후의 차원 축소 값을 받는 라우터
 @app.route('/embedding_and_machinelearning_visualization_test')
 def data4_2():
     df = pd.read_csv(path + 'embedding_and_machinelearning_visualization_test.csv')
