@@ -1,8 +1,18 @@
 import model
+import numpy as np
 import pandas as pd
+import tensorflow as tf
+from scipy.sparse import isspmatrix
 from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
 
+
 def machine_learning(method, X_train, X_test, y_train, y_test, params):
+
+    target_names = list(set(y_train))
+
+    if isspmatrix(X_train):
+        X_train = X_train.toarray()
+        X_test = X_test.toarray()
 
     if method == 'Logistic':
 
@@ -29,13 +39,48 @@ def machine_learning(method, X_train, X_test, y_train, y_test, params):
         test_y_pred = rnd_clf.predict(X_test)
 
     elif method == 'FNN':
-        pass
+
+        from keras.utils import to_categorical
+
+        train_label = to_categorical(y_train)
+
+        input_layer_units = int(params['input_layer_units'][0])
+        hidden_layer_units = int(params['hidden_layer_units'][0])
+        output_layer_units = len(target_names)
+
+        input_layer_activation = params['input_layer_activation'][0]
+        hidden_layer_activation = params['hidden_layer_activation'][0]
+        output_layer_activation = params['output_layer_activation'][0]
+
+        optimizer = params['optimizer'][0]
+        epochs = int(params['epochs'][0])
+        batch_size = int(params['batch_size'][0])
+
+        fnn_clf = tf.keras.Sequential()
+        fnn_clf.add(tf.keras.layers.Dense(input_layer_units, activation=input_layer_activation, input_shape=(len(X_train[0]), )))
+        fnn_clf.add(tf.keras.layers.Dense(hidden_layer_units, activation=hidden_layer_activation))
+        fnn_clf.add(tf.keras.layers.Dense(output_layer_units, activation=output_layer_activation))
+
+        fnn_clf.compile(optimizer=optimizer,
+                        loss='categorical_crossentropy',
+                        metrics=['accuracy'])
+
+        fnn_clf.fit(X_train, train_label, epochs=epochs, batch_size=batch_size)
+
+        train_prediction = fnn_clf.predict(X_train)
+        test_prediction = fnn_clf.predict(X_test)
+
+        train_y_pred = []
+        for i in range(len(train_prediction)):
+            train_y_pred.append(np.argmax(train_prediction[i]))
+
+        test_y_pred = []
+        for i in range(len(test_prediction)):
+            test_y_pred.append(np.argmax(test_prediction[i]))
 
     elif method == 'user_defined_machine_learning':
         pass
 
-
-    target_names = list(set(y_train))
     train_df = pd.DataFrame(confusion_matrix(y_train, train_y_pred),
                             index=target_names,
                             columns=target_names)

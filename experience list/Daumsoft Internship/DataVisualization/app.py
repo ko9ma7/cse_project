@@ -127,6 +127,33 @@ def page3():
 
                 print(params)
 
+            # 8개 파라미터
+            elif checked_list[1] == 'FNN':
+                for i in range(3, len(checked_list)):
+                    checked_list[i] = checked_list[i].split(" ")
+
+                parameters.append([int(i) for i in checked_list[3]])
+                parameters.append([int(i) for i in checked_list[4]])
+                parameters.append([str(i) for i in checked_list[5]])
+                parameters.append([str(i) for i in checked_list[6]])
+                parameters.append([str(i) for i in checked_list[7]])
+                parameters.append([str(i) for i in checked_list[8]])
+                parameters.append([int(i) for i in checked_list[9]])
+                parameters.append([int(i) for i in checked_list[10]])
+
+                params = {
+                    "input_layer_units": parameters[0],
+                    "hidden_layer_units": parameters[1],
+                    "input_layer_activation": parameters[2],
+                    "hidden_layer_activation": parameters[3],
+                    "output_layer_activation": parameters[4],
+                    "optimizer": parameters[5],
+                    "epochs": parameters[6],
+                    "batch_size": parameters[7],
+                }
+
+                print(params)
+
             else:
                 pass
 
@@ -144,15 +171,22 @@ def page3():
 
             # y값을 레이블마다 200개씩 추출
             train.sort_values(by='y', inplace=True)
+            # test.sort_values(by='y', inplace=True)
             target_names = list(set(train['y']))
 
             train_ = pd.DataFrame(columns=['x', 'y'])
+            test_ = pd.DataFrame(columns=['x', 'y'])
 
             for i in range(len(target_names)):
                 df = pd.DataFrame(train[train['y'] == target_names[i]].values[:1000], columns=['x', 'y'])
                 train_ = pd.concat([train_, df], axis=0, ignore_index=True)
 
+            for i in range(len(target_names)):
+                df = pd.DataFrame(train[train['y'] == target_names[i]].values[:200], columns=['x', 'y'])
+                test_ = pd.concat([test_, df], axis=0, ignore_index=True)
+
             train_ = train_.sample(frac=1).reset_index(drop=True)
+            test_ = test_.sample(frac=1).reset_index(drop=True)
 
             X_train, X_test, y_train, y_test = embedding(checked_list[0], train_, test)
             print('X_train shape: {}, y_train shape: {}'.format(X_train.shape, y_train.shape))
@@ -162,12 +196,14 @@ def page3():
 
             # 임베딩만 시각화할 경우
             if checked_list[1] == '':
+
                 print('임베딩만 시각화할 경우')
                 return render_template('visualization.html', visualization="embedding_and_visualization")
 
             # 임베딩 -> 머신러닝 -> 시각화할 경우
             else:
 
+                print('임베딩 및 머신러닝 시각화할 경우')
                 train_y_pred, test_y_pred = machine_learning(checked_list[1], X_train, X_test, y_train, y_test, params=params)
 
                 train_df = pd.read_csv(path + 'embedding_and_visualization_train.csv')

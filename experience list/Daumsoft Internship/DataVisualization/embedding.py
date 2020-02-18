@@ -1,5 +1,3 @@
-import pandas as pd
-
 def embedding(method, train, test):
     # x열은 토크나이징 된 단어들 목록
     # y열은 타겟 라벨
@@ -27,8 +25,8 @@ def embedding(method, train, test):
     for idx, names in enumerate(target_names):
         target_mapping_table[names] = idx
 
-    # train['y'] = train['y'].map(target_mapping_table)
-    # test['y'] = test['y'].map(target_mapping_table)
+    train['y'] = train['y'].map(target_mapping_table)
+    test['y'] = test['y'].map(target_mapping_table)
 
     if method == "CounterVector":
 
