@@ -229,6 +229,40 @@
                                         </div>
 
                                         <div id="b4" class="containerTab" style="display:none;background-color:black">
+                                            <table style="width: 60%" align="center">
+                                                <tr>
+                                                    <td>input_layer_units</td>
+                                                    <td><input type="text" value="64" name="TextBar4" style="width: 300px; text-align: center"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>hidden_layer_units</td>
+                                                    <td><input type="text" value="64" name="TextBar4" style="width: 300px; text-align: center"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>input_layer_activation</td>
+                                                    <td><input type="text" value="relu" name="TextBar4" style="width: 300px; text-align: center"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>hidden_layer_activation</td>
+                                                    <td><input type="text" value="relu" name="TextBar4" style="width: 300px; text-align: center"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>output_layer_activation</td>
+                                                    <td><input type="text" value="softmax" name="TextBar4" style="width: 300px; text-align: center"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>optimizer</td>
+                                                    <td><input type="text" value="rmsprop" name="TextBar4" style="width: 300px; text-align: center"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>epochs</td>
+                                                    <td><input type="text" value="30" name="TextBar4" style="width: 300px; text-align: center"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>batch_size</td>
+                                                    <td><input type="text" value="100" name="TextBar4" style="width: 300px; text-align: center"></td>
+                                                </tr>
+                                            </table>
                                         </div>
 
                                         <div id="b5" class="containerTab" style="display:none;background-color:black">
@@ -307,6 +341,11 @@
                                     }
                                 } else if (textbar_id == 'b3') {
                                     var elements = document.getElementsByName("TextBar3");
+                                    for (var i = 0; i < elements.length; i++) {
+                                        parameters.push(elements[i].value);
+                                    }
+                                } else if (textbar_id == 'b4') {
+                                    var elements = document.getElementsByName("TextBar4");
                                     for (var i = 0; i < elements.length; i++) {
                                         parameters.push(elements[i].value);
                                     }
