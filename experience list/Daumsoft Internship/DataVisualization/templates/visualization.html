@@ -296,9 +296,14 @@
         //Read the data
         d3.csv("http://127.0.0.1:8080/embedding_and_visualization_train", function(data) {
 
+            f_train_domain_range_x.push(d3.min(data, function(d) { return parseFloat(d.r0) }) - 1);
+            f_train_domain_range_x.push(d3.max(data, function(d) { return parseFloat(d.r0) }) + 1);
+            f_train_domain_range_y.push(d3.min(data, function(d) { return parseFloat(d.r1) }) - 1);
+            f_train_domain_range_y.push(d3.max(data, function(d) { return parseFloat(d.r1) }) + 1);
+
             // Add X axis
             var x = d3.scaleLinear()
-                .domain([parseFloat(f_train_domain_range_x[0]), parseFloat(f_train_domain_range_x[1])])
+                .domain([(f_train_domain_range_x[0]), (f_train_domain_range_x[1])])
                 .range([0, width])
                 .nice()
 
@@ -308,7 +313,7 @@
 
             // Add Y axis
             var y = d3.scaleLinear()
-                .domain([parseFloat(f_train_domain_range_y[0]), parseFloat(f_train_domain_range_y[1])])
+                .domain([(f_train_domain_range_y[0]), (f_train_domain_range_y[1])])
                 .range([height, 0])
                 .nice()
 
@@ -388,8 +393,8 @@
 
                 if (!s) {
                     if (!idleTimeout) return idleTimeout = setTimeout(idled, idleDelay);
-                    x.domain([parseFloat(f_train_domain_range_x[0]), parseFloat(f_train_domain_range_x[1])]).range([0, width]).nice()
-                    y.domain([parseFloat(f_train_domain_range_y[0]), parseFloat(f_train_domain_range_y[1])]).range([height, 0]).nice()
+                    x.domain([(f_train_domain_range_x[0]), (f_train_domain_range_x[1])]).range([0, width]).nice()
+                    y.domain([(f_train_domain_range_y[0]), (f_train_domain_range_y[1])]).range([height, 0]).nice()
                 } else {
                     x.domain([s[0][0], s[1][0]].map(x.invert, x));
                     y.domain([s[1][1], s[0][1]].map(y.invert, y));
@@ -466,17 +471,19 @@
             .style("stroke-width", 2)
             .style("opacity", 0.6)
 
+        var f_test_domain_range_x = new Array;
+        var f_test_domain_range_y = new Array;
 
         d3.csv("http://127.0.0.1:8080/embedding_and_visualization_test", function(data) {
 
-            f_train_domain_range_x.push(parseFloat(d3.min(data, function(d) { return d.r0 })) - 1.5);
-            f_train_domain_range_x.push(parseFloat(d3.max(data, function(d) { return d.r0 })) + 1.5);
-            f_train_domain_range_y.push(parseFloat(d3.min(data, function(d) { return d.r1 })) - 1.5);
-            f_train_domain_range_y.push(parseFloat(d3.max(data, function(d) { return d.r1 })) + 1.5);
+            f_test_domain_range_x.push(d3.min(data, function(d) { return parseFloat(d.r0) }));
+            f_test_domain_range_x.push(d3.max(data, function(d) { return parseFloat(d.r0) }));
+            f_test_domain_range_y.push(d3.min(data, function(d) { return parseFloat(d.r1) }));
+            f_test_domain_range_y.push(d3.max(data, function(d) { return parseFloat(d.r1) }));
 
             // Add X axis
             var x = d3.scaleLinear()
-                .domain([parseFloat(f_train_domain_range_x[0]), parseFloat(f_train_domain_range_x[1])])
+                .domain([(f_test_domain_range_x[0]), (f_test_domain_range_x[1])])
                 .range([0, width2])
                 .nice()
 
@@ -486,7 +493,7 @@
 
             // Add Y axis
             var y = d3.scaleLinear()
-                .domain([parseFloat(f_train_domain_range_y[0]), parseFloat(f_train_domain_range_y[1])])
+                .domain([(f_test_domain_range_y[0]), (f_test_domain_range_y[1])])
                 .range([height2, 0])
                 .nice()
 
@@ -566,8 +573,8 @@
 
                 if (!s) {
                     if (!idleTimeout) return idleTimeout = setTimeout(idled, idleDelay);
-                    x.domain([parseFloat(f_train_domain_range_x[0]), parseFloat(f_train_domain_range_x[1])]).range([0, width2]).nice()
-                    y.domain([parseFloat(f_train_domain_range_y[0]), parseFloat(f_train_domain_range_y[1])]).range([height2, 0]).nice()
+                    x.domain([(f_test_domain_range_x[0]), (f_test_domain_range_x[1])]).range([0, width2]).nice()
+                    y.domain([(f_test_domain_range_y[0]), (f_test_domain_range_y[1])]).range([height2, 0]).nice()
                 } else {
                     x.domain([s[0][0], s[1][0]].map(x.invert, x));
                     y.domain([s[1][1], s[0][1]].map(y.invert, y));
@@ -1106,29 +1113,20 @@
             .style("stroke-width", 2)
             .style("opacity", 0.6)
 
-        var trainSampleData = new Array;
         var domain_train_range_x = new Array;
         var domain_train_range_y = new Array;
-        var trainDataGroup;
+        var trainTargetGroup;
 
         d3.csv("http://127.0.0.1:8080/embedding_and_machinelearning_visualization_train", function(data) {
 
-            var min = 0;
-            var max = data.length;
-
-            for(var i = 0; i < 2000; i++) {
-                var rand_index = Math.floor(Math.random() * (max - min)) + min;
-                trainSampleData.push(data[rand_index]);
-            }
-
-            domain_train_range_x.push(parseFloat(d3.min(data, function(d) { return d.r0 })) - 1);
-            domain_train_range_x.push(parseFloat(d3.max(data, function(d) { return d.r0 })) + 1);
-            domain_train_range_y.push(parseFloat(d3.min(data, function(d) { return d.r1 })) - 1);
-            domain_train_range_y.push(parseFloat(d3.max(data, function(d) { return d.r1 })) + 1);
+            domain_train_range_x.push(d3.min(data, function(d) { return parseFloat(d.r0) }) - 1);
+            domain_train_range_x.push(d3.max(data, function(d) { return parseFloat(d.r0) }) + 1);
+            domain_train_range_y.push(d3.min(data, function(d) { return parseFloat(d.r1) }) - 1);
+            domain_train_range_y.push(d3.max(data, function(d) { return parseFloat(d.r1) }) + 1);
 
             // Add X axis
             var x = d3.scaleLinear()
-                .domain([parseFloat(domain_train_range_x[0]), parseFloat(domain_train_range_x[1])])
+                .domain([domain_train_range_x[0], domain_train_range_x[1]])
                 .range([0, width7])
                 .nice()
 
@@ -1138,12 +1136,23 @@
 
             // Add Y axis
             var y = d3.scaleLinear()
-                .domain([parseFloat(domain_train_range_y[0]), parseFloat(domain_train_range_y[1])])
+                .domain([domain_train_range_y[0], domain_train_range_y[1]])
                 .range([height7, 0])
                 .nice()
 
             SVG7.append("g")
                 .call(d3.axisLeft(y))
+
+            var target_names = new Set();
+
+            for (var i = 0; i < data.length; i++) {
+                target_names.add(data[i]['target'])
+            }
+            target_names = Array.from(target_names).sort();
+
+            var color = d3.scaleOrdinal()
+                .domain(target_names)
+                .range(d3.schemeSet1)
 
             // 클립: 원이 SVG 그림판 밖으로 나가지 않도록
             var clip = SVG9.append("defs").append("svg:clipPath")
@@ -1165,29 +1174,18 @@
                  .attr("id", "scatterplot")
                  .attr("clip-path", "url(#clip)");
 
-            var target_names = new Set();
-
-            for (var i = 0; i < trainSampleData.length; i++) {
-                target_names.add(trainSampleData[i]['target'])
-            }
-            target_names = Array.from(target_names).sort();
-
-            var color = d3.scaleOrdinal()
-                .domain(target_names)
-                .range(d3.schemeSet1)
-
             scatter.append("g")
                 .attr("class", "brush")
                 .call(brush);
 
             scatter.selectAll("dot1")
-                .data(trainSampleData)
+                .data(data)
                 .enter()
                 .append("circle")
                 .attr("class", function (d) { return "dot1" + d.target } )
                 .attr("cx", function (d) { return x(d.r0); })
                 .attr("cy", function (d) { return y(d.r1); })
-                .attr("r", 7)
+                .attr("r", 6)
                 .attr("data-legend",function(d) { return d.target})
                 .style("fill", function (d) { return color(d.target) } )
 
@@ -1197,8 +1195,8 @@
 
                 if (!s) {
                     if (!idleTimeout) return idleTimeout = setTimeout(idled, idleDelay);
-                    x.domain([parseFloat(domain_train_range_x[0]), parseFloat(domain_train_range_x[1])]).range([0, width7]).nice()
-                    y.domain([parseFloat(domain_train_range_y[0]), parseFloat(domain_train_range_y[1])]).range([height7, 0]).nice()
+                    x.domain([domain_train_range_x[0], domain_train_range_x[1]]).range([0, width7]).nice()
+                    y.domain([domain_train_range_y[0], domain_train_range_y[1]]).range([height7, 0]).nice()
                 } else {
                     x.domain([s[0][0], s[1][0]].map(x.invert, x));
                     y.domain([s[1][1], s[0][1]].map(y.invert, y));
@@ -1247,11 +1245,11 @@
 
             var keys = Array.from(target_names);
 
-            trainDataGroup = keys.map(function (grpName) {
+            trainTargetGroup = keys.map(function (grpName) {
                 return {
                     name: grpName,
-                    values: trainSampleData.map(function (d, i) {
-                        if (grpName == trainSampleData[i]['target']) {
+                    values: data.map(function (d, i) {
+                        if (grpName == data[i]['target']) {
                             return { r0: d.r0, r1: d.r1, target: d.target };
                         }
                     })
@@ -1260,12 +1258,12 @@
 
             SVG7.append("g")
                 .selectAll("legend_circle")
-                .data(trainDataGroup)
+                .data(trainTargetGroup)
                 .enter()
                 .append("circle")
                     .attr("cx", -margin7.left + 70)
                     .attr("cy", function(d, i) { return 15 + i * 25 })
-                    .attr("r", 7)
+                    .attr("r", 6)
                     .style("fill", function(d) { return color(d.name) })
                 .on("click", function(d){
                     // is the element currently visible ?
@@ -1276,7 +1274,7 @@
 
             SVG7
                 .selectAll("legend_tag")
-                .data(trainDataGroup)
+                .data(trainTargetGroup)
                 .enter()
                 .append('g')
                 .append("text")
@@ -1322,7 +1320,6 @@
             .style("stroke-width", 2)
             .style("opacity", 0.6)
 
-        var testSampleData = new Array;
         var domain_test_range_x = new Array;
         var domain_test_range_y = new Array;
         var testDataGroup;
@@ -1330,22 +1327,14 @@
         //Read the data
         d3.csv("http://127.0.0.1:8080/embedding_and_machinelearning_visualization_test", function(data) {
 
-            var min = 0;
-            var max = data.length;
-
-            for(var i = 0; i < 2000; i++) {
-                var rand_index = Math.floor(Math.random() * (max - min)) + min;
-                testSampleData.push(data[rand_index]);
-            }
-
-            domain_test_range_x.push(parseFloat(d3.min(data, function(d) { return d.r0 })) - 1);
-            domain_test_range_x.push(parseFloat(d3.max(data, function(d) { return d.r0 })) + 1);
-            domain_test_range_y.push(parseFloat(d3.min(data, function(d) { return d.r1 })) - 1);
-            domain_test_range_y.push(parseFloat(d3.max(data, function(d) { return d.r1 })) + 1);
+            domain_test_range_x.push(d3.min(data, function(d) { return parseFloat(d.r0) }) - 1);
+            domain_test_range_x.push(d3.max(data, function(d) { return parseFloat(d.r0) }) + 1);
+            domain_test_range_y.push(d3.min(data, function(d) { return parseFloat(d.r1) }) - 1);
+            domain_test_range_y.push(d3.max(data, function(d) { return parseFloat(d.r1) }) + 1);
 
             // Add X axis
             var x = d3.scaleLinear()
-                .domain([parseFloat(domain_test_range_x[0]), parseFloat(domain_test_range_x[1])])
+                .domain([domain_test_range_x[0], domain_test_range_x[1]])
                 .range([0, width8])
                 .nice()
 
@@ -1355,7 +1344,7 @@
 
             // Add Y axis
             var y = d3.scaleLinear()
-                .domain([parseFloat(domain_test_range_y[0]), parseFloat(domain_test_range_y[1])])
+                .domain([domain_test_range_y[0], domain_test_range_y[1]])
                 .range([height8, 0])
                 .nice()
 
@@ -1387,8 +1376,8 @@
 
             var target_names = new Set();
 
-            for (var i = 0; i < testSampleData.length; i++) {
-                target_names.add(testSampleData[i]['target'])
+            for (var i = 0; i < data.length; i++) {
+                target_names.add(data[i]['target'])
             }
             target_names = Array.from(target_names).sort();
 
@@ -1420,14 +1409,14 @@
                 .attr("class", "brush")
                 .call(brush);
 
-            scatter.selectAll("dot3")
-                .data(testSampleData)
+            scatter.selectAll("dot2")
+                .data(data)
                 .enter()
                 .append("circle")
-                .attr("class", function (d) { return "dot3" + d.target } )
+                .attr("class", function (d) { return "dot2" + d.target } )
                 .attr("cx", function (d) { return x(d.r0); })
                 .attr("cy", function (d) { return y(d.r1); })
-                .attr("r", 7)
+                .attr("r", 6)
                 .attr("data-legend",function(d) { return d.target})
                 .style("fill", function (d) { return color(d.target) } )
 
@@ -1437,8 +1426,8 @@
 
                 if (!s) {
                     if (!idleTimeout) return idleTimeout = setTimeout(idled, idleDelay);
-                    x.domain([parseFloat(domain_test_range_x[0]), parseFloat(domain_test_range_x[1])]).range([0, width8]).nice()
-                    y.domain([parseFloat(domain_test_range_y[0]), parseFloat(domain_test_range_y[1])]).range([height8, 0]).nice()
+                    x.domain([domain_test_range_x[0], domain_test_range_x[1]]).range([0, width8]).nice()
+                    y.domain([domain_test_range_y[0], domain_test_range_y[1]]).range([height8, 0]).nice()
                 } else {
                     x.domain([s[0][0], s[1][0]].map(x.invert, x));
                     y.domain([s[1][1], s[0][1]].map(y.invert, y));
@@ -1464,11 +1453,11 @@
 
             var keys = Array.from(target_names)
 
-            testDataGroup = keys.map(function (grpName) {
+            testTargetGroup = keys.map(function (grpName) {
                 return {
                     name: grpName,
-                    values: testSampleData.map(function (d, i) {
-                        if (grpName == testSampleData[i]['target']) {
+                    values: data.map(function (d, i) {
+                        if (grpName == data[i]['target']) {
                             return { r0: d.r0, r1: d.r1, target: d.target };
                         }
                     })
@@ -1477,21 +1466,21 @@
 
             SVG8.append("g")
                 .selectAll("legend_circle")
-                .data(testDataGroup)
+                .data(testTargetGroup)
                 .enter()
                 .append("circle")
                     .attr("cx", -margin8.left + 70)
                     .attr("cy", function(d, i) { return 15 + i * 25 })
-                    .attr("r", 7)
+                    .attr("r", 6)
                     .style("fill", function(d) { return color(d.name) })
                 .on("click", function(d){
-                    currentOpacity = d3.selectAll(".dot3" + d.name).style("opacity")
-                    d3.selectAll(".dot3" + d.name).transition().style("opacity", currentOpacity == 1 ? 0:1)
+                    currentOpacity = d3.selectAll(".dot2" + d.name).style("opacity")
+                    d3.selectAll(".dot2" + d.name).transition().style("opacity", currentOpacity == 1 ? 0:1)
                 })
 
             SVG8
                 .selectAll("legend_tag")
-                .data(testDataGroup)
+                .data(testTargetGroup)
                 .enter()
                 .append('g')
                 .append("text")
@@ -1503,8 +1492,8 @@
                 .style("alignment-baseline", "middle")
                 .style("font-size", 15)
                 .on("click", function(d){
-                    currentOpacity = d3.selectAll(".dot3" + d.name).style("opacity")
-                    d3.selectAll(".dot3" + d.name).transition().style("opacity", currentOpacity == 1 ? 0:1)
+                    currentOpacity = d3.selectAll(".dot2" + d.name).style("opacity")
+                    d3.selectAll(".dot2" + d.name).transition().style("opacity", currentOpacity == 1 ? 0:1)
                 })
         })
     </script>
@@ -1536,11 +1525,13 @@
             .style("stroke-width", 2)
             .style("opacity", 0.6)
 
+        var trainPredGroup;
+
         d3.csv("http://127.0.0.1:8080/embedding_and_machinelearning_visualization_train", function(data) {
 
                 // Add X axis
             var x = d3.scaleLinear()
-                .domain([parseFloat(domain_train_range_x[0]), parseFloat(domain_train_range_x[1])])
+                .domain([(domain_train_range_x[0]), (domain_train_range_x[1])])
                 .range([0, width9])
                 .nice()
 
@@ -1550,12 +1541,23 @@
 
             // Add Y axis
             var y = d3.scaleLinear()
-                .domain([parseFloat(domain_train_range_y[0]), parseFloat(domain_train_range_y[1])])
+                .domain([(domain_train_range_y[0]), (domain_train_range_y[1])])
                 .range([height9, 0])
                 .nice()
 
             SVG9.append("g")
                 .call(d3.axisLeft(y))
+
+            var target_names = new Set();
+
+            for (var i = 0; i < data.length; i++) {
+                target_names.add(data[i]['pred'])
+            }
+            target_names = Array.from(target_names).sort();
+
+            var color = d3.scaleOrdinal()
+                .domain(target_names)
+                .range(d3.schemeSet1)
 
             // 클립: 원이 SVG 그림판 밖으로 나가지 않도록
             var clip = SVG9.append("defs").append("svg:clipPath")
@@ -1577,29 +1579,18 @@
                  .attr("id", "scatterplot")
                  .attr("clip-path", "url(#clip)");
 
-            var target_names = new Set();
-
-            for (var i = 0; i < trainSampleData.length; i++) {
-                target_names.add(trainSampleData[i]['pred'])
-            }
-            target_names = Array.from(target_names).sort();
-
-            var color = d3.scaleOrdinal()
-                .domain(target_names)
-                .range(d3.schemeSet1)
-
             scatter.append("g")
                 .attr("class", "brush")
                 .call(brush);
 
-            scatter.selectAll("dot2")
-                .data(trainSampleData)
+            scatter.selectAll("dot3")
+                .data(data)
                 .enter()
                 .append("circle")
-                .attr("class", function (d) { return "dot2" + d.pred } )
+                .attr("class", function (d) { return "dot3" + d.pred } )
                 .attr("cx", function (d) { return x(d.r0); })
                 .attr("cy", function (d) { return y(d.r1); })
-                .attr("r", 7)
+                .attr("r", 6)
                 .attr("data-legend",function(d) { return d.pred})
                 .style("fill", function (d) { return color(d.pred) } )
 
@@ -1609,8 +1600,8 @@
 
                 if (!s) {
                     if (!idleTimeout) return idleTimeout = setTimeout(idled, idleDelay);
-                    x.domain([parseFloat(domain_train_range_x[0]), parseFloat(domain_train_range_x[1])]).range([0, width7]).nice()
-                    y.domain([parseFloat(domain_train_range_y[0]), parseFloat(domain_train_range_y[1])]).range([height7, 0]).nice()
+                    x.domain([(domain_train_range_x[0]), (domain_train_range_x[1])]).range([0, width9]).nice()
+                    y.domain([(domain_train_range_y[0]), (domain_train_range_y[1])]).range([height9, 0]).nice()
                 } else {
                     x.domain([s[0][0], s[1][0]].map(x.invert, x));
                     y.domain([s[1][1], s[0][1]].map(y.invert, y));
@@ -1655,30 +1646,40 @@
             SVG9.selectAll(".tick line").attr("stroke", "black").style("stroke-width", 1)
             SVG9.selectAll(".tick text").attr("stroke", "black").style("stroke-width", 1).style("font-size", 13)
 
-
             var keys = Array.from(target_names)
+
+            trainPredGroup = keys.map(function (grpName) {
+                return {
+                    name: grpName,
+                    values: data.map(function (d, i) {
+                        if (grpName == data[i]['pred']) {
+                            return { r0: d.r0, r1: d.r1, pred: d.pred };
+                        }
+                    })
+                }
+            });
 
             SVG9.append("g")
                 .selectAll("legend_circle")
-                .data(trainDataGroup)
+                .data(trainPredGroup)
                 .enter()
                 .append("circle")
-                    .attr("cx", -margin7.left + 70)
+                    .attr("cx", -margin9.left + 70)
                     .attr("cy", function(d, i) { return 15 + i * 25 })
-                    .attr("r", 7)
+                    .attr("r", 6)
                     .style("fill", function(d) { return color(d.name) })
                 .on("click", function(d){
-                    currentOpacity = d3.selectAll(".dot2" + d.name).style("opacity")
-                    d3.selectAll(".dot2" + d.name).transition().style("opacity", currentOpacity == 1 ? 0:1)
+                    currentOpacity = d3.selectAll(".dot3" + d.name).style("opacity")
+                    d3.selectAll(".dot3" + d.name).transition().style("opacity", currentOpacity == 1 ? 0:1)
                 })
 
             SVG9
                 .selectAll("legend_tag")
-                .data(trainDataGroup)
+                .data(trainPredGroup)
                 .enter()
                 .append('g')
                 .append("text")
-                .attr('x', -margin7.left + 80)
+                .attr('x', -margin9.left + 80)
                 .attr('y', function(d, i) { return 16 + i * 25})
                 .text(function(d) { return d.name; })
                 .style("fill", function(d){ return color(d.name) })
@@ -1686,8 +1687,8 @@
                 .style("alignment-baseline", "middle")
                 .style("font-size", 15)
                 .on("click", function(d){
-                    currentOpacity = d3.selectAll(".dot2" + d.name).style("opacity")
-                    d3.selectAll(".dot2" + d.name).transition().style("opacity", currentOpacity == 1 ? 0:1)
+                    currentOpacity = d3.selectAll(".dot3" + d.name).style("opacity")
+                    d3.selectAll(".dot3" + d.name).transition().style("opacity", currentOpacity == 1 ? 0:1)
                 })
         })
     </script>
@@ -1720,12 +1721,14 @@
             .style("stroke-width", 2)
             .style("opacity", 0.6)
 
+        var testPredGroup;
+
         //Read the data
         d3.csv("http://127.0.0.1:8080/embedding_and_machinelearning_visualization_test", function(data) {
 
             // Add X axis
             var x = d3.scaleLinear()
-                .domain([parseFloat(domain_test_range_x[0]), parseFloat(domain_test_range_x[1])])
+                .domain([(domain_test_range_x[0]), (domain_test_range_x[1])])
                 .range([0, width10])
                 .nice()
 
@@ -1735,7 +1738,7 @@
 
             // Add Y axis
             var y = d3.scaleLinear()
-                .domain([parseFloat(domain_test_range_y[0]), parseFloat(domain_test_range_y[1])])
+                .domain([(domain_test_range_y[0]), (domain_test_range_y[1])])
                 .range([height10, 0])
                 .nice()
 
@@ -1767,8 +1770,8 @@
 
             var target_names = new Set();
 
-            for (var i = 0; i < testSampleData.length; i++) {
-                target_names.add(testSampleData[i]['pred'])
+            for (var i = 0; i < data.length; i++) {
+                target_names.add(data[i]['pred'])
             }
             target_names = Array.from(target_names).sort();
 
@@ -1801,13 +1804,13 @@
                 .call(brush);
 
             scatter.selectAll("dot4")
-                .data(testSampleData)
+                .data(data)
                 .enter()
                 .append("circle")
                 .attr("class", function (d) { return "dot4" + d.pred } )
                 .attr("cx", function (d) { return x(d.r0); })
                 .attr("cy", function (d) { return y(d.r1); })
-                .attr("r", 7)
+                .attr("r", 6)
                 .attr("data-legend",function(d) { return d.pred})
                 .style("fill", function (d) { return color(d.pred) } )
 
@@ -1817,8 +1820,8 @@
 
                 if (!s) {
                     if (!idleTimeout) return idleTimeout = setTimeout(idled, idleDelay);
-                    x.domain([parseFloat(domain_test_range_x[0]), parseFloat(domain_test_range_x[1])]).range([0, width10]).nice()
-                    y.domain([parseFloat(domain_test_range_y[0]), parseFloat(domain_test_range_y[1])]).range([height10, 0]).nice()
+                    x.domain([(domain_test_range_x[0]), (domain_test_range_x[1])]).range([0, width10]).nice()
+                    y.domain([(domain_test_range_y[0]), (domain_test_range_y[1])]).range([height10, 0]).nice()
                 } else {
                     x.domain([s[0][0], s[1][0]].map(x.invert, x));
                     y.domain([s[1][1], s[0][1]].map(y.invert, y));
@@ -1842,14 +1845,27 @@
                 .attr("cy", function (d) { return y(d.r1); });
             }
 
+            var keys = Array.from(target_names)
+
+            testPredGroup = keys.map(function (grpName) {
+                return {
+                    name: grpName,
+                    values: data.map(function (d, i) {
+                        if (grpName == data[i]['pred']) {
+                            return { r0: d.r0, r1: d.r1, pred: d.pred };
+                        }
+                    })
+                }
+            });
+
             SVG10.append("g")
                 .selectAll("legend_circle")
-                .data(testDataGroup)
+                .data(testPredGroup)
                 .enter()
                 .append("circle")
                     .attr("cx", -margin10.left + 70)
                     .attr("cy", function(d, i) { return 15 + i * 25 })
-                    .attr("r", 7)
+                    .attr("r", 6)
                     .style("fill", function(d) { return color(d.name) })
                 .on("click", function(d){
                     currentOpacity = d3.selectAll(".dot4" + d.name).style("opacity")
@@ -1858,7 +1874,7 @@
 
             SVG10
                 .selectAll("legend_tag")
-                .data(testDataGroup)
+                .data(testPredGroup)
                 .enter()
                 .append('g')
                 .append("text")
@@ -1904,11 +1920,13 @@
             .style("stroke-width", 2)
             .style("opacity", 0.6)
 
+        var trainSuccessGroup;
+
         d3.csv("http://127.0.0.1:8080/embedding_and_machinelearning_visualization_train", function(data) {
 
             // Add X axis
             var x = d3.scaleLinear()
-                .domain([parseFloat(domain_train_range_x[0]), parseFloat(domain_train_range_x[1])])
+                .domain([(domain_train_range_x[0]), (domain_train_range_x[1])])
                 .range([0, width11])
                 .nice()
 
@@ -1918,12 +1936,18 @@
 
             // Add Y axis
             var y = d3.scaleLinear()
-                .domain([parseFloat(domain_train_range_y[0]), parseFloat(domain_train_range_y[1])])
+                .domain([(domain_train_range_y[0]), (domain_train_range_y[1])])
                 .range([height11, 0])
                 .nice()
 
             SVG11.append("g")
                 .call(d3.axisLeft(y))
+
+            var target_names = ["0", "1"];
+
+            var color = d3.scaleOrdinal()
+                .domain(target_names)
+                .range([`#ff0000`, `#0000dc`])
 
             // 클립: 원이 SVG 그림판 밖으로 나가지 않도록
             var clip = SVG11.append("defs").append("svg:clipPath")
@@ -1945,29 +1969,18 @@
                  .attr("id", "scatterplot")
                  .attr("clip-path", "url(#clip)");
 
-            var target_names = new Set();
-
-            for (var i = 0; i < trainSampleData.length; i++) {
-                target_names.add(trainSampleData[i]['success'])
-            }
-            target_names = Array.from(target_names).sort();
-
-            var color = d3.scaleOrdinal()
-                .domain(target_names)
-                .range([`#ff0000`, `#0000dc`])
-
             scatter.append("g")
                 .attr("class", "brush")
                 .call(brush);
 
-            scatter.selectAll(".dot")
-                .data(trainSampleData)
+            scatter.selectAll("dot5")
+                .data(data)
                 .enter()
                 .append("circle")
-                .attr("class", function (d) { return "dot " + d.success } )
+                .attr("class", function (d) { return "dot5" + d.success } )
                 .attr("cx", function (d) { return x(d.r0); })
                 .attr("cy", function (d) { return y(d.r1); })
-                .attr("r", 7)
+                .attr("r", 6)
                 .attr("data-legend",function(d) { return d.success})
                 .style("fill", function (d) { return color(d.success) } )
 
@@ -1977,8 +1990,8 @@
 
                 if (!s) {
                     if (!idleTimeout) return idleTimeout = setTimeout(idled, idleDelay);
-                    x.domain([parseFloat(domain_train_range_x[0]), parseFloat(domain_train_range_x[1])]).range([0, width11]).nice()
-                    y.domain([parseFloat(domain_train_range_y[0]), parseFloat(domain_train_range_y[1])]).range([height11, 0]).nice()
+                    x.domain([(domain_train_range_x[0]), (domain_train_range_x[1])]).range([0, width11]).nice()
+                    y.domain([(domain_train_range_y[0]), (domain_train_range_y[1])]).range([height11, 0]).nice()
                 } else {
                     x.domain([s[0][0], s[1][0]].map(x.invert, x));
                     y.domain([s[1][1], s[0][1]].map(y.invert, y));
@@ -2023,30 +2036,52 @@
             SVG11.selectAll(".tick line").attr("stroke", "black").style("stroke-width", 1)
             SVG11.selectAll(".tick text").attr("stroke", "black").style("stroke-width", 1).style("font-size", 13)
 
+            var keys = ["0", "1"];
 
-            var keys = ["실패", "성공"]
+            trainSuccessGroup = keys.map(function (grpName) {
+                return {
+                    name: grpName,
+                    values: data.map(function (d, i) {
+                        if (grpName == data[i]['success']) {
+                            return { r0: d.r0, r1: d.r1, success: d.success };
+                        }
+                    })
+                }
+            });
 
             SVG11.append("g")
-                .selectAll("legend")
-                .data(keys)
+                .selectAll("legend_circle")
+                .data(trainSuccessGroup)
                 .enter()
                 .append("circle")
                     .attr("cx", -margin11.left + 70)
                     .attr("cy", function(d, i) { return 15 + i * 25 })
-                    .attr("r", 7)
-                    .style("fill", function(d) { return color(d) })
+                    .attr("r", 6)
+                    .style("fill", function(d) { return color(d.name) })
+                .on("click", function(d){
+                    // is the element currently visible ?
+                    currentOpacity = d3.selectAll(".dot5" + d.name).style("opacity")
+                    // Change the opacity: from 0 to 1 or from 1 to 0
+                    d3.selectAll(".dot5" + d.name).transition().style("opacity", currentOpacity == 1 ? 0:1)
+                })
 
-            SVG11.append("g")
-                .selectAll("labels")
-                .data(keys)
+            SVG11
+                .selectAll("legend_tag")
+                .data(trainSuccessGroup)
                 .enter()
+                .append('g')
                 .append("text")
-                    .attr("x", -margin11.left + 80)
-                    .attr("y", function(d, i) { return 15 + i * 25 })
-                    .style("fill", function(d) { return color(d) })
-                    .text(function(d) { return d })
-                    .attr("text-anchor", "left")
-                    .style("alignment-baseline", "middle")
+                .attr('x', -margin11.left + 80)
+                .attr('y', function(d, i) { return 16 + i * 25})
+                .text(function(d) { return d.name; })
+                .style("fill", function(d){ return color(d.name) })
+                .attr("text-anchor", "left")
+                .style("alignment-baseline", "middle")
+                .style("font-size", 15)
+                .on("click", function(d){
+                    currentOpacity = d3.selectAll(".dot5" + d.name).style("opacity")
+                    d3.selectAll(".dot5" + d.name).transition().style("opacity", currentOpacity == 1 ? 0:1)
+                })
         })
     </script>
 
@@ -2078,11 +2113,13 @@
             .style("stroke-width", 2)
             .style("opacity", 0.6)
 
-        d3.csv("http://127.0.0.1:8080/embedding_and_machinelearning_visualization_train", function(data) {
+        var testSuccessGroup;
+
+        d3.csv("http://127.0.0.1:8080/embedding_and_machinelearning_visualization_test", function(data) {
 
             // Add X axis
             var x = d3.scaleLinear()
-                .domain([parseFloat(domain_test_range_x[0]), parseFloat(domain_test_range_x[1])])
+                .domain([(domain_test_range_x[0]), (domain_test_range_x[1])])
                 .range([0, width12])
                 .nice()
 
@@ -2092,12 +2129,18 @@
 
             // Add Y axis
             var y = d3.scaleLinear()
-                .domain([parseFloat(domain_test_range_y[0]), parseFloat(domain_test_range_y[1])])
+                .domain([(domain_test_range_y[0]), (domain_test_range_y[1])])
                 .range([height12, 0])
                 .nice()
 
             SVG12.append("g")
                 .call(d3.axisLeft(y))
+
+            var target_names = ["0", "1"]
+
+            var color = d3.scaleOrdinal()
+                .domain(target_names)
+                .range([`#ff0000`, `#0000dc`])
 
             // 클립: 원이 SVG 그림판 밖으로 나가지 않도록
             var clip = SVG12.append("defs").append("svg:clipPath")
@@ -2119,29 +2162,18 @@
                  .attr("id", "scatterplot")
                  .attr("clip-path", "url(#clip)");
 
-            var target_names = new Set();
-
-            for (var i = 0; i < testSampleData.length; i++) {
-                target_names.add(testSampleData[i]['success'])
-            }
-            target_names = Array.from(target_names).sort();
-
-            var color = d3.scaleOrdinal()
-                .domain(target_names)
-                .range([`#ff0000`, `#0000dc`])
-
             scatter.append("g")
                 .attr("class", "brush")
                 .call(brush);
 
-            scatter.selectAll(".dot")
-                .data(testSampleData)
+            scatter.selectAll("dot6")
+                .data(data)
                 .enter()
                 .append("circle")
-                .attr("class", function (d) { return "dot " + d.success } )
+                .attr("class", function (d) { return "dot6" + d.success } )
                 .attr("cx", function (d) { return x(d.r0); })
                 .attr("cy", function (d) { return y(d.r1); })
-                .attr("r", 7)
+                .attr("r", 6)
                 .attr("data-legend",function(d) { return d.success})
                 .style("fill", function (d) { return color(d.success) } )
 
@@ -2151,8 +2183,8 @@
 
                 if (!s) {
                     if (!idleTimeout) return idleTimeout = setTimeout(idled, idleDelay);
-                    x.domain([parseFloat(domain_test_range_x[0]), parseFloat(domain_test_range_x[1])]).range([0, width12]).nice()
-                    y.domain([parseFloat(domain_test_range_y[0]), parseFloat(domain_test_range_y[1])]).range([height12, 0]).nice()
+                    x.domain([(domain_test_range_x[0]), (domain_test_range_x[1])]).range([0, width12]).nice()
+                    y.domain([(domain_test_range_y[0]), (domain_test_range_y[1])]).range([height12, 0]).nice()
                 } else {
                     x.domain([s[0][0], s[1][0]].map(x.invert, x));
                     y.domain([s[1][1], s[0][1]].map(y.invert, y));
@@ -2197,36 +2229,428 @@
             SVG12.selectAll(".tick line").attr("stroke", "black").style("stroke-width", 1)
             SVG12.selectAll(".tick text").attr("stroke", "black").style("stroke-width", 1).style("font-size", 13)
 
-            var keys = ["실패", "성공"]
+            var keys = ["0", "1"];
+
+            testSuccessGroup = keys.map(function (grpName) {
+                return {
+                    name: grpName,
+                    values: data.map(function (d, i) {
+                        if (grpName == data[i]['success']) {
+                            return { r0: d.r0, r1: d.r1, success: d.success };
+                        }
+                    })
+                }
+            });
 
             SVG12.append("g")
-                .selectAll("legend")
-                .data(keys)
+                .selectAll("legend_circle")
+                .data(testSuccessGroup)
                 .enter()
                 .append("circle")
                     .attr("cx", -margin12.left + 70)
                     .attr("cy", function(d, i) { return 15 + i * 25 })
-                    .attr("r", 7)
-                    .style("fill", function(d) { return color(d) })
+                    .attr("r", 6)
+                    .style("fill", function(d) { return color(d.name) })
+                .on("click", function(d){
+                    // is the element currently visible ?
+                    currentOpacity = d3.selectAll(".dot6" + d.name).style("opacity")
+                    // Change the opacity: from 0 to 1 or from 1 to 0
+                    d3.selectAll(".dot6" + d.name).transition().style("opacity", currentOpacity == 1 ? 0:1)
+                })
 
-            SVG12.append("g")
-                .selectAll("labels")
-                .data(keys)
+            SVG12
+                .selectAll("legend_tag")
+                .data(testSuccessGroup)
                 .enter()
+                .append('g')
                 .append("text")
-                    .attr("x", -margin12.left + 80)
-                    .attr("y", function(d, i) { return 15 + i * 25 })
-                    .style("fill", function(d) { return color(d) })
-                    .text(function(d) { return d })
-                    .attr("text-anchor", "left")
-                    .style("alignment-baseline", "middle")
+                .attr('x', -margin12.left + 80)
+                .attr('y', function(d, i) { return 16 + i * 25})
+                .text(function(d) { return d.name; })
+                .style("fill", function(d){ return color(d.name) })
+                .attr("text-anchor", "left")
+                .style("alignment-baseline", "middle")
+                .style("font-size", 15)
+                .on("click", function(d){
+                    currentOpacity = d3.selectAll(".dot6" + d.name).style("opacity")
+                    d3.selectAll(".dot6" + d.name).transition().style("opacity", currentOpacity == 1 ? 0:1)
+                })
         })
     </script>
 
     {#  틀린 결과 분포도(훈련)  #}
-    <script class="j"></script>
+    <script class="j">
+        var margin13 = {top: 10, right: 30, bottom: 40, left: 50},
+            width13 = 800 - margin13.left - margin13.right,
+            height13 = 800 - margin13.top - margin13.bottom;
+
+        // append the SVg object to the body of the page
+        var SVG13 = d3.select("#area13")
+            .style("background-color", "none")
+            .append("svg")
+            .attr("width", width13 + margin13.left + margin13.right)
+            .attr("height", height13 + margin13.top + margin13.bottom)
+            .append("g")
+            .attr("transform",
+            "translate(" + margin13.left + "," + margin13.top + ")")
+
+        // Add the black box around the chart
+        SVG13
+            .append("rect")
+            .attr("x",0)
+            .attr("y",0)
+            .attr("height", height13)
+            .attr("width", width13)
+            .style("fill", "none")
+            .style("stroke", "black")
+            .style("stroke-width", 2)
+            .style("opacity", 0.6)
+
+        d3.csv("http://127.0.0.1:8080/embedding_and_machinelearning_visualization_train", function(data) {
+
+            // Add X axis
+            var x = d3.scaleLinear()
+                .domain([(domain_train_range_x[0]), (domain_train_range_x[1])])
+                .range([0, width13])
+                .nice()
+
+            SVG13.append("g")
+                .attr("transform", "translate(0," + height13 + ")")
+                .call(d3.axisBottom(x))
+
+            // Add Y axis
+            var y = d3.scaleLinear()
+                .domain([(domain_train_range_y[0]), (domain_train_range_y[1])])
+                .range([height13, 0])
+                .nice()
+
+            SVG13.append("g")
+                .call(d3.axisLeft(y))
+
+            var target_names = new Set();
+
+            for (var i = 0; i < data.length; i++) {
+                target_names.add(data[i]['target'])
+            }
+            target_names = Array.from(target_names).sort();
+
+            var color = d3.scaleOrdinal()
+                .domain(target_names)
+                .range(d3.schemeSet1)
+
+            var color2 = d3.scaleOrdinal()
+                .domain(target_names)
+                .range([`rgba(0,255,169,0)`])
+
+            // 클립: 원이 SVG 그림판 밖으로 나가지 않도록
+            var clip = SVG13.append("defs").append("svg:clipPath")
+                .attr("id", "clip")
+                .append("svg:rect")
+                .attr("width", width13)
+                .attr("height", height13)
+                .attr("x", 0)
+                .attr("y", 0);
+
+            var xAxis = d3.axisBottom(x).ticks(12),
+                yAxis = d3.axisLeft(y).ticks(12 * height13 / width13);
+
+            var brush = d3.brush().extent([[0, 0], [width13, height13]]).on("end", brushended),
+                idleTimeout,
+                idleDelay = 350;
+
+            var scatter = SVG13.append("g")
+                 .attr("id", "scatterplot")
+                 .attr("clip-path", "url(#clip)");
+
+            scatter.append("g")
+                .attr("class", "brush")
+                .call(brush);
+
+            scatter.selectAll("dot7")
+                .data(data)
+                .enter()
+                .append("circle")
+                .attr("class", function (d) { return "dot7" + d.target } )
+                .attr("cx", function (d) { return x(d.r0); })
+                .attr("cy", function (d) { return y(d.r1); })
+                .attr("r", 6)
+                .attr("data-legend",function(d) { return d.target } )
+                .style("fill", function (d) { if (d.success == '0') return color(d.target); else return color2(d.target) } )
+
+            function brushended() {
+
+                var s = d3.event.selection;
+
+                if (!s) {
+                    if (!idleTimeout) return idleTimeout = setTimeout(idled, idleDelay);
+                    x.domain([(domain_train_range_x[0]), (domain_train_range_x[1])]).range([0, width13]).nice()
+                    y.domain([(domain_train_range_y[0]), (domain_train_range_y[1])]).range([height13, 0]).nice()
+                } else {
+                    x.domain([s[0][0], s[1][0]].map(x.invert, x));
+                    y.domain([s[1][1], s[0][1]].map(y.invert, y));
+                    scatter.select(".brush").call(brush.move, null);
+                }
+                zoom();
+            }
+
+            function idled() {
+                idleTimeout = null;
+            }
+
+            function zoom() {
+                var t = scatter.transition().duration(750);
+                SVG13.select("#axis--x").transition(t).call(xAxis);
+                SVG13.select("#axis--y").transition(t).call(yAxis);
+                scatter.selectAll("circle").transition(t)
+                .attr("cx", function (d) { return x(d.r0); })
+                .attr("cy", function (d) { return y(d.r1); });
+            }
+
+            // Add X axis label:
+            SVG13.append("text")
+                .attr("text-anchor", "end")
+                .attr("x", width13)
+                .attr("y", height13 + margin13.top + 30)
+                .text("dimension 0")
+                .style("font-size", "15px")
+                .style("fill", "black")
+
+            // Y axis label:
+            SVG13.append("text")
+                .attr("text-anchor", "end")
+                .attr("transform", "rotate(-90)")
+                .attr("y", -margin13.left + 10)
+                .attr("x", -margin13.top)
+                .text("dimension 1")
+                .style("font-size", "15px")
+                .style("fill", "black")
+
+            // Customization
+            SVG13.selectAll(".tick line").attr("stroke", "black").style("stroke-width", 1)
+            SVG13.selectAll(".tick text").attr("stroke", "black").style("stroke-width", 1).style("font-size", 13)
+
+
+            SVG13.append("g")
+                .selectAll("legend_circle")
+                .data(trainTargetGroup)
+                .enter()
+                .append("circle")
+                    .attr("cx", -margin13.left + 70)
+                    .attr("cy", function(d, i) { return 15 + i * 25 })
+                    .attr("r", 6)
+                    .style("fill", function(d) { return color(d.name) })
+                .on("click", function(d){
+                    // is the element currently visible ?
+                    currentOpacity = d3.selectAll(".dot7" + d.name).style("opacity")
+                    // Change the opacity: from 0 to 1 or from 1 to 0
+                    d3.selectAll(".dot7" + d.name).transition().style("opacity", currentOpacity == 1 ? 0:1)
+                })
+
+            SVG13
+                .selectAll("legend_tag")
+                .data(trainTargetGroup)
+                .enter()
+                .append('g')
+                .append("text")
+                .attr('x', -margin13.left + 80)
+                .attr('y', function(d, i) { return 16 + i * 25})
+                .text(function(d) { return d.name; })
+                .style("fill", function(d){ return color(d.name) })
+                .attr("text-anchor", "left")
+                .style("alignment-baseline", "middle")
+                .style("font-size", 15)
+                .on("click", function(d){
+                    currentOpacity = d3.selectAll(".dot7" + d.name).style("opacity")
+                    d3.selectAll(".dot7" + d.name).transition().style("opacity", currentOpacity == 1 ? 0:1)
+                })
+        })
+    </script>
 
     {#  틀린 결과 분포도(테스트)  #}
-    <script class="k"></script>
+    <script class="k">
+        var margin14 = {top: 10, right: 30, bottom: 40, left: 50},
+            width14 = 800 - margin14.left - margin14.right,
+            height14 = 800 - margin14.top - margin14.bottom;
+
+        // append the SVg object to the body of the page
+        var SVG14 = d3.select("#area14")
+            .style("background-color", "none")
+            .append("svg")
+            .attr("width", width14 + margin14.left + margin14.right)
+            .attr("height", height14 + margin14.top + margin14.bottom)
+            .append("g")
+            .attr("transform",
+            "translate(" + margin14.left + "," + margin14.top + ")")
+
+        // Add the black box around the chart
+        SVG14
+            .append("rect")
+            .attr("x",0)
+            .attr("y",0)
+            .attr("height", height14)
+            .attr("width", width14)
+            .style("fill", "none")
+            .style("stroke", "black")
+            .style("stroke-width", 2)
+            .style("opacity", 0.6)
+
+        d3.csv("http://127.0.0.1:8080/embedding_and_machinelearning_visualization_test", function(data) {
+
+            // Add X axis
+            var x = d3.scaleLinear()
+                .domain([(domain_test_range_x[0]), (domain_test_range_x[1])])
+                .range([0, width14])
+                .nice()
+
+            SVG14.append("g")
+                .attr("transform", "translate(0," + height14 + ")")
+                .call(d3.axisBottom(x))
+
+            // Add Y axis
+            var y = d3.scaleLinear()
+                .domain([(domain_test_range_y[0]), (domain_test_range_y[1])])
+                .range([height14, 0])
+                .nice()
+
+            SVG14.append("g")
+                .call(d3.axisLeft(y))
+
+            var target_names = new Set();
+
+            for (var i = 0; i < data.length; i++) {
+                target_names.add(data[i]['target'])
+            }
+            target_names = Array.from(target_names).sort();
+
+            var color = d3.scaleOrdinal()
+                .domain(target_names)
+                .range(d3.schemeSet1)
+
+            var color2 = d3.scaleOrdinal()
+                .domain(target_names)
+                .range([`rgba(0,255,169,0)`])
+
+            // 클립: 원이 SVG 그림판 밖으로 나가지 않도록
+            var clip = SVG14.append("defs").append("svg:clipPath")
+                .attr("id", "clip")
+                .append("svg:rect")
+                .attr("width", width14)
+                .attr("height", height14)
+                .attr("x", 0)
+                .attr("y", 0);
+
+            var xAxis = d3.axisBottom(x).ticks(12),
+                yAxis = d3.axisLeft(y).ticks(12 * height14 / width14);
+
+            var brush = d3.brush().extent([[0, 0], [width14, height14]]).on("end", brushended),
+                idleTimeout,
+                idleDelay = 350;
+
+            var scatter = SVG14.append("g")
+                 .attr("id", "scatterplot")
+                 .attr("clip-path", "url(#clip)");
+
+            scatter.append("g")
+                .attr("class", "brush")
+                .call(brush);
+
+            scatter.selectAll("dot8")
+                .data(data)
+                .enter()
+                .append("circle")
+                .attr("class", function (d) { return "dot8" + d.target } )
+                .attr("cx", function (d) { return x(d.r0); })
+                .attr("cy", function (d) { return y(d.r1); })
+                .attr("r", 6)
+                .attr("data-legend",function(d) { return d.target})
+                .style("fill", function (d) { if (d.success == '0') return color(d.target); else return color2(d.target) } )
+
+            function brushended() {
+
+                var s = d3.event.selection;
+
+                if (!s) {
+                    if (!idleTimeout) return idleTimeout = setTimeout(idled, idleDelay);
+                    x.domain([(domain_test_range_x[0]), (domain_test_range_x[1])]).range([0, width14]).nice()
+                    y.domain([(domain_test_range_y[0]), (domain_test_range_y[1])]).range([height14, 0]).nice()
+                } else {
+                    x.domain([s[0][0], s[1][0]].map(x.invert, x));
+                    y.domain([s[1][1], s[0][1]].map(y.invert, y));
+                    scatter.select(".brush").call(brush.move, null);
+                }
+                zoom();
+            }
+
+            function idled() {
+                idleTimeout = null;
+            }
+
+            function zoom() {
+                var t = scatter.transition().duration(750);
+                SVG14.select("#axis--x").transition(t).call(xAxis);
+                SVG14.select("#axis--y").transition(t).call(yAxis);
+                scatter.selectAll("circle").transition(t)
+                .attr("cx", function (d) { return x(d.r0); })
+                .attr("cy", function (d) { return y(d.r1); });
+            }
+
+            // Add X axis label:
+            SVG14.append("text")
+                .attr("text-anchor", "end")
+                .attr("x", width14)
+                .attr("y", height14 + margin14.top + 30)
+                .text("dimension 0")
+                .style("font-size", "15px")
+                .style("fill", "black")
+
+            // Y axis label:
+            SVG14.append("text")
+                .attr("text-anchor", "end")
+                .attr("transform", "rotate(-90)")
+                .attr("y", -margin14.left + 10)
+                .attr("x", -margin14.top)
+                .text("dimension 1")
+                .style("font-size", "15px")
+                .style("fill", "black")
+
+            // Customization
+            SVG14.selectAll(".tick line").attr("stroke", "black").style("stroke-width", 1)
+            SVG14.selectAll(".tick text").attr("stroke", "black").style("stroke-width", 1).style("font-size", 13)
+
+            SVG14.append("g")
+                .selectAll("legend_circle")
+                .data(testTargetGroup)
+                .enter()
+                .append("circle")
+                    .attr("cx", -margin14.left + 70)
+                    .attr("cy", function(d, i) { return 15 + i * 25 })
+                    .attr("r", 6)
+                    .style("fill", function(d) { return color(d.name) })
+                .on("click", function(d){
+                    // is the element currently visible ?
+                    currentOpacity = d3.selectAll(".dot8" + d.name).style("opacity")
+                    // Change the opacity: from 0 to 1 or from 1 to 0
+                    d3.selectAll(".dot8" + d.name).transition().style("opacity", currentOpacity == 1 ? 0:1)
+                })
+
+            SVG14
+                .selectAll("legend_tag")
+                .data(testTargetGroup)
+                .enter()
+                .append('g')
+                .append("text")
+                .attr('x', -margin14.left + 80)
+                .attr('y', function(d, i) { return 16 + i * 25})
+                .text(function(d) { return d.name; })
+                .style("fill", function(d){ return color(d.name) })
+                .attr("text-anchor", "left")
+                .style("alignment-baseline", "middle")
+                .style("font-size", 15)
+                .on("click", function(d){
+                    currentOpacity = d3.selectAll(".dot8" + d.name).style("opacity")
+                    d3.selectAll(".dot8" + d.name).transition().style("opacity", currentOpacity == 1 ? 0:1)
+                })
+        })
+    </script>
 </body>
 </html>
