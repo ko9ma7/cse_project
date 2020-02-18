@@ -133,7 +133,28 @@ def page3():
             train = pd.read_csv(UPLOAD_FOLDER + "train.csv")
             test = pd.read_csv(UPLOAD_FOLDER + "test.csv")
 
-            X_train, X_test, y_train, y_test = embedding(checked_list[0], train, test)
+            # 결측치가 있는지 확인하기(우선은 제거하는 방식)
+            if pd.isnull(train['x']).sum() > 0 or pd.isnull(train['y']).sum() > 0:
+                train = train.dropna()
+            if pd.isnull(test['x']).sum() > 0 or pd.isnull(test['y']).sum() > 0:
+                test = test.dropna()
+
+            train = train.sample(frac=1).reset_index(drop=True)
+            test = test.sample(frac=1).reset_index(drop=True)
+
+            # y값을 레이블마다 200개씩 추출
+            train.sort_values(by='y', inplace=True)
+            target_names = list(set(train['y']))
+
+            train_ = pd.DataFrame(columns=['x', 'y'])
+
+            for i in range(len(target_names)):
+                df = pd.DataFrame(train[train['y'] == target_names[i]].values[:1000], columns=['x', 'y'])
+                train_ = pd.concat([train_, df], axis=0, ignore_index=True)
+
+            train_ = train_.sample(frac=1).reset_index(drop=True)
+
+            X_train, X_test, y_train, y_test = embedding(checked_list[0], train_, test)
             print('X_train shape: {}, y_train shape: {}'.format(X_train.shape, y_train.shape))
             print('X_test shape: {}, y_test shape: {}'.format(X_test.shape, y_test.shape))
 

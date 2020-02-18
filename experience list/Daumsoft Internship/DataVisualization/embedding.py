@@ -1,17 +1,8 @@
 import pandas as pd
 
 def embedding(method, train, test):
-    # 데이터 섞어주기
     # x열은 토크나이징 된 단어들 목록
     # y열은 타겟 라벨
-    train = train.sample(frac=1).reset_index(drop=True)
-    test = test.sample(frac=1).reset_index(drop=True)
-
-    # 결측치가 있는지 확인하기(우선은 제거하는 방식)
-    if pd.isnull(train['x']).sum() > 0 or pd.isnull(train['y']).sum() > 0:
-        train = train.dropna()
-    if pd.isnull(test['x']).sum() > 0 or pd.isnull(test['y']).sum() > 0:
-        test = test.dropna()
 
     X_train_corpus = []
     for words in train['x']:
@@ -57,7 +48,28 @@ def embedding(method, train, test):
         X_test_vectors = tfidf_vectorizer.transform(X_test_corpus)
 
     elif method == "Doc2Vec":
-        pass
+
+        from gensim.models.doc2vec import Doc2Vec, TaggedDocument
+
+        train_documents = [TaggedDocument(doc, tags=[str(i)]) for i, doc in enumerate(X_train_corpus)]
+        test_documents = [TaggedDocument(doc, tags=[str(i)]) for i, doc in enumerate(X_test_corpus)]
+
+        d2v_train_model = Doc2Vec(train_documents,
+                                  dm=0,  # skip-gram
+                                  vector_size=256,
+                                  window=5,
+                                  negative=20,
+                                  epochs=15)
+
+        d2v_test_model = Doc2Vec(test_documents,
+                                 dm=0,  # skip-gram
+                                 vector_size=256,
+                                 window=5,
+                                 negative=20,
+                                 epochs=15)
+
+        X_train_vectors = d2v_train_model.docvecs.vectors_docs
+        X_test_vectors = d2v_test_model.docvecs.vectors_docs
 
     elif method == "user_defined_embedding":
         pass

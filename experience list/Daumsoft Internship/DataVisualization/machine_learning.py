@@ -68,13 +68,13 @@ def machine_learning(method, X_train, X_test, y_train, y_test, params):
 
     train_score_df = pd.DataFrame(columns=['Metrics', 'Score'])
     train_score_df['Metrics'] = ['accuracy', 'precision', 'recall', 'f1']
-    train_score_df['Score'] = [round(train_accuracy, 3), round(train_precision, 3), round(train_recall, 3), round(train_f1, 3)]
+    train_score_df['Score'] = [round(train_accuracy, 2), round(train_precision, 2), round(train_recall, 2), round(train_f1, 2)]
 
     train_score_df.to_csv(path + 'metrics_score_train.csv', index=False)
 
     test_score_df = pd.DataFrame(columns=['Metrics', 'Score'])
     test_score_df['Metrics'] = ['accuracy', 'precision', 'recall', 'f1']
-    test_score_df['Score'] = [round(test_accuracy, 3), round(test_precision, 3), round(test_recall, 3), round(test_f1, 3)]
+    test_score_df['Score'] = [round(test_accuracy, 2), round(test_precision, 2), round(test_recall, 2), round(test_f1, 2)]
 
     test_score_df.to_csv(path + 'metrics_score_test.csv', index=False)
 
