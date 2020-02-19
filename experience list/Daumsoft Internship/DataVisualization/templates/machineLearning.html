@@ -15,7 +15,7 @@
     <link href="../static/assets/css/black-dashboard.css?v=1.0.0" rel="stylesheet" />
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <script src="https://d3js.org/d3.v4.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+{#    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>#}
     <style>
         row2 {
             position: relative;
@@ -61,6 +61,29 @@
         }
         input[type=submit]:hover {
             background-color: #800080;
+        }
+        label {
+            background-color: #000000;
+            width: 10%;
+            text-align: center;
+            padding: 10px;
+            color: white;
+            font-size: 14px;
+            align-content: center;
+            border: none;
+            cursor: pointer;
+        }
+        select {
+            width: 200px; /* 원하는 너비설정 */
+            height: 50px;
+            padding: .8em .5em; /* 여백으로 높이 설정 */
+            font-family: inherit;  /* 폰트 상속 */
+            border: 1px solid #999;
+            border-radius: 0px; /* iOS 둥근모서리 제거 */
+        }
+        /* IE 10, 11의 네이티브 화살표 숨기기 */
+        select::-ms-expand {
+            display: none;
         }
     </style>
 </head>
@@ -114,12 +137,31 @@
                     <div class="col-12">
                         <form action="./machineLearning" method="POST" enctype="multipart/form-data">
                             <div class="align-self-sm-auto">
+                                <div id="data_selection">
+                                    <p style="color: white; font-size: 14pt">데이터 선택(필수)</p>
+                                    <div class="select">
+                                        <label class="selectbtn">Train Data</label>
+                                        <select id="train_data">
+                                            {% for f in train_file_list %}
+                                                <option id="train_data_value" value="{{ f }}" style="display: block;">{{ f }}</option>
+                                            {% endfor %}
+                                        </select><br>
+                                        <label class="selectbtn">Test Data</label>
+                                        <select id="test_data">
+                                            {% for f in test_file_list %}
+                                                <option id="test_data_value" style="display: block;">{{ f }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div><br>
+                            <div class="align-self-sm-auto">
                                 <div id="radio_group1">
                                     <p style="color: white; font-size: 14pt">임베딩 방식(필수)</p><br>
                                     <input type=radio name="radio_group1" value="CounterVector" onclick="confirm_radio_group1(this)" style="width:50px; height:16px;">CounterVector
                                     <input type=radio name="radio_group1" value="TF-IDF" onclick="confirm_radio_group1(this)" style="width:50px; height:16px;">TF-IDF
                                     <input type=radio name="radio_group1" value="Doc2Vec" onclick="confirm_radio_group1(this)" style="width:56px; height:16px;">Doc2Vec
-                                    <input type=radio name="radio_group1" value="user_defined_embedding" onclick="confirm_radio_group1(this)" style="width:56px; height:16px;">사용자 정의
+                                    <input type=radio name="radio_group1" value="user_defined_embedding" onclick="confirm_radio_group1(this)" style="width:56px; height:16px;">User-Custom
                                 </div>
                             </div><br>
                             <div class="align-self-sm-auto">
@@ -129,7 +171,7 @@
                                     <input type=radio name="radio_group2" value="SVM" onclick="confirm_radio_group2(this)" style="width:50px; height:16px;">SVM
                                     <input type=radio name="radio_group2" value="RandomForest" onclick="confirm_radio_group2(this)" style="width:56px; height:16px;">RandomForest
                                     <input type=radio name="radio_group2" value="FNN" onclick="confirm_radio_group2(this)" style="width:56px; height:16px;">FNN
-                                    <input type=radio name="radio_group2" value="user_defined_machine_learning" onclick="confirm_radio_group2(this)" style="width:56px; height:16px;">사용자 정의
+                                    <input type=radio name="radio_group2" value="user_defined_machine_learning" onclick="confirm_radio_group2(this)" style="width:56px; height:16px;">User-Custom
                                 </div><br>
                                 <div id="parameter_group">
                                     <div class="row3">
@@ -271,21 +313,40 @@
                                 </div>
                             </div><br><br><br>
                             <div class="align-self-sm-auto">
+
+
+
+                            </div>
+                            <div class="align-self-sm-auto">
                                 <div id="radio_group3">
                                     <p style="color: white; font-size: 14pt">차원 축소 방식(선택)</p><br>
                                     <input type=radio name="radio_group3" value="PCA" onclick="confirm_radio_group3(this)" style="width:50px; height:16px;" data-toggle="tooltip" data-placement="bottom" title="CounterVector와 TF-IDF 전용">PCA
                                     <input type=radio name="radio_group3" value="MDS" onclick="confirm_radio_group3(this)" style="width:50px; height:16px;">MDS
                                     <input type=radio name="radio_group3" value="TSNE" onclick="confirm_radio_group3(this)" style="width:56px; height:16px;">TSNE
-                                    <input type=radio name="radio_group3" value="user_defined_dimension_reduction" onclick="confirm_radio_group3(this)" style="width:56px; height:16px;">사용자 정의
+                                    <input type=radio name="radio_group3" value="user_defined_dimension_reduction" onclick="confirm_radio_group3(this)" style="width:56px; height:16px;">User-Custom
                                 </div>
                             </div><br>
                             <input id="submit" type="submit" name="visual_button" value="시각화" onclick="return get_check_list(this);">
                         </form>
                         <script type="text/javascript">
 
+                            var traindata;
+                            var testdata;
+
+                            $("#train_data").click(function() {
+                                var data = document.getElementById('train_data');
+                                traindata = data.options[data.selectedIndex].value;
+                            })
+
+                            $("#test_data").click(function() {
+                                var data = document.getElementById('test_data');
+                                testdata = data.options[data.selectedIndex].value;
+                            })
+
                             var e_checked;
                             var m_checked;
                             var d_checked;
+                            var p_checked;
 
                             var textbar_id;
 
@@ -300,6 +361,13 @@
                                 if (box.checked == true) {
                                     console.log(box.value);
                                     m_checked = box.value;
+                                }
+                            }
+
+                            function confirm_checkbox(box) {
+                                if (box.checked == true) {
+                                    console.log(box.value);
+                                    p_checked = box.value;
                                 }
                             }
 
@@ -325,9 +393,13 @@
                                 var checked_list = new Array;
                                 var parameters = new Array;
 
+                                checked_list.push(traindata);
+                                checked_list.push(testdata);
+
                                 checked_list.push(e_checked);
                                 checked_list.push(m_checked);
                                 checked_list.push(d_checked);
+                                checked_list.push(p_checked);
 
                                 if (textbar_id == 'b1') {
                                     var elements = document.getElementsByName("TextBar1");
