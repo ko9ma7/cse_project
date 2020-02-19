@@ -4,6 +4,110 @@ import pandas as pd
 import tensorflow as tf
 from scipy.sparse import isspmatrix
 from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
+from joblib import dump, load
+
+
+def pre_train_machine_learning(method, X_train, X_test, y_train, y_test):
+
+    target_names = list(set(y_train))
+
+    if isspmatrix(X_train):
+        X_train = X_train.toarray()
+        X_test = X_test.toarray()
+
+    if method == 'Logistic':
+
+        # load the model from disk
+        filename = 'C:/Users/daumsoft/PycharmProjects/visualization/model/logistic_model.pkl'
+        log_clf = load(filename)
+
+        train_y_pred = log_clf.predict(X_train)
+        test_y_pred = log_clf.predict(X_test)
+
+    elif method == 'SVM':
+
+        # load the model from disk
+        filename = 'C:/Users/daumsoft/PycharmProjects/visualization/model/svm_model.pkl'
+        svm_clf = load(filename)
+
+        train_y_pred = svm_clf.predict(X_train)
+        test_y_pred = svm_clf.predict(X_test)
+
+    elif method == 'RandomForest':
+
+        # load the model from disk
+        filename = 'C:/Users/daumsoft/PycharmProjects/visualization/model/randomforest_model.pkl'
+        rnd_clf = load(filename)
+
+        print(rnd_clf)
+        print(X_train.shape)
+
+        train_y_pred = rnd_clf.predict(X_train)
+        test_y_pred = rnd_clf.predict(X_test)
+
+    elif method == 'FNN':
+
+        # load the model from disk
+        fnn_clf = tf.keras.models.load_model('C:/Users/daumsoft/PycharmProjects/visualization/model/fnn_model.h5')
+
+        train_prediction = fnn_clf.predict(X_train)
+        test_prediction = fnn_clf.predict(X_test)
+
+        train_y_pred = []
+        for i in range(len(train_prediction)):
+            train_y_pred.append(np.argmax(train_prediction[i]))
+
+        test_y_pred = []
+        for i in range(len(test_prediction)):
+            test_y_pred.append(np.argmax(test_prediction[i]))
+
+    elif method == 'user_defined_machine_learning':
+        pass
+
+    train_df = pd.DataFrame(confusion_matrix(y_train, train_y_pred),
+                            index=target_names,
+                            columns=target_names)
+
+    test_df = pd.DataFrame(confusion_matrix(y_test, test_y_pred),
+                           index=target_names,
+                           columns=target_names)
+
+    path = r'C:/Users/daumsoft/PycharmProjects/visualization/csv_files/'
+
+    train_df.to_csv(path + 'confusion_matrix_train.csv', index=False)
+    test_df.to_csv(path + 'confusion_matrix_test.csv', index=False)
+
+    # 분류 평가 지표
+    train_accuracy = accuracy_score(y_train, train_y_pred)
+    train_precision = precision_score(y_train, train_y_pred, average='macro')
+    train_recall = recall_score(y_train, train_y_pred, average='macro')
+    train_f1 = f1_score(y_train, train_y_pred, average='macro')
+
+    test_accuracy = accuracy_score(y_test, test_y_pred)
+    test_precision = precision_score(y_test, test_y_pred, average='macro')
+    test_recall = recall_score(y_test, test_y_pred, average='macro')
+    test_f1 = f1_score(y_test, test_y_pred, average='macro')
+
+    print('train accuracy: {}, test accuracy: {}'.format(train_accuracy, test_accuracy))
+    print('train precision: {}, test precision: {}'.format(train_precision, test_precision))
+    print('train recall: {}, test recall: {}'.format(train_recall, test_recall))
+    print('train f1: {}, test f1: {}'.format(train_f1, test_f1))
+
+    train_score_df = pd.DataFrame(columns=['Metrics', 'Score'])
+    train_score_df['Metrics'] = ['accuracy', 'precision', 'recall', 'f1']
+    train_score_df['Score'] = [round(train_accuracy, 2), round(train_precision, 2), round(train_recall, 2),
+                               round(train_f1, 2)]
+
+    train_score_df.to_csv(path + 'metrics_score_train.csv', index=False)
+
+    test_score_df = pd.DataFrame(columns=['Metrics', 'Score'])
+    test_score_df['Metrics'] = ['accuracy', 'precision', 'recall', 'f1']
+    test_score_df['Score'] = [round(test_accuracy, 2), round(test_precision, 2), round(test_recall, 2),
+                              round(test_f1, 2)]
+
+    test_score_df.to_csv(path + 'metrics_score_test.csv', index=False)
+
+    return train_y_pred, test_y_pred
 
 
 def machine_learning(method, X_train, X_test, y_train, y_test, params):
@@ -19,6 +123,10 @@ def machine_learning(method, X_train, X_test, y_train, y_test, params):
         log_clf = model.myLogisticRegression(params)
         log_clf.fit(X_train, y_train)
 
+        # save the model to disk
+        filename = 'C:/Users/daumsoft/PycharmProjects/visualization/model/logistic_model.pkl'
+        dump(log_clf, filename)
+
         train_y_pred = log_clf.predict(X_train)
         test_y_pred = log_clf.predict(X_test)
 
@@ -27,6 +135,10 @@ def machine_learning(method, X_train, X_test, y_train, y_test, params):
         svm_clf = model.mySVM(params)
         svm_clf.fit(X_train, y_train)
 
+        # save the model to disk
+        filename = 'C:/Users/daumsoft/PycharmProjects/visualization/model/svm_model.pkl'
+        dump(svm_clf, filename)
+
         train_y_pred = svm_clf.predict(X_train)
         test_y_pred = svm_clf.predict(X_test)
 
@@ -34,6 +146,10 @@ def machine_learning(method, X_train, X_test, y_train, y_test, params):
 
         rnd_clf = model.myRandomForestClassifier(params)
         rnd_clf.fit(X_train, y_train)
+
+        # save the model to disk
+        filename = 'C:/Users/daumsoft/PycharmProjects/visualization/model/randomforest_model.pkl'
+        dump(rnd_clf, filename)
 
         train_y_pred = rnd_clf.predict(X_train)
         test_y_pred = rnd_clf.predict(X_test)
@@ -66,6 +182,9 @@ def machine_learning(method, X_train, X_test, y_train, y_test, params):
                         metrics=['accuracy'])
 
         fnn_clf.fit(X_train, train_label, epochs=epochs, batch_size=batch_size)
+
+        # save the model to disk
+        fnn_clf.save('C:/Users/daumsoft/PycharmProjects/visualization/model/fnn_model.h5')
 
         train_prediction = fnn_clf.predict(X_train)
         test_prediction = fnn_clf.predict(X_test)
