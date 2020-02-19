@@ -4,6 +4,8 @@ import keys
 
 BASE_URL_FACEBOOK_API = 'https://graph.facebook.com/v6.0'
 
+ "https://graph.facebook.com/v6.0/me?fields=id%2Cname%2Cgender&access_token=
+
 # 여러 파라미터에 대한 url 생성
 def fb_generate_url(base=BASE_URL_FACEBOOK_API, node='', **param):
     return '%s/%s/?%s' % (base, node, urlencode(param))
