@@ -156,9 +156,11 @@ def machine_learning(method, X_train, X_test, y_train, y_test, params):
 
     elif method == 'FNN':
 
-        from keras.utils import to_categorical
+        from sklearn.preprocessing import LabelEncoder
 
-        train_label = to_categorical(y_train)
+        le = LabelEncoder()
+        train_label = le.fit_transform(y_train)
+        test_label = le.fit_transform(y_test)
 
         input_layer_units = int(params['input_layer_units'][0])
         hidden_layer_units = int(params['hidden_layer_units'][0])
@@ -178,7 +180,7 @@ def machine_learning(method, X_train, X_test, y_train, y_test, params):
         fnn_clf.add(tf.keras.layers.Dense(output_layer_units, activation=output_layer_activation))
 
         fnn_clf.compile(optimizer=optimizer,
-                        loss='categorical_crossentropy',
+                        loss='sparse_categorical_crossentropy',
                         metrics=['accuracy'])
 
         fnn_clf.fit(X_train, train_label, epochs=epochs, batch_size=batch_size)
@@ -189,13 +191,16 @@ def machine_learning(method, X_train, X_test, y_train, y_test, params):
         train_prediction = fnn_clf.predict(X_train)
         test_prediction = fnn_clf.predict(X_test)
 
-        train_y_pred = []
+        tr_y_pred = []
         for i in range(len(train_prediction)):
-            train_y_pred.append(np.argmax(train_prediction[i]))
+            tr_y_pred.append(np.argmax(train_prediction[i]))
 
-        test_y_pred = []
+        te_y_pred = []
         for i in range(len(test_prediction)):
-            test_y_pred.append(np.argmax(test_prediction[i]))
+            te_y_pred.append(np.argmax(test_prediction[i]))
+
+        train_y_pred = le.inverse_transform(tr_y_pred)
+        test_y_pred = le.inverse_transform(te_y_pred)
 
     elif method == 'user_defined_machine_learning':
         pass
@@ -212,7 +217,6 @@ def machine_learning(method, X_train, X_test, y_train, y_test, params):
 
     train_df.to_csv(path + 'confusion_matrix_train.csv', index=False)
     test_df.to_csv(path + 'confusion_matrix_test.csv', index=False)
-
 
     # 분류 평가 지표
     train_accuracy = accuracy_score(y_train, train_y_pred)
