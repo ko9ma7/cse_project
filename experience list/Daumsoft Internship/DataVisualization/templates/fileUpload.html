@@ -120,26 +120,82 @@
                     <div class="col-12">
                         <div class="w3-bar w3-black">
                             <button class="w3-bar-item w3-button" onclick="openDatabase('Uploded File')">Uploded File</button>
-                            <button class="w3-bar-item w3-button" onclick="openDatabase('Embedding Model')">Embedding Model</button>
                             <button class="w3-bar-item w3-button" onclick="openDatabase('MachineLearning Model')">MachineLearning Model</button>
                         </div>
                         <div id="Uploded File" class="w3-container w3-display-container openDatabase">
-                            <span onclick="this.parentElement.style.display='none'"
-                            class="w3-button w3-large w3-display-topright"></span>
-                            <h2>Uploded File</h2>
-                            <p>지금까지 업로드 된 파일 목록</p>
-                        </div>
-                        <div id="Embedding Model" class="w3-container w3-display-container openDatabase" style="display:none">
-                            <span onclick="this.parentElement.style.display='none'"
-                            class="w3-button w3-large w3-display-topright"></span>
-                            <h2>Embedding Model</h2>
-                            <p>지금까지 만들어진 임베딩 모델 목록</p>
+                            <span onclick="this.parentElement.style.display='none'" class="w3-button w3-large w3-display-topright"></span>
+                            <div class="w3-container">
+                                <h2>Uploded File</h2>
+                                <p>지금까지 업로드 된 파일 목록</p>
+                                <button onclick="document.getElementById('id01').style.display='block'" class="w3-button w3-pale-red">OPEN</button>
+                                <div id="id01" class="w3-modal">
+                                    <div class="w3-modal-content w3-animate-zoom w3-card-4">
+                                        <header class="w3-container w3-pale-red">
+                                            <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+                                            <h2>Uploaded File List</h2>
+                                        </header>
+                                        <div class="w3-bar w3-border-bottom">
+                                            <button class="tablink w3-bar-item w3-button" onclick="openDataList(event, 'Train')">TRAIN DATA</button>
+                                            <button class="tablink w3-bar-item w3-button" onclick="openDataList(event, 'Test')">TEST DATA</button>
+                                        </div>
+
+                                        <div id="Train" class="w3-container data">
+                                            <br>
+                                            <table class="w3-table-all w3-centered">
+                                                {% for train in train_file_list %}
+                                                    <tr>
+                                                        <td>{{ train }}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </table>
+                                            <br>
+                                       </div>
+
+                                        <div id="Test" class="w3-container data">
+                                            <br>
+                                            <table class="w3-table-all w3-centered">
+                                            {% for test in test_file_list %}
+                                                <tr>
+                                                    <td>{{ test }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                            </table>
+                                            <br>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div id="MachineLearning Model" class="w3-container w3-display-container openDatabase" style="display:none">
-                            <span onclick="this.parentElement.style.display='none'"
-                            class="w3-button w3-large w3-display-topright"></span>
-                            <h2>MachineLearning Model</h2>
-                            <p>지금까지 만들어진 머신러닝 모델 목록</p>
+                            <span onclick="this.parentElement.style.display='none'" class="w3-button w3-large w3-display-topright"></span>
+                            <div class="w3-container">
+                                <h2>MachineLearning Model</h2>
+                                <p>지금까지 업로드 된 머신러닝 모델</p>
+                                <button onclick="document.getElementById('id02').style.display='block'" class="w3-button w3-pale-red">OPEN</button>
+                                <div id="id02" class="w3-modal">
+                                    <div class="w3-modal-content w3-animate-zoom w3-card-4">
+                                        <header class="w3-container w3-pale-red">
+                                            <span onclick="document.getElementById('id02').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+                                            <h2>MachineLearning Model List</h2>
+                                        </header>
+                                        <div class="w3-bar w3-border-bottom">
+                                            <button class="tablink2 w3-bar-item w3-button" onclick="openDataList2(event, 'Model')">MODEL DATA</button>
+                                        </div>
+
+                                        <div id="Model" class="w3-container data2">
+                                            <br>
+                                            <table class="w3-table-all w3-centered">
+                                                {% for model in model_list %}
+                                                    <tr>
+                                                        <td>{{ model }}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </table>
+                                            <br>
+                                       </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <script>
                             function openDatabase(databaseName) {
@@ -149,6 +205,42 @@
                                     x[i].style.display = "none";
                                 }
                                 document.getElementById(databaseName).style.display = "block";
+                            }
+
+                            document.getElementsByClassName("tablink")[0].click();
+
+                            function openDataList(evt, dataName) {
+                                var i, x, tablinks;
+                                x = document.getElementsByClassName("data");
+
+                                for (i = 0; i < x.length; i++) {
+                                    x[i].style.display = "none";
+                                }
+
+                                tablinks = document.getElementsByClassName("tablink");
+                                for (i = 0; i < x.length; i++) {
+                                    tablinks[i].classList.remove("w3-light-grey");
+                                }
+                                document.getElementById(dataName).style.display = "block";
+                                evt.currentTarget.classList.add("w3-light-grey");
+                            }
+
+                            document.getElementsByClassName("tablink2")[0].click();
+
+                            function openDataList2(evt, modelName) {
+                                var i, x, tablinks;
+                                x = document.getElementsByClassName("data2");
+
+                                for (i = 0; i < x.length; i++) {
+                                    x[i].style.display = "none";
+                                }
+
+                                tablinks = document.getElementsByClassName("tablink2");
+                                for (i = 0; i < x.length; i++) {
+                                    tablinks[i].classList.remove("w3-light-grey");
+                                }
+                                document.getElementById(modelName).style.display = "block";
+                                evt.currentTarget.classList.add("w3-light-grey");
                             }
                         </script>
                     </div>
