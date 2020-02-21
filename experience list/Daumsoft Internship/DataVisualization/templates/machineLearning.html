@@ -162,8 +162,116 @@
                                     <input type=radio name="radio_group1" value="TF-IDF" onclick="confirm_radio_group1(this)" style="width:50px; height:16px;">TF-IDF
                                     <input type=radio name="radio_group1" value="Doc2Vec" onclick="confirm_radio_group1(this)" style="width:56px; height:16px;">Doc2Vec
                                     <input type=radio name="radio_group1" value="user_defined_embedding" onclick="confirm_radio_group1(this)" style="width:56px; height:16px;">User-Custom
+                                </div><br>
+                                <div id="parameter_group">
+                                    <div class="row3">
+                                        <div class="column" onclick="openTab1('a1');" style="background-color:black";>
+                                            CounterVector Parameter
+                                        </div>
+                                        <div class="column" onclick="openTab1('a2');" style="background-color:black";>
+                                            TF-IDF Parameter
+                                        </div>
+                                        <div class="column" onclick="openTab1('a3');" style="background-color:black";>
+                                            Doc2Vec Parameter
+                                        </div>
+                                        <div class="column" onclick="openTab1('a4');" style="background-color:black";>
+                                            User Parameter
+                                        </div>
+
+                                        <div id="a1" class="containerTab1" style="display:none;background-color:black">
+                                            <table style="width: 50%" align="center">
+                                                <tr>
+                                                    <td>tokenizer</td>
+                                                    <td><input type="text" value="None" name="TextBar1" style="width: 300px; text-align: center"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>stop_words</td>
+                                                    <td><input type="text" value="None" name="TextBar1" style="width: 300px; text-align: center"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>min_df</td>
+                                                    <td><input type="text" value="1" name="TextBar1" style="width: 300px; text-align: center"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>max_df</td>
+                                                    <td><input type="text" value="1" name="TextBar1" style="width: 300px; text-align: center"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>max_features</td>
+                                                    <td><input type="text" value="None" name="TextBar1" style="width: 300px; text-align: center"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>binary</td>
+                                                    <td><input type="text" value="False" name="TextBar1" style="width: 300px; text-align: center"></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+
+                                        <div id="a2" class="containerTab1" style="display:none;background-color:black">
+                                            <table style="width: 50%" align="center">
+                                                <tr>
+                                                    <td>tokenizer</td>
+                                                    <td><input type="text" value="None" name="TextBar2" style="width: 300px; text-align: center"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>stop_words</td>
+                                                    <td><input type="text" value="None" name="TextBar2" style="width: 300px; text-align: center"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>min_df</td>
+                                                    <td><input type="text" value="1" name="TextBar2" style="width: 300px; text-align: center"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>max_df</td>
+                                                    <td><input type="text" value="1" name="TextBar2" style="width: 300px; text-align: center"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>max_features</td>
+                                                    <td><input type="text" value="None" name="TextBar2" style="width: 300px; text-align: center"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>binary</td>
+                                                    <td><input type="text" value="False" name="TextBar2" style="width: 300px; text-align: center"></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+
+                                        <div id="a3" class="containerTab1" style="display:none;background-color:black">
+                                            <table style="width: 50%" align="center">
+                                                <tr>
+                                                    <td>dm</td>
+                                                    <td><input type="text" value="1" name="TextBar3" style="width: 300px; text-align: center"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>vector_size</td>
+                                                    <td><input type="text" value="256" name="TextBar3" style="width: 300px; text-align: center"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>window</td>
+                                                    <td><input type="text" value="5" name="TextBar3" style="width: 300px; text-align: center"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>alpha</td>
+                                                    <td><input type="text" value="0.025" name="TextBar3" style="width: 300px; text-align: center"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>epochs</td>
+                                                    <td><input type="text" value="10" name="TextBar3" style="width: 300px; text-align: center"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>negative</td>
+                                                    <td><input type="text" value="20" name="TextBar3" style="width: 300px; text-align: center"></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+
+                                        <div id="a4" class="containerTab1" style="display:none;background-color:black">
+                                            <table style="width: 60%" align="center">
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div><br>
+                            </div><br><br><br>
                             <div class="align-self-sm-auto">
                                 <div id="radio_group2">
                                     <p style="color: white; font-size: 14pt">기계학습 방식(선택)</p><br>
@@ -174,140 +282,140 @@
                                     <input type=radio name="radio_group2" value="user_defined_machine_learning" onclick="confirm_radio_group2(this)" style="width:56px; height:16px;">User-Custom
                                 </div><br>
                                 <div id="parameter_group">
-                                    <div class="row3">
-                                        <div class="column" onclick="openTab('b1');" style="background-color:black";>
+                                    <div class="row4">
+                                        <div class="column" onclick="openTab2('b1');" style="background-color:black";>
                                             Logistic Parameter
                                         </div>
-                                        <div class="column" onclick="openTab('b2');" style="background-color:black";>
+                                        <div class="column" onclick="openTab2('b2');" style="background-color:black";>
                                             SVM Parameter
                                         </div>
-                                        <div class="column" onclick="openTab('b3');" style="background-color:black";>
+                                        <div class="column" onclick="openTab2('b3');" style="background-color:black";>
                                             RandomForest Parameter
                                         </div>
-                                        <div class="column" onclick="openTab('b4');" style="background-color:black";>
+                                        <div class="column" onclick="openTab2('b4');" style="background-color:black";>
                                             FNN Parameter
                                         </div>
-                                        <div class="column" onclick="openTab('b5');" style="background-color:black";>
+                                        <div class="column" onclick="openTab2('b5');" style="background-color:black";>
                                             User Parameter
                                         </div>
 
-                                        <div id="b1" class="containerTab" style="display:none;background-color:black">
+                                        <div id="b1" class="containerTab2" style="display:none;background-color:black">
                                             <table style="width: 50%" align="center">
                                                 <tr>
                                                     <td>penalty</td>
-                                                    <td><input type="text" value="l2" name="TextBar1" style="width: 300px; text-align: center"></td>
+                                                    <td><input type="text" value="l2" name="TextBar5" style="width: 300px; text-align: center"></td>
                                                 </tr>
                                                 <tr>
                                                     <td>C</td>
-                                                    <td><input type="text" value="1.0" name="TextBar1" style="width: 300px; text-align: center"></td>
+                                                    <td><input type="text" value="1.0" name="TextBar5" style="width: 300px; text-align: center"></td>
                                                 </tr>
                                                 <tr>
                                                     <td>random_state</td>
-                                                    <td><input type="text" value="42" name="TextBar1" style="width: 300px; text-align: center"></td>
+                                                    <td><input type="text" value="42" name="TextBar5" style="width: 300px; text-align: center"></td>
                                                 </tr>
                                                 <tr>
                                                     <td>max_iter</td>
-                                                    <td><input type="text" value="100" name="TextBar1" style="width: 300px; text-align: center"></td>
+                                                    <td><input type="text" value="100" name="TextBar5" style="width: 300px; text-align: center"></td>
                                                 </tr>
                                                 <tr>
                                                     <td>l1_ratio</td>
-                                                    <td><input type="text" value="None" name="TextBar1" style="width: 300px; text-align: center"></td>
+                                                    <td><input type="text" value="None" name="TextBar5" style="width: 300px; text-align: center"></td>
                                                 </tr>
                                             </table>
                                         </div>
 
-                                        <div id="b2" class="containerTab" style="display:none;background-color:black">
+                                        <div id="b2" class="containerTab2" style="display:none;background-color:black">
                                             <table style="width: 50%" align="center">
                                                 <tr>
                                                     <td>loss</td>
-                                                    <td><input type="text" value="hinge" name="TextBar2" style="width: 300px; text-align: center"></td>
+                                                    <td><input type="text" value="hinge" name="TextBar6" style="width: 300px; text-align: center"></td>
                                                 </tr>
                                                 <tr>
                                                     <td>penalty</td>
-                                                    <td><input type="text" value="l2" name="TextBar2" style="width: 300px; text-align: center"></td>
+                                                    <td><input type="text" value="l2" name="TextBar6" style="width: 300px; text-align: center"></td>
                                                 </tr>
                                                 <tr>
                                                     <td>alpha</td>
-                                                    <td><input type="text" value="0.0001" name="TextBar2" style="width: 300px; text-align: center"></td>
+                                                    <td><input type="text" value="0.0001" name="TextBar6" style="width: 300px; text-align: center"></td>
                                                 </tr>
                                                 <tr>
                                                     <td>l1_ratio</td>
-                                                    <td><input type="text" value="0.15" name="TextBar2" style="width: 300px; text-align: center"></td>
+                                                    <td><input type="text" value="0.15" name="TextBar6" style="width: 300px; text-align: center"></td>
                                                 </tr>
                                                 <tr>
                                                     <td>max_iter</td>
-                                                    <td><input type="text" value="1000" name="TextBar2" style="width: 300px; text-align: center"></td>
+                                                    <td><input type="text" value="1000" name="TextBar6" style="width: 300px; text-align: center"></td>
                                                 </tr>
                                                 <tr>
                                                     <td>random_state</td>
-                                                    <td><input type="text" value="42" name="TextBar2" style="width: 300px; text-align: center"></td>
+                                                    <td><input type="text" value="42" name="TextBar6" style="width: 300px; text-align: center"></td>
                                                 </tr>
                                                 <tr>
                                                     <td>learning_rate</td>
-                                                    <td><input type="text" value="optimal" name="TextBar2" style="width: 300px; text-align: center"></td>
+                                                    <td><input type="text" value="optimal" name="TextBar6" style="width: 300px; text-align: center"></td>
                                                 </tr>
                                                 <tr>
                                                     <td>eta0</td>
-                                                    <td><input type="text" value="0.0" name="TextBar2" style="width: 300px; text-align: center"></td>
+                                                    <td><input type="text" value="0.0" name="TextBar6" style="width: 300px; text-align: center"></td>
                                                 </tr>
                                             </table>
                                         </div>
 
-                                       <div id="b3" class="containerTab" style="display:none;background-color:black">
+                                       <div id="b3" class="containerTab2" style="display:none;background-color:black">
                                             <table style="width: 50%" align="center">
                                                 <tr>
                                                     <td>n_estimators</td>
-                                                    <td><input type="text" value="100" name="TextBar3" style="width: 300px; text-align: center"></td>
+                                                    <td><input type="text" value="100" name="TextBar7" style="width: 300px; text-align: center"></td>
                                                 </tr>
                                                 <tr>
                                                     <td>max_depth</td>
-                                                    <td><input type="text" value="None" name="TextBar3" style="width: 300px; text-align: center"></td>
+                                                    <td><input type="text" value="None" name="TextBar7" style="width: 300px; text-align: center"></td>
                                                 </tr>
                                                 <tr>
                                                     <td>random_state</td>
-                                                    <td><input type="text" value="42" name="TextBar3" style="width: 300px; text-align: center"></td>
+                                                    <td><input type="text" value="42" name="TextBar7" style="width: 300px; text-align: center"></td>
                                                 </tr>
                                             </table>
                                         </div>
 
-                                        <div id="b4" class="containerTab" style="display:none;background-color:black">
+                                        <div id="b4" class="containerTab2" style="display:none;background-color:black">
                                             <table style="width: 60%" align="center">
                                                 <tr>
                                                     <td>input_layer_units</td>
-                                                    <td><input type="text" value="64" name="TextBar4" style="width: 300px; text-align: center"></td>
+                                                    <td><input type="text" value="64" name="TextBar8" style="width: 300px; text-align: center"></td>
                                                 </tr>
                                                 <tr>
                                                     <td>hidden_layer_units</td>
-                                                    <td><input type="text" value="64" name="TextBar4" style="width: 300px; text-align: center"></td>
+                                                    <td><input type="text" value="64" name="TextBar8" style="width: 300px; text-align: center"></td>
                                                 </tr>
                                                 <tr>
                                                     <td>input_layer_activation</td>
-                                                    <td><input type="text" value="relu" name="TextBar4" style="width: 300px; text-align: center"></td>
+                                                    <td><input type="text" value="relu" name="TextBar8" style="width: 300px; text-align: center"></td>
                                                 </tr>
                                                 <tr>
                                                     <td>hidden_layer_activation</td>
-                                                    <td><input type="text" value="relu" name="TextBar4" style="width: 300px; text-align: center"></td>
+                                                    <td><input type="text" value="relu" name="TextBar8" style="width: 300px; text-align: center"></td>
                                                 </tr>
                                                 <tr>
                                                     <td>output_layer_activation</td>
-                                                    <td><input type="text" value="softmax" name="TextBar4" style="width: 300px; text-align: center"></td>
+                                                    <td><input type="text" value="softmax" name="TextBar8" style="width: 300px; text-align: center"></td>
                                                 </tr>
                                                 <tr>
                                                     <td>optimizer</td>
-                                                    <td><input type="text" value="adam" name="TextBar4" style="width: 300px; text-align: center"></td>
+                                                    <td><input type="text" value="adam" name="TextBar8" style="width: 300px; text-align: center"></td>
                                                 </tr>
                                                 <tr>
                                                     <td>epochs</td>
-                                                    <td><input type="text" value="30" name="TextBar4" style="width: 300px; text-align: center"></td>
+                                                    <td><input type="text" value="30" name="TextBar8" style="width: 300px; text-align: center"></td>
                                                 </tr>
                                                 <tr>
                                                     <td>batch_size</td>
-                                                    <td><input type="text" value="100" name="TextBar4" style="width: 300px; text-align: center"></td>
+                                                    <td><input type="text" value="100" name="TextBar8" style="width: 300px; text-align: center"></td>
                                                 </tr>
                                             </table>
                                         </div>
 
-                                        <div id="b5" class="containerTab" style="display:none;background-color:black">
+                                        <div id="b5" class="containerTab2" style="display:none;background-color:black">
                                         </div>
                                     </div>
                                 </div>
@@ -348,7 +456,8 @@
                             var d_checked;
                             var p_checked;
 
-                            var textbar_id;
+                            var textbar_id1;
+                            var textbar_id2;
 
                             function confirm_radio_group1(box) {
                                 if (box.checked == true) {
@@ -378,14 +487,24 @@
                                 }
                             }
 
-                            function openTab(tabName) {
-                                var x = document.getElementsByClassName("containerTab");
+                            function openTab1(tabName) {
+                                var x = document.getElementsByClassName("containerTab1");
                                 for (i = 0; i < x.length; i++) {
                                     x[i].style.display = "none";
                                 }
                                 document.getElementById(tabName).style.display = "block";
 
-                                textbar_id = tabName;
+                                textbar_id1 = tabName;
+                            }
+
+                            function openTab2(tabName) {
+                                var x = document.getElementsByClassName("containerTab2");
+                                for (i = 0; i < x.length; i++) {
+                                    x[i].style.display = "none";
+                                }
+                                document.getElementById(tabName).style.display = "block";
+
+                                textbar_id2 = tabName;
                             }
 
                             function get_check_list(input) {
@@ -401,25 +520,21 @@
                                 checked_list.push(d_checked);
                                 checked_list.push(p_checked);
 
-                                if (textbar_id == 'b1') {
-                                    var elements = document.getElementsByName("TextBar1");
-                                    for (var i = 0; i < elements.length; i++) {
-                                        parameters.push(elements[i].value);
+                                for (var i = 1; i < 5; i++) {
+                                    if (textbar_id1 == 'a' + String(i)) {
+                                        var elements = document.getElementsByName("TextBar" + String(i));
+                                        for (var i = 0; i < elements.length; i++) {
+                                            parameters.push(elements[i].value);
+                                        }
                                     }
-                                } else if (textbar_id == 'b2') {
-                                    var elements = document.getElementsByName("TextBar2");
-                                    for (var i = 0; i < elements.length; i++) {
-                                        parameters.push(elements[i].value);
-                                    }
-                                } else if (textbar_id == 'b3') {
-                                    var elements = document.getElementsByName("TextBar3");
-                                    for (var i = 0; i < elements.length; i++) {
-                                        parameters.push(elements[i].value);
-                                    }
-                                } else if (textbar_id == 'b4') {
-                                    var elements = document.getElementsByName("TextBar4");
-                                    for (var i = 0; i < elements.length; i++) {
-                                        parameters.push(elements[i].value);
+                                }
+
+                                for (var i = 1; i < 6; i++) {
+                                    if (textbar_id2 == 'b' + String(i)) {
+                                        var elements = document.getElementsByName("TextBar" + String(i+4));
+                                        for (var i = 0; i < elements.length; i++) {
+                                            parameters.push(elements[i].value);
+                                        }
                                     }
                                 }
 

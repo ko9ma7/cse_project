@@ -268,7 +268,6 @@
             width = 800 - margin.left - margin.right,
             height = 800 - margin.top - margin.bottom;
 
-        // append the SVg object to the body of the page
         var SVG = d3.select("#area1")
             .style("background-color", "none")
             .append("svg")
@@ -379,6 +378,37 @@
                  .attr("id", "scatterplot")
                  .attr("clip-path", "url(#clip)");
 
+            var tooltip = d3.select("#area1").append("div")
+                .attr("class", "tooltip")
+                .style("opacity", 0)
+                .style("background-color", "black")
+                .style("border", "solid")
+                .style("border-width", "1px")
+                .style("border-radius", "5px")
+                .style("padding", "20px")
+
+            // tooltip mouseover event handler
+            var tipMouseover = function(d) {
+                var c = color(d.target);
+                var html  = "<span style='color:" + c + ";'>" + d3.format(".4f")(d.r0) + "</span><br/>" +
+                         "<span style='color:" + c + ";'>" + d3.format(".4f")(d.r1);
+
+                tooltip.html(html)
+                    .style("left", width + 100 + "px")
+                    .style("top", height / 2 + "px")
+                    .style("font-size", "14px")
+                    .transition()
+                    .duration(200) // ms
+                    .style("opacity", .9) // started as 0!
+            };
+
+            // tooltip mouseout event handler
+            var tipMouseout = function(d) {
+                tooltip.transition()
+                    .duration(300) // ms
+                    .style("opacity", 0); // don't care about position!
+            };
+
             scatter.append("g")
                 .attr("class", "brush")
                 .call(brush);
@@ -393,6 +423,9 @@
                 .attr("r", 6)
                 .attr("data-legend",function(d) { return d.target})
                 .style("fill", function (d) { return color(d.target) } )
+                .on("mouseover", tipMouseover )
+                .on("mouseout", tipMouseout )
+
 
             function brushended() {
 
@@ -471,6 +504,7 @@
                     currentOpacity = d3.selectAll(".dot00" + d.name).style("opacity")
                     d3.selectAll(".dot00" + d.name).transition().style("opacity", currentOpacity == 1 ? 0:1)
                 })
+
         })
     </script>
 
@@ -588,6 +622,37 @@
                  .attr("id", "scatterplot")
                  .attr("clip-path", "url(#clip)");
 
+            var tooltip = d3.select("#area2").append("div")
+                .attr("class", "tooltip")
+                .style("opacity", 0)
+                .style("background-color", "black")
+                .style("border", "solid")
+                .style("border-width", "1px")
+                .style("border-radius", "5px")
+                .style("padding", "20px")
+
+            // tooltip mouseover event handler
+            var tipMouseover = function(d) {
+                var c = color(d.target);
+                var html  = "<span style='color:" + c + ";'>" + d3.format(".4f")(d.r0) + "</span><br/>" +
+                         "<span style='color:" + c + ";'>" + d3.format(".4f")(d.r1);
+
+                tooltip.html(html)
+                    .style("left", width + 100 + "px")
+                    .style("top", height / 2 + "px")
+                    .style("font-size", "14px")
+                    .transition()
+                    .duration(200) // ms
+                    .style("opacity", .9) // started as 0!
+            };
+
+            // tooltip mouseout event handler
+            var tipMouseout = function(d) {
+                tooltip.transition()
+                    .duration(300) // ms
+                    .style("opacity", 0); // don't care about position!
+            };
+
             scatter.append("g")
                 .attr("class", "brush")
                 .call(brush);
@@ -602,6 +667,8 @@
                 .attr("r", 6)
                 .attr("data-legend",function(d) { return d.target})
                 .style("fill", function (d) { return color(d.target) } )
+                .on("mouseover", tipMouseover )
+                .on("mouseout", tipMouseout )
 
             function brushended() {
 
@@ -721,37 +788,6 @@
             var color = d3.scaleOrdinal()
                 .range([`#dc6750`, `#c5dc50`, `#50c5dc`, `#6750dc`])
 
-            var tooltip = d3.select("#a3")
-                .append("div")
-                .style("opacity", 0)
-                .attr("class", "tooltip")
-                .style("background-color", "white")
-                .style("border", "solid")
-                .style("border-width", "1px")
-                .style("border-radius", "5px")
-                .style("padding", "10px")
-                .style("width", "80px")
-
-            var mouseover = function(d) {
-                tooltip
-                .style("opacity", 1)
-                d3.select(this)
-                .style("stroke", "black")
-                .style("opacity", 1)
-            }
-
-            var mousemove = function(d) {
-                tooltip.html("score: " + d.Score)
-                .style("left", (d3.mouse(this)[0]+70) + "px")
-                .style("top", (d3.mouse(this)[1]) + "px")
-            }
-
-            var mouseleave = function(d) {
-                tooltip.style("opacity", 0)
-                d3.select(this)
-                .style("stroke", "none")
-                .style("opacity", 0.8)
-            }
 
             svg3.selectAll("mybar")
                 .data(data)
@@ -783,9 +819,6 @@
                 .attr("width", x.bandwidth())
                 .attr("fill", function(d) { return color(d.Metrics); })
                 .attr("stroke", "grey")
-                .on("mouseover", mouseover)
-                .on("mousemove", mousemove)
-                .on("mouseleave", mouseleave)
 
 
         })
@@ -828,38 +861,6 @@
             var color = d3.scaleOrdinal()
                 .range([`#dc6750`, `#c5dc50`, `#50c5dc`, `#6750dc`])
 
-            var tooltip = d3.select("#a4")
-                .append("div")
-                .style("opacity", 0)
-                .attr("class", "tooltip")
-                .style("background-color", "white")
-                .style("border", "solid")
-                .style("border-width", "1px")
-                .style("border-radius", "5px")
-                .style("padding", "10px")
-                .style("width", "80px")
-
-            var mouseover = function(d) {
-                tooltip
-                .style("opacity", 1)
-                d3.select(this)
-                .style("stroke", "black")
-                .style("opacity", 1)
-            }
-
-            var mousemove = function(d) {
-                tooltip.html("score: " + d.Score)
-                .style("left", (d3.mouse(this)[0]+70) + "px")
-                .style("top", (d3.mouse(this)[1]) + "px")
-            }
-
-            var mouseleave = function(d) {
-                tooltip.style("opacity", 0)
-                d3.select(this)
-                .style("stroke", "none")
-                .style("opacity", 0.8)
-            }
-
             svg4.selectAll("mybar")
                 .data(data)
                 .enter()
@@ -889,9 +890,6 @@
                 .attr("width", x.bandwidth())
                 .attr("fill", function(d) { return color(d.Metrics); })
                 .attr("stroke", "grey")
-                .on("mouseover", mouseover)
-                .on("mousemove", mousemove)
-                .on("mouseleave", mouseleave)
         })
     </script>
 
@@ -1189,7 +1187,6 @@
             }
             target_names = Array.from(target_names).sort();
 
-
             for (var i = 0; i < target_names.length * 1000; i++) {
                 samplingTraindata1.push(data[i]);
             }
@@ -1219,11 +1216,11 @@
                 .range(d3.schemeSet1)
 
             // 클립: 원이 SVG 그림판 밖으로 나가지 않도록
-            var clip = SVG9.append("defs").append("svg:clipPath")
+            var clip = SVG7.append("defs").append("svg:clipPath")
                 .attr("id", "clip")
                 .append("svg:rect")
-                .attr("width", width9)
-                .attr("height", height9)
+                .attr("width", width7)
+                .attr("height", height7)
                 .attr("x", 0)
                 .attr("y", 0);
 
@@ -1238,12 +1235,43 @@
                  .attr("id", "scatterplot")
                  .attr("clip-path", "url(#clip)");
 
+            var tooltip = d3.select("#area7").append("div")
+                .attr("class", "tooltip")
+                .style("opacity", 0)
+                .style("background-color", "black")
+                .style("border", "solid")
+                .style("border-width", "1px")
+                .style("border-radius", "5px")
+                .style("padding", "20px")
+
+            // tooltip mouseover event handler
+            var tipMouseover = function(d) {
+                var c = color(d.target);
+                var html  = "<span style='color:" + c + ";'>" + d3.format(".4f")(d.r0) + "</span><br/>" +
+                         "<span style='color:" + c + ";'>" + d3.format(".4f")(d.r1);
+
+                tooltip.html(html)
+                    .style("left", width + 100 + "px")
+                    .style("top", height / 2 + "px")
+                    .style("font-size", "14px")
+                    .transition()
+                    .duration(200) // ms
+                    .style("opacity", .9) // started as 0!
+            };
+
+            // tooltip mouseout event handler
+            var tipMouseout = function(d) {
+                tooltip.transition()
+                    .duration(300) // ms
+                    .style("opacity", 0); // don't care about position!
+            };
+
             scatter.append("g")
                 .attr("class", "brush")
                 .call(brush);
 
             scatter.selectAll("dot1")
-                .data(data)
+                .data(samplingTraindata1)
                 .enter()
                 .append("circle")
                 .attr("class", function (d) { return "dot1" + d.target } )
@@ -1252,6 +1280,8 @@
                 .attr("r", 6)
                 .attr("data-legend",function(d) { return d.target})
                 .style("fill", function (d) { return color(d.target) } )
+                .on("mouseover", tipMouseover)
+                .on("mouseout", tipMouseout)
 
             function brushended() {
 
@@ -1312,8 +1342,8 @@
             trainTargetGroup = keys.map(function (grpName) {
                 return {
                     name: grpName,
-                    values: data.map(function (d, i) {
-                        if (grpName == data[i]['target']) {
+                    values: samplingTraindata1.map(function (d, i) {
+                        if (grpName == samplingTraindata1[i]['target']) {
                             return { r0: d.r0, r1: d.r1, target: d.target };
                         }
                     })
@@ -1387,6 +1417,7 @@
         var domain_test_range_x = new Array;
         var domain_test_range_y = new Array;
         var testDataGroup;
+        var samplingTestdata1 = new Array;
 
         //Read the data
         d3.csv("http://127.0.0.1:8080/embedding_and_machinelearning_visualization_test", function(data) {
@@ -1395,6 +1426,17 @@
             domain_test_range_x.push(d3.max(data, function(d) { return parseFloat(d.r0) }) + 1);
             domain_test_range_y.push(d3.min(data, function(d) { return parseFloat(d.r1) }) - 1);
             domain_test_range_y.push(d3.max(data, function(d) { return parseFloat(d.r1) }) + 1);
+
+            var target_names = new Set();
+
+            for (var i = 0; i < data.length; i++) {
+                target_names.add(data[i]['target'])
+            }
+            target_names = Array.from(target_names).sort();
+
+            for (var i = 0; i < data.length; i++) {
+                samplingTestdata1.push(data[i]);
+            }
 
             // Add X axis
             var x = d3.scaleLinear()
@@ -1438,13 +1480,6 @@
             SVG8.selectAll(".tick line").attr("stroke", "black").style("stroke-width", 1)
             SVG8.selectAll(".tick text").attr("stroke", "black").style("stroke-width", 1).style("font-size", 13)
 
-            var target_names = new Set();
-
-            for (var i = 0; i < data.length; i++) {
-                target_names.add(data[i]['target'])
-            }
-            target_names = Array.from(target_names).sort();
-
             var color = d3.scaleOrdinal()
                 .domain(target_names)
                 .range(d3.schemeSet1)
@@ -1469,12 +1504,43 @@
                  .attr("id", "scatterplot")
                  .attr("clip-path", "url(#clip)");
 
+            var tooltip = d3.select("#area8").append("div")
+                .attr("class", "tooltip")
+                .style("opacity", 0)
+                .style("background-color", "black")
+                .style("border", "solid")
+                .style("border-width", "1px")
+                .style("border-radius", "5px")
+                .style("padding", "20px")
+
+            // tooltip mouseover event handler
+            var tipMouseover = function(d) {
+                var c = color(d.target);
+                var html  = "<span style='color:" + c + ";'>" + d3.format(".4f")(d.r0) + "</span><br/>" +
+                         "<span style='color:" + c + ";'>" + d3.format(".4f")(d.r1);
+
+                tooltip.html(html)
+                    .style("left", width + 100 + "px")
+                    .style("top", height / 2 + "px")
+                    .style("font-size", "14px")
+                    .transition()
+                    .duration(200) // ms
+                    .style("opacity", .9) // started as 0!
+            };
+
+            // tooltip mouseout event handler
+            var tipMouseout = function(d) {
+                tooltip.transition()
+                    .duration(300) // ms
+                    .style("opacity", 0); // don't care about position!
+            };
+
             scatter.append("g")
                 .attr("class", "brush")
                 .call(brush);
 
             scatter.selectAll("dot2")
-                .data(data)
+                .data(samplingTestdata1)
                 .enter()
                 .append("circle")
                 .attr("class", function (d) { return "dot2" + d.target } )
@@ -1483,6 +1549,8 @@
                 .attr("r", 6)
                 .attr("data-legend",function(d) { return d.target})
                 .style("fill", function (d) { return color(d.target) } )
+                .on("mouseover", tipMouseover)
+                .on("mouseout", tipMouseout)
 
             function brushended() {
 
@@ -1520,8 +1588,8 @@
             testTargetGroup = keys.map(function (grpName) {
                 return {
                     name: grpName,
-                    values: data.map(function (d, i) {
-                        if (grpName == data[i]['target']) {
+                    values: samplingTestdata1.map(function (d, i) {
+                        if (grpName == samplingTestdata1[i]['target']) {
                             return { r0: d.r0, r1: d.r1, target: d.target };
                         }
                     })
@@ -1643,12 +1711,43 @@
                  .attr("id", "scatterplot")
                  .attr("clip-path", "url(#clip)");
 
+            var tooltip = d3.select("#area9").append("div")
+                .attr("class", "tooltip")
+                .style("opacity", 0)
+                .style("background-color", "black")
+                .style("border", "solid")
+                .style("border-width", "1px")
+                .style("border-radius", "5px")
+                .style("padding", "20px")
+
+            // tooltip mouseover event handler
+            var tipMouseover = function(d) {
+                var c = color(d.pred);
+                var html  = "<span style='color:" + c + ";'>" + d3.format(".4f")(d.r0) + "</span><br/>" +
+                         "<span style='color:" + c + ";'>" + d3.format(".4f")(d.r1);
+
+                tooltip.html(html)
+                    .style("left", width + 100 + "px")
+                    .style("top", height / 2 + "px")
+                    .style("font-size", "14px")
+                    .transition()
+                    .duration(200) // ms
+                    .style("opacity", .9) // started as 0!
+            };
+
+            // tooltip mouseout event handler
+            var tipMouseout = function(d) {
+                tooltip.transition()
+                    .duration(300) // ms
+                    .style("opacity", 0); // don't care about position!
+            };
+
             scatter.append("g")
                 .attr("class", "brush")
                 .call(brush);
 
             scatter.selectAll("dot3")
-                .data(data)
+                .data(samplingTraindata1)
                 .enter()
                 .append("circle")
                 .attr("class", function (d) { return "dot3" + d.pred } )
@@ -1657,6 +1756,8 @@
                 .attr("r", 6)
                 .attr("data-legend",function(d) { return d.pred})
                 .style("fill", function (d) { return color(d.pred) } )
+                .on("mouseover", tipMouseover)
+                .on("mouseout", tipMouseout)
 
             function brushended() {
 
@@ -1715,8 +1816,8 @@
             trainPredGroup = keys.map(function (grpName) {
                 return {
                     name: grpName,
-                    values: data.map(function (d, i) {
-                        if (grpName == data[i]['pred']) {
+                    values: samplingTraindata1.map(function (d, i) {
+                        if (grpName == samplingTraindata1[i]['pred']) {
                             return { r0: d.r0, r1: d.r1, pred: d.pred };
                         }
                     })
@@ -1863,12 +1964,43 @@
                  .attr("id", "scatterplot")
                  .attr("clip-path", "url(#clip)");
 
+            var tooltip = d3.select("#area10").append("div")
+                .attr("class", "tooltip")
+                .style("opacity", 0)
+                .style("background-color", "black")
+                .style("border", "solid")
+                .style("border-width", "1px")
+                .style("border-radius", "5px")
+                .style("padding", "20px")
+
+            // tooltip mouseover event handler
+            var tipMouseover = function(d) {
+                var c = color(d.pred);
+                var html  = "<span style='color:" + c + ";'>" + d3.format(".4f")(d.r0) + "</span><br/>" +
+                         "<span style='color:" + c + ";'>" + d3.format(".4f")(d.r1);
+
+                tooltip.html(html)
+                    .style("left", width + 100 + "px")
+                    .style("top", height / 2 + "px")
+                    .style("font-size", "14px")
+                    .transition()
+                    .duration(200) // ms
+                    .style("opacity", .9) // started as 0!
+            };
+
+            // tooltip mouseout event handler
+            var tipMouseout = function(d) {
+                tooltip.transition()
+                    .duration(300) // ms
+                    .style("opacity", 0); // don't care about position!
+            };
+
             scatter.append("g")
                 .attr("class", "brush")
                 .call(brush);
 
             scatter.selectAll("dot4")
-                .data(data)
+                .data(samplingTestdata1)
                 .enter()
                 .append("circle")
                 .attr("class", function (d) { return "dot4" + d.pred } )
@@ -1877,6 +2009,8 @@
                 .attr("r", 6)
                 .attr("data-legend",function(d) { return d.pred})
                 .style("fill", function (d) { return color(d.pred) } )
+                .on("mouseover", tipMouseover)
+                .on("mouseout", tipMouseout)
 
             function brushended() {
 
@@ -1914,8 +2048,8 @@
             testPredGroup = keys.map(function (grpName) {
                 return {
                     name: grpName,
-                    values: data.map(function (d, i) {
-                        if (grpName == data[i]['pred']) {
+                    values: samplingTestdata1.map(function (d, i) {
+                        if (grpName == samplingTestdata1[i]['pred']) {
                             return { r0: d.r0, r1: d.r1, pred: d.pred };
                         }
                     })
@@ -2038,7 +2172,7 @@
                 .call(brush);
 
             scatter.selectAll("dot5")
-                .data(data)
+                .data(samplingTraindata1)
                 .enter()
                 .append("circle")
                 .attr("class", function (d) { return "dot5" + d.success } )
@@ -2105,8 +2239,8 @@
             trainSuccessGroup = keys.map(function (grpName) {
                 return {
                     name: grpName,
-                    values: data.map(function (d, i) {
-                        if (grpName == data[i]['success']) {
+                    values: samplingTraindata1.map(function (d, i) {
+                        if (grpName == samplingTraindata1[i]['success']) {
                             return { r0: d.r0, r1: d.r1, success: d.success };
                         }
                     })
@@ -2231,7 +2365,7 @@
                 .call(brush);
 
             scatter.selectAll("dot6")
-                .data(data)
+                .data(samplingTestdata1)
                 .enter()
                 .append("circle")
                 .attr("class", function (d) { return "dot6" + d.success } )
@@ -2298,8 +2432,8 @@
             testSuccessGroup = keys.map(function (grpName) {
                 return {
                     name: grpName,
-                    values: data.map(function (d, i) {
-                        if (grpName == data[i]['success']) {
+                    values: samplingTestdata1.map(function (d, i) {
+                        if (grpName == samplingTestdata1[i]['success']) {
                             return { r0: d.r0, r1: d.r1, success: d.success };
                         }
                     })
@@ -2426,12 +2560,43 @@
                  .attr("id", "scatterplot")
                  .attr("clip-path", "url(#clip)");
 
+            var tooltip = d3.select("#area13").append("div")
+                .attr("class", "tooltip")
+                .style("opacity", 0)
+                .style("background-color", "black")
+                .style("border", "solid")
+                .style("border-width", "1px")
+                .style("border-radius", "5px")
+                .style("padding", "20px")
+
+            // tooltip mouseover event handler
+            var tipMouseover = function(d) {
+                var c = color(d.target);
+                var html  = "<span style='color:" + c + ";'>" + d3.format(".4f")(d.r0) + "</span><br/>" +
+                         "<span style='color:" + c + ";'>" + d3.format(".4f")(d.r1);
+
+                tooltip.html(html)
+                    .style("left", width + 100 + "px")
+                    .style("top", height / 2 + "px")
+                    .style("font-size", "14px")
+                    .transition()
+                    .duration(200) // ms
+                    .style("opacity", .9) // started as 0!
+            };
+
+            // tooltip mouseout event handler
+            var tipMouseout = function(d) {
+                tooltip.transition()
+                    .duration(300) // ms
+                    .style("opacity", 0); // don't care about position!
+            };
+
             scatter.append("g")
                 .attr("class", "brush")
                 .call(brush);
 
             scatter.selectAll("dot7")
-                .data(data)
+                .data(samplingTraindata1)
                 .enter()
                 .append("circle")
                 .attr("class", function (d) { return "dot7" + d.target } )
@@ -2440,6 +2605,8 @@
                 .attr("r", 6)
                 .attr("data-legend",function(d) { return d.target } )
                 .style("fill", function (d) { if (d.success == '0') return color(d.target); else return color2(d.target) } )
+                .on("mouseover", tipMouseover)
+                .on("mouseout", tipMouseout)
 
             function brushended() {
 
@@ -2614,12 +2781,43 @@
                  .attr("id", "scatterplot")
                  .attr("clip-path", "url(#clip)");
 
+            var tooltip = d3.select("#area14").append("div")
+                .attr("class", "tooltip")
+                .style("opacity", 0)
+                .style("background-color", "black")
+                .style("border", "solid")
+                .style("border-width", "1px")
+                .style("border-radius", "5px")
+                .style("padding", "20px")
+
+            // tooltip mouseover event handler
+            var tipMouseover = function(d) {
+                var c = color(d.target);
+                var html  = "<span style='color:" + c + ";'>" + d3.format(".4f")(d.r0) + "</span><br/>" +
+                         "<span style='color:" + c + ";'>" + d3.format(".4f")(d.r1);
+
+                tooltip.html(html)
+                    .style("left", width + 100 + "px")
+                    .style("top", height / 2 + "px")
+                    .style("font-size", "14px")
+                    .transition()
+                    .duration(200) // ms
+                    .style("opacity", .9) // started as 0!
+            };
+
+            // tooltip mouseout event handler
+            var tipMouseout = function(d) {
+                tooltip.transition()
+                    .duration(300) // ms
+                    .style("opacity", 0); // don't care about position!
+            };
+
             scatter.append("g")
                 .attr("class", "brush")
                 .call(brush);
 
             scatter.selectAll("dot8")
-                .data(data)
+                .data(samplingTestdata1)
                 .enter()
                 .append("circle")
                 .attr("class", function (d) { return "dot8" + d.target } )
@@ -2628,6 +2826,8 @@
                 .attr("r", 6)
                 .attr("data-legend",function(d) { return d.target})
                 .style("fill", function (d) { if (d.success == '0') return color(d.target); else return color2(d.target) } )
+                .on("mouseover", tipMouseover)
+                .on("mouseout", tipMouseout)
 
             function brushended() {
 
