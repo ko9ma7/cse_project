@@ -114,10 +114,6 @@ def machine_learning(method, X_train, X_test, y_train, y_test, params):
 
     target_names = list(set(y_train))
 
-    if isspmatrix(X_train):
-        X_train = X_train.toarray()
-        X_test = X_test.toarray()
-
     if method == 'Logistic':
 
         log_clf = model.myLogisticRegression(params)
@@ -175,7 +171,7 @@ def machine_learning(method, X_train, X_test, y_train, y_test, params):
         batch_size = int(params['batch_size'][0])
 
         fnn_clf = tf.keras.Sequential()
-        fnn_clf.add(tf.keras.layers.Dense(input_layer_units, activation=input_layer_activation, input_shape=(len(X_train[0]), )))
+        fnn_clf.add(tf.keras.layers.Dense(input_layer_units, activation=input_layer_activation, input_shape=(len(X_train.toarray()[0]), )))
         fnn_clf.add(tf.keras.layers.Dense(hidden_layer_units, activation=hidden_layer_activation))
         fnn_clf.add(tf.keras.layers.Dense(output_layer_units, activation=output_layer_activation))
 
@@ -204,6 +200,8 @@ def machine_learning(method, X_train, X_test, y_train, y_test, params):
 
     elif method == 'user_defined_machine_learning':
         pass
+
+
 
     train_df = pd.DataFrame(confusion_matrix(y_train, train_y_pred),
                             index=target_names,

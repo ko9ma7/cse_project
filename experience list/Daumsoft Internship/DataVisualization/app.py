@@ -71,109 +71,116 @@ def page3():
                 is_pre_train = True
 
             else:
-                parameters = []
-                # 5개 파라미터
-                if checked_list[3] == 'Logistic':
-                    for i in range(6, len(checked_list)):
-                        checked_list[i] = checked_list[i].split(" ")
 
-                    parameters.append([str(i) for i in checked_list[6]])
-                    parameters.append([float(i) for i in checked_list[7]])
-                    parameters.append([int(i) for i in checked_list[8]])
-                    parameters.append([int(i) for i in checked_list[9]])
+                ##### embedding parameters #####
+                if checked_list[2] == 'CounterVector':
 
-                    if checked_list[10][0] != 'None':
-                        parameters.append([float(i) for i in checked_list[10]])
-                    else:
-                        parameters.append([None])
-
-                    params = {
-                        "penalty": parameters[0],
-                        "C": parameters[1],
-                        "random_state": parameters[2],
-                        "max_iter": parameters[3],
-                        "l1_ratio": parameters[4],
+                    embed_params = {
+                        "tokenizer": None if checked_list[6] == 'None' else str(checked_list[6]),
+                        "stop_words": None if checked_list[7] == 'None' else str(checked_list[7]),
+                        "min_df": int(checked_list[8]),
+                        "max_df": int(checked_list[9]),
+                        "max_features": None if checked_list[10] == 'None' else int(checked_list[10]),
+                        "binary": False if checked_list[11] == 'False' else True,
                     }
 
-                    print(params)
+                    print(embed_params)
+
+                elif checked_list[2] == 'TF-IDF':
+
+                    embed_params = {
+                        "tokenizer": None if checked_list[6] == 'None' else str(checked_list[6]),
+                        "stop_words": None if checked_list[7] == 'None' else str(checked_list[7]),
+                        "min_df": int(checked_list[8]),
+                        "max_df": int(checked_list[9]),
+                        "max_features": None if checked_list[10] == 'None' else int(checked_list[10]),
+                        "binary": False if checked_list[11] == 'False' else True,
+                    }
+
+                    print(embed_params)
+
+                elif checked_list[2] == 'Doc2Vec':
+
+                    embed_params = {
+                        "dm": int(checked_list[6]),
+                        "vector_size": int(checked_list[7]),
+                        "window": int(checked_list[8]),
+                        "alpha": float(checked_list[9]),
+                        "epochs": int(checked_list[10]),
+                        "negative": int(checked_list[11]),
+                    }
+
+                    print(embed_params)
+
+                elif checked_list[2] == 'user_defined_embedding':
+                    pass
+
+
+                ##### machine learning parameters #####
+                if checked_list[3] == 'Logistic':
+                    for i in range(12, len(checked_list)):
+                        checked_list[i] = checked_list[i].split(" ")
+
+                    machine_params = {
+                        "penalty": [str(i) for i in checked_list[12]],
+                        "C": [float(i) for i in checked_list[13]],
+                        "random_state": [int(i) for i in checked_list[14]],
+                        "max_iter": [int(i) for i in checked_list[15]],
+                        "l1_ratio": [None] if checked_list[16][0] == 'None' else [float(i) for i in checked_list[16]],
+                    }
+
+                    print(machine_params)
 
                 # 8개 파라미터
                 elif checked_list[3] == 'SVM':
-                    for i in range(6, len(checked_list)):
+                    for i in range(12, len(checked_list)):
                         checked_list[i] = checked_list[i].split(" ")
 
-                    parameters.append([str(i) for i in checked_list[6]])
-                    parameters.append([str(i) for i in checked_list[7]])
-                    parameters.append([float(i) for i in checked_list[8]])
-                    parameters.append([float(i) for i in checked_list[9]])
-                    parameters.append([int(i) for i in checked_list[10]])
-                    parameters.append([int(i) for i in checked_list[11]])
-                    parameters.append([str(i) for i in checked_list[12]])
-                    parameters.append([float(i) for i in checked_list[13]])
-
-                    params = {
-                        "loss": parameters[0],
-                        "penalty": parameters[1],
-                        "alpha": parameters[2],
-                        "l1_ratio": parameters[3],
-                        "max_iter": parameters[4],
-                        "random_state": parameters[5],
-                        "learning_rate": parameters[6],
-                        "eta0": parameters[7],
+                    machine_params = {
+                        "loss": [str(i) for i in checked_list[12]],
+                        "penalty": [str(i) for i in checked_list[13]],
+                        "alpha": [float(i) for i in checked_list[14]],
+                        "l1_ratio": [float(i) for i in checked_list[15]],
+                        "max_iter": [int(i) for i in checked_list[16]],
+                        "random_state": [int(i) for i in checked_list[17]],
+                        "learning_rate": [str(i) for i in checked_list[18]],
+                        "eta0": [float(i) for i in checked_list[19]],
                     }
 
-                    print(params)
+                    print(machine_params)
 
                 # 3개 파라미터
                 elif checked_list[3] == 'RandomForest':
-                    for i in range(6, len(checked_list)):
+                    for i in range(12, len(checked_list)):
                         checked_list[i] = checked_list[i].split(" ")
 
-                    parameters.append([int(i) for i in checked_list[6]])
-
-                    if checked_list[7][0] != 'None':
-                        parameters.append([int(i) for i in checked_list[7]])
-                    else:
-                        parameters.append([None])
-
-                    parameters.append([int(i) for i in checked_list[8]])
-
-                    params = {
-                            "n_estimators": parameters[0],
-                            "max_depth": parameters[1],
-                            "random_state": parameters[2],
+                    machine_params = {
+                            "n_estimators": [int(i) for i in checked_list[12]],
+                            "max_depth": [None] if checked_list[13][0] == 'None' else [int(i) for i in checked_list[13]],
+                            "random_state": [int(i) for i in checked_list[14]],
                         }
 
-                    print(params)
+                    print(machine_params)
 
                 # 8개 파라미터
                 elif checked_list[3] == 'FNN':
-                    for i in range(6, len(checked_list)):
+                    for i in range(12, len(checked_list)):
                         checked_list[i] = checked_list[i].split(" ")
 
-                    parameters.append([int(i) for i in checked_list[6]])
-                    parameters.append([int(i) for i in checked_list[7]])
-                    parameters.append([str(i) for i in checked_list[8]])
-                    parameters.append([str(i) for i in checked_list[9]])
-                    parameters.append([str(i) for i in checked_list[10]])
-                    parameters.append([str(i) for i in checked_list[11]])
-                    parameters.append([int(i) for i in checked_list[12]])
-                    parameters.append([int(i) for i in checked_list[13]])
-
-                    params = {
-                        "input_layer_units": parameters[0],
-                        "hidden_layer_units": parameters[1],
-                        "input_layer_activation": parameters[2],
-                        "hidden_layer_activation": parameters[3],
-                        "output_layer_activation": parameters[4],
-                        "optimizer": parameters[5],
-                        "epochs": parameters[6],
-                        "batch_size": parameters[7],
+                    machine_params = {
+                        "input_layer_units": [int(i) for i in checked_list[12]],
+                        "hidden_layer_units": [int(i) for i in checked_list[13]],
+                        "input_layer_activation": [str(i) for i in checked_list[14]],
+                        "hidden_layer_activation": [str(i) for i in checked_list[15]],
+                        "output_layer_activation": [str(i) for i in checked_list[16]],
+                        "optimizer": [str(i) for i in checked_list[17]],
+                        "epochs": [int(i) for i in checked_list[18]],
+                        "batch_size": [int(i) for i in checked_list[19]],
                     }
 
-                    print(params)
+                    print(machine_params)
 
-                else:
+                elif checked_list[3] == 'user_defined_machine_learning':
                     pass
 
             train = pd.read_csv(train_file_path + checked_list[0])
@@ -188,7 +195,10 @@ def page3():
             train = train.sample(frac=1).reset_index(drop=True)
             test = test.sample(frac=1).reset_index(drop=True)
 
-            X_train, X_test, y_train, y_test = embedding(checked_list[2], train, test)
+            X_train, X_test, y_train, y_test = embedding(checked_list[2], train, test, embed_params)
+            print('X_train type: {}, y_train type: {}'.format(type(X_train), type(y_train)))
+            print('X_test type: {}, y_test type: {}'.format(type(X_test), type(y_test)))
+
             print('X_train shape: {}, y_train shape: {}'.format(X_train.shape, y_train.shape))
             print('X_test shape: {}, y_test shape: {}'.format(X_test.shape, y_test.shape))
 
@@ -205,7 +215,7 @@ def page3():
 
                 print('임베딩 및 머신러닝 시각화할 경우')
                 if is_pre_train == False:
-                    train_y_pred, test_y_pred = machine_learning(checked_list[3], X_train, X_test, y_train, y_test, params=params)
+                    train_y_pred, test_y_pred = machine_learning(checked_list[3], X_train, X_test, y_train, y_test, machine_params)
 
                 else:
                     train_y_pred, test_y_pred = pre_train_machine_learning(checked_list[3], X_train, X_test, y_train, y_test)
@@ -233,7 +243,7 @@ def page3():
 
 @app.route('/visualization', methods=["GET", "POST"])
 def page4():
-    return render_template('visualization.html', visualization="embedding_and_visualization")
+    return render_template('visualization.html', visualization="embedding_and_machineLearning_visualization")
 
 
 # 훈련 데이터 평가 지표 값을 받는 라우터
