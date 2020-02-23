@@ -1,4 +1,5 @@
 from scipy.sparse import csr_matrix
+import time
 
 def embedding(method, train, test, embed_params):
     # x열은 토크나이징 된 단어들 목록
@@ -42,6 +43,8 @@ def embedding(method, train, test, embed_params):
 
     if method == "CounterVector":
 
+        start = time.time()
+
         from sklearn.feature_extraction.text import CountVectorizer
         count_vectorizer = CountVectorizer(min_df=3, max_features=1000)
 
@@ -51,9 +54,15 @@ def embedding(method, train, test, embed_params):
         sparse_count_train_x = csr_matrix(count_train_vectors)
         sparse_count_test_x = csr_matrix(count_test_vectors)
 
+        end = time.time()
+
+        print('CounterVectorizer embedding time: {}'.format(end - start))
+
         return sparse_count_train_x, sparse_count_test_x, train['y'].values, test['y'].values
 
     elif method == "TF-IDF":
+
+        start = time.time()
 
         from sklearn.feature_extraction.text import TfidfVectorizer
         tfidf_vectorizer = TfidfVectorizer(min_df=3, max_features=1000)
@@ -64,9 +73,15 @@ def embedding(method, train, test, embed_params):
         sparse_tf_train_x = csr_matrix(tf_train_vectors)
         sparse_tf_test_x = csr_matrix(tf_test_vectors)
 
+        end = time.time()
+
+        print('TfidfVectorizer embedding time: '.format(end - start))
+
         return sparse_tf_train_x, sparse_tf_test_x, train['y'].values, test['y'].values
 
     elif method == "Doc2Vec":
+
+        start = time.time()
 
         from collections import namedtuple
         TaggedDocument = namedtuple('TaggedDocument', 'words tags')
@@ -106,6 +121,10 @@ def embedding(method, train, test, embed_params):
 
         sparse_doc_train_x = csr_matrix(doc_train_vectors_np)
         sparse_doc_test_x = csr_matrix(doc_test_vectors_np)
+
+        end = time.time()
+
+        print('Doc2Vec embedding time: {}'.format(end - start))
 
         return sparse_doc_train_x, sparse_doc_test_x, doc_train_tags_np, doc_test_tags_np
 

@@ -6,10 +6,15 @@ from machine_learning import machine_learning, pre_train_machine_learning
 from dimension_reduction import dimension_reduction
 import pandas as pd
 
-train_file_path = 'C:/Users/daumsoft/PycharmProjects/visualization/train_list/'
-test_file_path = 'C:/Users/daumsoft/PycharmProjects/visualization/test_list/'
-save_model_path = 'C:/Users/daumsoft/PycharmProjects/visualization/model/'
-path = r'C:/Users/daumsoft/PycharmProjects/visualization/csv_files/'
+# train_file_path = 'C:/Users/daumsoft/PycharmProjects/visualization/train_list/'
+# test_file_path = 'C:/Users/daumsoft/PycharmProjects/visualization/test_list/'
+# save_model_path = 'C:/Users/daumsoft/PycharmProjects/visualization/model/'
+# path = r'C:/Users/daumsoft/PycharmProjects/visualization/csv_files/'
+
+train_file_path = 'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/train_list/'
+test_file_path = 'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/test_list/'
+save_model_path = 'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/model/'
+path = r'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/csv_files/'
 
 app = Flask(__name__)
 
