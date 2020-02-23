@@ -120,7 +120,8 @@ def machine_learning(method, X_train, X_test, y_train, y_test, params):
         log_clf.fit(X_train, y_train)
 
         # save the model to disk
-        filename = 'C:/Users/daumsoft/PycharmProjects/visualization/model/logistic_model.pkl'
+        # filename = 'C:/Users/daumsoft/PycharmProjects/visualization/model/logistic_model.pkl'
+        filename = 'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/model/logistic_model.pkl'
         dump(log_clf, filename)
 
         train_y_pred = log_clf.predict(X_train)
@@ -132,7 +133,8 @@ def machine_learning(method, X_train, X_test, y_train, y_test, params):
         svm_clf.fit(X_train, y_train)
 
         # save the model to disk
-        filename = 'C:/Users/daumsoft/PycharmProjects/visualization/model/svm_model.pkl'
+        # filename = 'C:/Users/daumsoft/PycharmProjects/visualization/model/svm_model.pkl'
+        filename = 'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/model/svm_model.pkl'
         dump(svm_clf, filename)
 
         train_y_pred = svm_clf.predict(X_train)
@@ -144,7 +146,8 @@ def machine_learning(method, X_train, X_test, y_train, y_test, params):
         rnd_clf.fit(X_train, y_train)
 
         # save the model to disk
-        filename = 'C:/Users/daumsoft/PycharmProjects/visualization/model/randomforest_model.pkl'
+        # filename = 'C:/Users/daumsoft/PycharmProjects/visualization/model/randomforest_model.pkl'
+        filename = 'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/model/andomforest_model.pkl'
         dump(rnd_clf, filename)
 
         train_y_pred = rnd_clf.predict(X_train)
@@ -179,13 +182,14 @@ def machine_learning(method, X_train, X_test, y_train, y_test, params):
                         loss='sparse_categorical_crossentropy',
                         metrics=['accuracy'])
 
-        fnn_clf.fit(X_train, train_label, epochs=epochs, batch_size=batch_size)
+        fnn_clf.fit(X_train.toarray(), train_label, epochs=epochs, batch_size=batch_size)
 
         # save the model to disk
-        fnn_clf.save('C:/Users/daumsoft/PycharmProjects/visualization/model/fnn_model.h5')
+        # fnn_clf.save('C:/Users/daumsoft/PycharmProjects/visualization/model/fnn_model.h5')
+        fnn_clf.save('C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/model/fnn_model.h5')
 
-        train_prediction = fnn_clf.predict(X_train)
-        test_prediction = fnn_clf.predict(X_test)
+        train_prediction = fnn_clf.predict(X_train.toarray())
+        test_prediction = fnn_clf.predict(X_test.toarray())
 
         tr_y_pred = []
         for i in range(len(train_prediction)):
@@ -201,8 +205,6 @@ def machine_learning(method, X_train, X_test, y_train, y_test, params):
     elif method == 'user_defined_machine_learning':
         pass
 
-
-
     train_df = pd.DataFrame(confusion_matrix(y_train, train_y_pred),
                             index=target_names,
                             columns=target_names)
@@ -211,7 +213,8 @@ def machine_learning(method, X_train, X_test, y_train, y_test, params):
                            index=target_names,
                            columns=target_names)
 
-    path = r'C:/Users/daumsoft/PycharmProjects/visualization/csv_files/'
+    # path = r'C:/Users/daumsoft/PycharmProjects/visualization/csv_files/'
+    path = r'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/csv_files/'
 
     train_df.to_csv(path + 'confusion_matrix_train.csv', index=False)
     test_df.to_csv(path + 'confusion_matrix_test.csv', index=False)
