@@ -7,7 +7,7 @@ from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, r
 from joblib import dump, load
 
 
-def pre_train_machine_learning(method, X_train, X_test, y_train, y_test):
+def pre_train_machine_learning(embedding_model_name, method, X_train, X_test, y_train, y_test):
 
     target_names = list(set(y_train))
 
@@ -17,8 +17,8 @@ def pre_train_machine_learning(method, X_train, X_test, y_train, y_test):
 
     if method == 'Logistic':
 
-        # load the model from disk
-        filename = 'C:/Users/daumsoft/PycharmProjects/visualization/model/logistic_model.pkl'
+        # load the machine_model from disk
+        filename = 'C:/Users/daumsoft/PycharmProjects/visualization/machine_model/' + embedding_model_name + '_logistic_model.pkl'
         log_clf = load(filename)
 
         train_y_pred = log_clf.predict(X_train)
@@ -26,8 +26,8 @@ def pre_train_machine_learning(method, X_train, X_test, y_train, y_test):
 
     elif method == 'SVM':
 
-        # load the model from disk
-        filename = 'C:/Users/daumsoft/PycharmProjects/visualization/model/svm_model.pkl'
+        # load the machine_model from disk
+        filename = 'C:/Users/daumsoft/PycharmProjects/visualization/machine_model/' + embedding_model_name + '_svm_model.pkl'
         svm_clf = load(filename)
 
         train_y_pred = svm_clf.predict(X_train)
@@ -35,20 +35,17 @@ def pre_train_machine_learning(method, X_train, X_test, y_train, y_test):
 
     elif method == 'RandomForest':
 
-        # load the model from disk
-        filename = 'C:/Users/daumsoft/PycharmProjects/visualization/model/randomforest_model.pkl'
+        # load the machine_model from disk
+        filename = 'C:/Users/daumsoft/PycharmProjects/visualization/machine_model/' + embedding_model_name + '_randomforest_model.pkl'
         rnd_clf = load(filename)
-
-        print(rnd_clf)
-        print(X_train.shape)
 
         train_y_pred = rnd_clf.predict(X_train)
         test_y_pred = rnd_clf.predict(X_test)
 
     elif method == 'FNN':
 
-        # load the model from disk
-        fnn_clf = tf.keras.models.load_model('C:/Users/daumsoft/PycharmProjects/visualization/model/fnn_model.h5')
+        # load the machine_model from disk
+        fnn_clf = tf.keras.models.load_model('C:/Users/daumsoft/PycharmProjects/visualization/machine_model/' + embedding_model_name + '_fnn_model.h5')
 
         train_prediction = fnn_clf.predict(X_train)
         test_prediction = fnn_clf.predict(X_test)
@@ -110,7 +107,7 @@ def pre_train_machine_learning(method, X_train, X_test, y_train, y_test):
     return train_y_pred, test_y_pred
 
 
-def machine_learning(method, X_train, X_test, y_train, y_test, params):
+def machine_learning(embedding_model_name, method, X_train, X_test, y_train, y_test, params):
 
     target_names = list(set(y_train))
 
@@ -119,9 +116,8 @@ def machine_learning(method, X_train, X_test, y_train, y_test, params):
         log_clf = model.myLogisticRegression(params)
         log_clf.fit(X_train, y_train)
 
-        # save the model to disk
-        # filename = 'C:/Users/daumsoft/PycharmProjects/visualization/model/logistic_model.pkl'
-        filename = 'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/model/logistic_model.pkl'
+        # save the machine_model to disk
+        filename = 'C:/Users/daumsoft/PycharmProjects/visualization/machine_model/' + embedding_model_name + '_logistic_model.pkl'
         dump(log_clf, filename)
 
         train_y_pred = log_clf.predict(X_train)
@@ -132,9 +128,8 @@ def machine_learning(method, X_train, X_test, y_train, y_test, params):
         svm_clf = model.mySVM(params)
         svm_clf.fit(X_train, y_train)
 
-        # save the model to disk
-        # filename = 'C:/Users/daumsoft/PycharmProjects/visualization/model/svm_model.pkl'
-        filename = 'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/model/svm_model.pkl'
+        # save the machine_model to disk
+        filename = 'C:/Users/daumsoft/PycharmProjects/visualization/machine_model/' + embedding_model_name + '_svm_model.pkl'
         dump(svm_clf, filename)
 
         train_y_pred = svm_clf.predict(X_train)
@@ -145,9 +140,8 @@ def machine_learning(method, X_train, X_test, y_train, y_test, params):
         rnd_clf = model.myRandomForestClassifier(params)
         rnd_clf.fit(X_train, y_train)
 
-        # save the model to disk
-        # filename = 'C:/Users/daumsoft/PycharmProjects/visualization/model/randomforest_model.pkl'
-        filename = 'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/model/andomforest_model.pkl'
+        # save the machine_model to disk
+        filename = 'C:/Users/daumsoft/PycharmProjects/visualization/machine_model/' + embedding_model_name + '_randomforest_model.pkl'
         dump(rnd_clf, filename)
 
         train_y_pred = rnd_clf.predict(X_train)
@@ -184,9 +178,8 @@ def machine_learning(method, X_train, X_test, y_train, y_test, params):
 
         fnn_clf.fit(X_train.toarray(), train_label, epochs=epochs, batch_size=batch_size)
 
-        # save the model to disk
-        # fnn_clf.save('C:/Users/daumsoft/PycharmProjects/visualization/model/fnn_model.h5')
-        fnn_clf.save('C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/model/fnn_model.h5')
+        # save the machine_model to disk
+        fnn_clf.save('C:/Users/daumsoft/PycharmProjects/visualization/machine_model/' + embedding_model_name + '_fnn_model.h5')
 
         train_prediction = fnn_clf.predict(X_train.toarray())
         test_prediction = fnn_clf.predict(X_test.toarray())
@@ -213,8 +206,7 @@ def machine_learning(method, X_train, X_test, y_train, y_test, params):
                            index=target_names,
                            columns=target_names)
 
-    # path = r'C:/Users/daumsoft/PycharmProjects/visualization/csv_files/'
-    path = r'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/csv_files/'
+    path = r'C:/Users/daumsoft/PycharmProjects/visualization/csv_files/'
 
     train_df.to_csv(path + 'confusion_matrix_train.csv', index=False)
     test_df.to_csv(path + 'confusion_matrix_test.csv', index=False)

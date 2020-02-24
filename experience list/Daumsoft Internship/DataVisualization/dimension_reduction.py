@@ -36,7 +36,7 @@ def dimension_reduction(method, X_train, X_test, y_train, y_test):
     # TSNE는 transform 메소드가 없음 -> 새로운 데이터에 대한 분류를 사용할 수 없음
     elif method == "TSNE":
 
-        start=  time.time()
+        start = time.time()
         tsne_red = visualization.myTSNE()
 
         size = X_train.shape[0]
@@ -59,8 +59,7 @@ def dimension_reduction(method, X_train, X_test, y_train, y_test):
     test_df = pd.DataFrame(test_result, columns=['r0', 'r1'])
     test_df['target'] = y_test
 
-    # path = r'C:/Users/daumsoft/PycharmProjects/visualization/csv_files/'
-    path = r'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/csv_files/'
+    path = r'C:/Users/daumsoft/PycharmProjects/visualization/csv_files/'
 
     train_df.to_csv(path + 'embedding_and_visualization_train.csv', index=False)
     test_df.to_csv(path + 'embedding_and_visualization_test.csv', index=False)

@@ -1,5 +1,128 @@
 from scipy.sparse import csr_matrix
 import time
+from pickle import dump, load
+
+def pre_train_embedding(method, train, test):
+    # x열은 토크나이징 된 단어들 목록
+    # y열은 타겟 라벨
+
+    # counter vectorize, tf-idf용 corpus // 빈칸으로 띄어쓰기
+    train_corpus1 = []
+    # word2vec, doc2vec용 corpus # ,로 띄어쓰기와 리스트 형식
+    train_corpus2 = []
+
+    for words in train['x']:
+        sentence1 = ""
+        sentence2 = []
+
+        for word in words.split(","):
+            sentence1 += word + " "
+            sentence2.append(word)
+
+        sentence1 = sentence1[:len(sentence1) - 1]
+
+        train_corpus1.append(sentence1)
+        train_corpus2.append(sentence2)
+
+    # counter vectorize, tf-idf용 corpus // 빈칸으로 띄어쓰기
+    test_corpus1 = []
+    # word2vec, doc2vec용 corpus # ,로 띄어쓰기와 리스트 형식
+    test_corpus2 = []
+
+    for words in test['x']:
+        sentence1 = ""
+        sentence2 = []
+
+        for word in words.split(","):
+            sentence1 += word + " "
+            sentence2.append(word)
+
+        sentence1 = sentence1[:len(sentence1) - 1]
+
+        test_corpus1.append(sentence1)
+        test_corpus2.append(sentence2)
+
+    if method == "CounterVector":
+
+        start = time.time()
+
+        count_vectorizer = load(open("C:/Users/daumsoft/PycharmProjects/visualization/embedding_model/count_vectorizer.pkl", "rb"))
+
+        count_train_vectors = count_vectorizer.transform(train_corpus1)
+        count_test_vectors = count_vectorizer.transform(test_corpus1)
+
+        sparse_count_train_x = csr_matrix(count_train_vectors)
+        sparse_count_test_x = csr_matrix(count_test_vectors)
+
+        end = time.time()
+
+        print('pre-train CounterVectorizer embedding time: {}'.format(end - start))
+
+        return sparse_count_train_x, sparse_count_test_x, train['y'].values, test['y'].values
+
+    elif method == "TF-IDF":
+
+        start = time.time()
+
+        tfidf_vectorizer = load(open("C:/Users/daumsoft/PycharmProjects/visualization/embedding_model/tfidf_vectorizer.pkl", "rb"))
+
+        tf_train_vectors = tfidf_vectorizer.transform(train_corpus1)
+        tf_test_vectors = tfidf_vectorizer.transform(test_corpus1)
+
+        sparse_tf_train_x = csr_matrix(tf_train_vectors)
+        sparse_tf_test_x = csr_matrix(tf_test_vectors)
+
+        end = time.time()
+
+        print('pre-train TfidfVectorizer embedding time: '.format(end - start))
+
+        return sparse_tf_train_x, sparse_tf_test_x, train['y'].values, test['y'].values
+
+    elif method == "Doc2Vec":
+
+        start = time.time()
+
+        from collections import namedtuple
+        TaggedDocument = namedtuple('TaggedDocument', 'words tags')
+
+        doc2vec_train_tag = [TaggedDocument(doc, tag) for doc, tag in zip(train_corpus2, train['y'].values)]
+        doc2vec_test_tag = [TaggedDocument(doc, tag) for doc, tag in zip(test_corpus2, test['y'].values)]
+
+        from gensim.models.doc2vec import Doc2Vec
+
+        doc_vectorizer = Doc2Vec.load('C:/Users/daumsoft/PycharmProjects/visualization/embedding_model/doc_vectorizer.pkl')
+
+        for epoch in range(doc_vectorizer.epochs):
+            doc_vectorizer.train(doc2vec_train_tag, total_examples=doc_vectorizer.corpus_count, epochs=doc_vectorizer.epochs)
+            doc_vectorizer.alpha -= 0.002  # decrease the learning rate
+            doc_vectorizer.min_alpha = doc_vectorizer.alpha  # fix the learning rate, no decay
+
+        doc_train_vectors = [doc_vectorizer.infer_vector(doc.words) for doc in doc2vec_train_tag]
+        doc_train_tags = [doc.tags for doc in doc2vec_train_tag]
+
+        doc_test_vectors = [doc_vectorizer.infer_vector(doc.words) for doc in doc2vec_test_tag]
+        doc_test_tags = [doc.tags for doc in doc2vec_test_tag]
+
+        import numpy as np
+
+        doc_train_vectors_np = np.array(doc_train_vectors)
+        doc_train_tags_np = np.array(doc_train_tags)
+
+        doc_test_vectors_np = np.array(doc_test_vectors)
+        doc_test_tags_np = np.array(doc_test_tags)
+
+        sparse_doc_train_x = csr_matrix(doc_train_vectors_np)
+        sparse_doc_test_x = csr_matrix(doc_test_vectors_np)
+
+        end = time.time()
+
+        print('pre-train Doc2Vec embedding time: {}'.format(end - start))
+
+        return sparse_doc_train_x, sparse_doc_test_x, doc_train_tags_np, doc_test_tags_np
+
+    elif method == "user_defined_embedding":
+        pass
+
 
 def embedding(method, train, test, embed_params):
     # x열은 토크나이징 된 단어들 목록
@@ -46,10 +169,19 @@ def embedding(method, train, test, embed_params):
         start = time.time()
 
         from sklearn.feature_extraction.text import CountVectorizer
-        count_vectorizer = CountVectorizer(min_df=3, max_features=1000)
+
+        count_vectorizer = CountVectorizer(tokenizer=embed_params['tokenizer'],
+                                           stop_words=embed_params['stop_words'],
+                                           min_df=embed_params['min_df'],
+                                           max_df=embed_params['max_df'],
+                                           max_features=embed_params['max_features'],
+                                           binary=embed_params['binary'])
 
         count_train_vectors = count_vectorizer.fit_transform(train_corpus1)
         count_test_vectors = count_vectorizer.transform(test_corpus1)
+
+        dump(count_vectorizer,
+             open("C:/Users/daumsoft/PycharmProjects/visualization/embedding_model/count_vectorizer.pkl", "wb"))
 
         sparse_count_train_x = csr_matrix(count_train_vectors)
         sparse_count_test_x = csr_matrix(count_test_vectors)
@@ -65,10 +197,18 @@ def embedding(method, train, test, embed_params):
         start = time.time()
 
         from sklearn.feature_extraction.text import TfidfVectorizer
-        tfidf_vectorizer = TfidfVectorizer(min_df=3, max_features=1000)
+        tfidf_vectorizer = TfidfVectorizer(tokenizer=embed_params['tokenizer'],
+                                           stop_words=embed_params['stop_words'],
+                                           min_df=embed_params['min_df'],
+                                           max_df=embed_params['max_df'],
+                                           max_features=embed_params['max_features'],
+                                           binary=embed_params['binary'])
 
         tf_train_vectors = tfidf_vectorizer.fit_transform(train_corpus1)
         tf_test_vectors = tfidf_vectorizer.transform(test_corpus1)
+
+        dump(tfidf_vectorizer,
+             open("C:/Users/daumsoft/PycharmProjects/visualization/embedding_model/tfidf_vectorizer.pkl", "wb"))
 
         sparse_tf_train_x = csr_matrix(tf_train_vectors)
         sparse_tf_test_x = csr_matrix(tf_test_vectors)
@@ -90,16 +230,18 @@ def embedding(method, train, test, embed_params):
         doc2vec_test_tag = [TaggedDocument(doc, tag) for doc, tag in zip(test_corpus2, test['y'].values)]
 
         from gensim.models.doc2vec import Doc2Vec
-        doc_vectorizer = Doc2Vec(dm=0,
-                                 min_count=3,
-                                 vector_size=256,
-                                 window=5,
-                                 negative=20,
-                                 epochs=20)
+
+        doc_vectorizer = Doc2Vec(dm=embed_params['dm'],
+                                 min_alpha=0.025,
+                                 alpha=embed_params['alpha'],
+                                 vector_size=embed_params['vector_size'],
+                                 window=embed_params['window'],
+                                 negative=embed_params['negative'],
+                                 epochs=embed_params['epochs'])
 
         doc_vectorizer.build_vocab(doc2vec_train_tag)
 
-        for epoch in range(embed_params['epochs']):
+        for epoch in range(doc_vectorizer.epochs):
             doc_vectorizer.train(doc2vec_train_tag, total_examples=doc_vectorizer.corpus_count,
                                  epochs=doc_vectorizer.epochs)
             doc_vectorizer.alpha -= 0.002  # decrease the learning rate
@@ -110,6 +252,8 @@ def embedding(method, train, test, embed_params):
 
         doc_test_vectors = [doc_vectorizer.infer_vector(doc.words) for doc in doc2vec_test_tag]
         doc_test_tags = [doc.tags for doc in doc2vec_test_tag]
+
+        doc_vectorizer.save('C:/Users/daumsoft/PycharmProjects/visualization/embedding_model/doc_vectorizer.pkl')
 
         import numpy as np
 
@@ -130,5 +274,3 @@ def embedding(method, train, test, embed_params):
 
     elif method == "user_defined_embedding":
         pass
-
-    return X_train_vectors, X_test_vectors, train['y'].values, test['y'].values

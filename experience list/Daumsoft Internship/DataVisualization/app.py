@@ -1,27 +1,26 @@
 import os
 from flask import Flask, render_template, request
 from werkzeug.utils import secure_filename
-from embedding import embedding
+from embedding import embedding, pre_train_embedding
 from machine_learning import machine_learning, pre_train_machine_learning
 from dimension_reduction import dimension_reduction
+from params import get_params1, get_params2
 import pandas as pd
 
-# train_file_path = 'C:/Users/daumsoft/PycharmProjects/visualization/train_list/'
-# test_file_path = 'C:/Users/daumsoft/PycharmProjects/visualization/test_list/'
-# save_model_path = 'C:/Users/daumsoft/PycharmProjects/visualization/model/'
-# path = r'C:/Users/daumsoft/PycharmProjects/visualization/csv_files/'
+train_file_path = 'C:/Users/daumsoft/PycharmProjects/visualization/train_list/'
+test_file_path = 'C:/Users/daumsoft/PycharmProjects/visualization/test_list/'
+embed_model_path = 'C:/Users/daumsoft/PycharmProjects/visualization/embedding_model/'
+machine_model_path = 'C:/Users/daumsoft/PycharmProjects/visualization/machine_model/'
 
-train_file_path = 'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/train_list/'
-test_file_path = 'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/test_list/'
-save_model_path = 'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/model/'
-path = r'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/csv_files/'
+path = r'C:/Users/daumsoft/PycharmProjects/visualization/csv_files/'
 
 app = Flask(__name__)
 
 app.secret_key = "secret key"
 app.config['train_file_path'] = train_file_path
 app.config['test_file_path'] = test_file_path
-app.config['save_model_path'] = save_model_path
+app.config['embed_model_path'] = embed_model_path
+app.config['machine_model_path'] = machine_model_path
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -34,7 +33,8 @@ def page2():
 
     train_file_list = os.listdir(train_file_path)
     test_file_list = os.listdir(test_file_path)
-    model_list = os.listdir(save_model_path)
+    embed_model_list = os.listdir(embed_model_path)
+    machine_model_list = os.listdir(machine_model_path)
 
     if request.method == "POST":
 
@@ -49,10 +49,18 @@ def page2():
             f2 = secure_filename(test_file.filename)
             test_file.save(os.path.join(app.config['test_file_path'], f2))
 
-        return render_template('fileUpload.html', filename1=f1, filename2=f2, train_file_lis=train_file_list, test_file_list=test_file_list, model_list=model_list)
+        return render_template('fileUpload.html', filename1=f1, filename2=f2,
+                               train_file_lis=train_file_list,
+                               test_file_list=test_file_list,
+                               embed_model_list=embed_model_list,
+                               machine_model_list=machine_model_list)
 
     else:
-        return render_template('fileUpload.html', train_file_list=train_file_list, test_file_list=test_file_list, model_list=model_list)
+        return render_template('fileUpload.html',
+                               train_file_list=train_file_list,
+                               test_file_list=test_file_list,
+                               embed_model_list=embed_model_list,
+                               machine_model_list=machine_model_list)
 
 
 @app.route('/machineLearning', methods=["GET", "POST"])
@@ -71,122 +79,34 @@ def page3():
             print(checked_list)
 
             is_pre_train = False
+            is_pre_embed = False
 
-            if checked_list[5] == 'pre-train':
-                is_pre_train = True
+            embed_params = ''
+            machine_params = ''
 
+            # 1) 임베딩 처음, 모델 처음 -> 모든 파라미터를 받아와야 함
+            if checked_list[5] == '' and checked_list[6] == '':
+
+                embed_params, machine_params = get_params1(checked_list)
+
+            # 2) 임베딩 pretrain, 모델 처음 -> 훈련 파라미터만 받아오면 됨
+            elif checked_list[5] == 'pre-embed' and checked_list[6] == '':
+
+                is_pre_embed = True
+                machine_params = get_params2(checked_list)
+
+            # 3) 임베딩 처음, 모델 pretrain -> 피처가 다르므로 불가능
+            elif checked_list[5] == '' and checked_list[6] == 'pre-train':
+                pass
+
+            # 4) 임베딩 pretrain, 모델 pretrain -> 파라미터를 받아올 필요 없음
             else:
 
-                ##### embedding parameters #####
-                if checked_list[2] == 'CounterVector':
+                is_pre_embed = True
+                is_pre_train = True
 
-                    embed_params = {
-                        "tokenizer": None if checked_list[6] == 'None' else str(checked_list[6]),
-                        "stop_words": None if checked_list[7] == 'None' else str(checked_list[7]),
-                        "min_df": int(checked_list[8]),
-                        "max_df": int(checked_list[9]),
-                        "max_features": None if checked_list[10] == 'None' else int(checked_list[10]),
-                        "binary": False if checked_list[11] == 'False' else True,
-                    }
-
-                    print(embed_params)
-
-                elif checked_list[2] == 'TF-IDF':
-
-                    embed_params = {
-                        "tokenizer": None if checked_list[6] == 'None' else str(checked_list[6]),
-                        "stop_words": None if checked_list[7] == 'None' else str(checked_list[7]),
-                        "min_df": int(checked_list[8]),
-                        "max_df": int(checked_list[9]),
-                        "max_features": None if checked_list[10] == 'None' else int(checked_list[10]),
-                        "binary": False if checked_list[11] == 'False' else True,
-                    }
-
-                    print(embed_params)
-
-                elif checked_list[2] == 'Doc2Vec':
-
-                    embed_params = {
-                        "dm": int(checked_list[6]),
-                        "vector_size": int(checked_list[7]),
-                        "window": int(checked_list[8]),
-                        "alpha": float(checked_list[9]),
-                        "epochs": int(checked_list[10]),
-                        "negative": int(checked_list[11]),
-                    }
-
-                    print(embed_params)
-
-                elif checked_list[2] == 'user_defined_embedding':
-                    pass
-
-
-                ##### machine learning parameters #####
-                if checked_list[3] == 'Logistic':
-                    for i in range(12, len(checked_list)):
-                        checked_list[i] = checked_list[i].split(" ")
-
-                    machine_params = {
-                        "penalty": [str(i) for i in checked_list[12]],
-                        "C": [float(i) for i in checked_list[13]],
-                        "random_state": [int(i) for i in checked_list[14]],
-                        "max_iter": [int(i) for i in checked_list[15]],
-                        "l1_ratio": [None] if checked_list[16][0] == 'None' else [float(i) for i in checked_list[16]],
-                    }
-
-                    print(machine_params)
-
-                # 8개 파라미터
-                elif checked_list[3] == 'SVM':
-                    for i in range(12, len(checked_list)):
-                        checked_list[i] = checked_list[i].split(" ")
-
-                    machine_params = {
-                        "loss": [str(i) for i in checked_list[12]],
-                        "penalty": [str(i) for i in checked_list[13]],
-                        "alpha": [float(i) for i in checked_list[14]],
-                        "l1_ratio": [float(i) for i in checked_list[15]],
-                        "max_iter": [int(i) for i in checked_list[16]],
-                        "random_state": [int(i) for i in checked_list[17]],
-                        "learning_rate": [str(i) for i in checked_list[18]],
-                        "eta0": [float(i) for i in checked_list[19]],
-                    }
-
-                    print(machine_params)
-
-                # 3개 파라미터
-                elif checked_list[3] == 'RandomForest':
-                    for i in range(12, len(checked_list)):
-                        checked_list[i] = checked_list[i].split(" ")
-
-                    machine_params = {
-                            "n_estimators": [int(i) for i in checked_list[12]],
-                            "max_depth": [None] if checked_list[13][0] == 'None' else [int(i) for i in checked_list[13]],
-                            "random_state": [int(i) for i in checked_list[14]],
-                        }
-
-                    print(machine_params)
-
-                # 8개 파라미터
-                elif checked_list[3] == 'FNN':
-                    for i in range(12, len(checked_list)):
-                        checked_list[i] = checked_list[i].split(" ")
-
-                    machine_params = {
-                        "input_layer_units": [int(i) for i in checked_list[12]],
-                        "hidden_layer_units": [int(i) for i in checked_list[13]],
-                        "input_layer_activation": [str(i) for i in checked_list[14]],
-                        "hidden_layer_activation": [str(i) for i in checked_list[15]],
-                        "output_layer_activation": [str(i) for i in checked_list[16]],
-                        "optimizer": [str(i) for i in checked_list[17]],
-                        "epochs": [int(i) for i in checked_list[18]],
-                        "batch_size": [int(i) for i in checked_list[19]],
-                    }
-
-                    print(machine_params)
-
-                elif checked_list[3] == 'user_defined_machine_learning':
-                    pass
+            print(embed_params)
+            print(machine_params)
 
             train = pd.read_csv(train_file_path + checked_list[0])
             test = pd.read_csv(test_file_path + checked_list[1])
@@ -200,30 +120,55 @@ def page3():
             train = train.sample(frac=1).reset_index(drop=True)
             test = test.sample(frac=1).reset_index(drop=True)
 
-            X_train, X_test, y_train, y_test = embedding(checked_list[2], train, test, embed_params)
-            print('X_train type: {}, y_train type: {}'.format(type(X_train), type(y_train)))
-            print('X_test type: {}, y_test type: {}'.format(type(X_test), type(y_test)))
-
-            print('X_train shape: {}, y_train shape: {}'.format(X_train.shape, y_train.shape))
-            print('X_test shape: {}, y_test shape: {}'.format(X_test.shape, y_test.shape))
-
-            dimension_reduction(checked_list[4], X_train, X_test, y_train, y_test)
-
             # 임베딩만 시각화할 경우
             if checked_list[3] == '':
 
-                print('임베딩만 시각화할 경우')
+                # 미리 학습된 임베딩을 사용할 경우
+                if is_pre_embed == True:
+                    X_train, X_test, y_train, y_test = pre_train_embedding(checked_list[2], train, test)
+
+                # 새로운 임베딩을 사용할 경우
+                else:
+                    X_train, X_test, y_train, y_test = embedding(checked_list[2], train, test, embed_params)
+
+                print('X_train type: {}, y_train type: {}'.format(type(X_train), type(y_train)))
+                print('X_test type: {}, y_test type: {}'.format(type(X_test), type(y_test)))
+
+                print('X_train shape: {}, y_train shape: {}'.format(X_train.shape, y_train.shape))
+                print('X_test shape: {}, y_test shape: {}'.format(X_test.shape, y_test.shape))
+
+                # 차원축소
+                dimension_reduction(checked_list[4], X_train, X_test, y_train, y_test)
+
                 return render_template('visualization.html', visualization="embedding_and_visualization")
 
             # 임베딩 -> 머신러닝 -> 시각화할 경우
             else:
 
-                print('임베딩 및 머신러닝 시각화할 경우')
-                if is_pre_train == False:
-                    train_y_pred, test_y_pred = machine_learning(checked_list[3], X_train, X_test, y_train, y_test, machine_params)
+                # 미리 학습된 임베딩을 사용할 경우
+                if is_pre_embed == True:
+                    X_train, X_test, y_train, y_test = pre_train_embedding(checked_list[2], train, test)
 
+                # 새로운 임베딩을 사용할 경우
                 else:
-                    train_y_pred, test_y_pred = pre_train_machine_learning(checked_list[3], X_train, X_test, y_train, y_test)
+                    X_train, X_test, y_train, y_test = embedding(checked_list[2], train, test, embed_params)
+
+                print('X_train type: {}, y_train type: {}'.format(type(X_train), type(y_train)))
+                print('X_test type: {}, y_test type: {}'.format(type(X_test), type(y_test)))
+
+                print('X_train shape: {}, y_train shape: {}'.format(X_train.shape, y_train.shape))
+                print('X_test shape: {}, y_test shape: {}'.format(X_test.shape, y_test.shape))
+
+                # 차원축소
+                dimension_reduction(checked_list[4], X_train, X_test, y_train, y_test)
+
+                # 미리 학습된 머신러닝을 사용할 경우
+                if is_pre_train == True:
+                    train_y_pred, test_y_pred = pre_train_machine_learning(checked_list[2], checked_list[3], X_train, X_test, y_train, y_test)
+
+                # 새로운 머신러닝을 사용할 경우
+                else:
+                    train_y_pred, test_y_pred = machine_learning(checked_list[2], checked_list[3], X_train, X_test, y_train, y_test, machine_params)
 
                 train_df = pd.read_csv(path + 'embedding_and_visualization_train.csv')
                 test_df = pd.read_csv(path + 'embedding_and_visualization_test.csv')
@@ -248,7 +193,10 @@ def page3():
 
 @app.route('/visualization', methods=["GET", "POST"])
 def page4():
-    return render_template('visualization.html', visualization="embedding_and_machineLearning_visualization")
+    if os.path.isfile('C:/Users/daumsoft/PycharmProjects/visualization/csv_files/metrics_score_train.csv'):
+        return render_template('visualization.html', visualization="embedding_and_machineLearning_visualization")
+    else:
+        return render_template('visualization.html', visualization="embedding_and_visualization")
 
 
 # 훈련 데이터 평가 지표 값을 받는 라우터
@@ -335,6 +283,15 @@ def data4_1():
 def data4_2():
     df = pd.read_csv(path + 'embedding_and_machinelearning_visualization_test.csv')
     return df.to_csv()
+
+
+# 데이터 다운로드 라우터
+@app.route('/data')
+def embedding_data():
+    embed_model_list = os.listdir(embed_model_path)
+    print(embed_model_list)
+
+    return embed_model_list
 
 
 if __name__ == "__main__":
