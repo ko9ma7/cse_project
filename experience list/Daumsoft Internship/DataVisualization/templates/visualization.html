@@ -789,7 +789,7 @@
                 .style("font-size", "14px")
 
             var color = d3.scaleOrdinal()
-                .range([`#dc6750`, `#c5dc50`, `#50c5dc`, `#6750dc`])
+                .range([`#dc6750`, `#baf953`, `#91dc84`, `#31b2dc`])
 
             var mouseover = function(d) {
                 d3.select(this)
@@ -881,7 +881,7 @@
                 .style("fill", "rgba(90,255,218,0.79)" )
 
             var color = d3.scaleOrdinal()
-                .range([`#dc6750`, `#c5dc50`, `#50c5dc`, `#6750dc`])
+                .range([`#dc6750`, `#baf953`, `#91dc84`, `#31b2dc`])
 
             var mouseover = function (d) {
                 d3.select(this)
@@ -967,7 +967,6 @@
                 .style("font-size", 15)
                 .style("fill", "rgba(90,255,218,0.79)" )
 
-
             var y = d3.scaleBand()
                 .range([height5, 0])
                 .domain(myVars)
@@ -979,7 +978,6 @@
                 .selectAll("text")
                 .style("font-size", 15)
                 .style("fill", "rgba(90,255,218,0.79)" )
-
 
             var mouseover = function(d) {
                 d3.select(this)
@@ -1015,9 +1013,10 @@
                 .enter()
                 .append("text")
                 .text(function(d) {return d.value;})
-                .attr("x", function(d) { return x(d.group) + 15})
-                .attr("y", function(d) { return y(d.variable) + 35})
-
+                .attr("x", function(d) { return x(d.group) + 30 })
+                .attr("y", function(d) { return y(d.variable) + 35 })
+                .style("text-align", "center")
+                .style("text-anchor", "middle")
 
             xlabel = ['pred']
             svg5.selectAll("text")
@@ -1128,8 +1127,10 @@
                 .enter()
                 .append("text")
                 .text(function (d) {return d.value;})
-                .attr("x", function (d) { return x(d.group) + 15})
-                .attr("y", function (d) { return y(d.variable) + 35})
+                .attr("x", function(d) { return x(d.group) + 30 })
+                .attr("y", function(d) { return y(d.variable) + 35 })
+                .style("text-align", "center")
+                .style("text-anchor", "middle")
 
             xlabel = ['pred']
             svg6.selectAll("text")
@@ -1267,7 +1268,7 @@
                          "<span style='color:" + c + ";'>" + d3.format(".4f")(d.r1);
 
                 tooltip.html(html)
-                    .style("left", width + 100 + "px")
+                    .style("left", width + 300 + "px")
                     .style("top", height / 2 + "px")
                     .style("font-size", "14px")
                     .transition()
@@ -1536,7 +1537,7 @@
                          "<span style='color:" + c + ";'>" + d3.format(".4f")(d.r1);
 
                 tooltip.html(html)
-                    .style("left", width + 100 + "px")
+                    .style("left", width + 300 + "px")
                     .style("top", height / 2 + "px")
                     .style("font-size", "14px")
                     .transition()
@@ -1743,7 +1744,7 @@
                          "<span style='color:" + c + ";'>" + d3.format(".4f")(d.r1);
 
                 tooltip.html(html)
-                    .style("left", width + 100 + "px")
+                    .style("left", width + 300 + "px")
                     .style("top", height / 2 + "px")
                     .style("font-size", "14px")
                     .transition()
@@ -1996,7 +1997,7 @@
                          "<span style='color:" + c + ";'>" + d3.format(".4f")(d.r1);
 
                 tooltip.html(html)
-                    .style("left", width + 100 + "px")
+                    .style("left", width + 300 + "px")
                     .style("top", height / 2 + "px")
                     .style("font-size", "14px")
                     .transition()
@@ -2592,7 +2593,7 @@
                          "<span style='color:" + c + ";'>" + d3.format(".4f")(d.r1);
 
                 tooltip.html(html)
-                    .style("left", width + 100 + "px")
+                    .style("left", width + 300 + "px")
                     .style("top", height / 2 + "px")
                     .style("font-size", "14px")
                     .transition()
@@ -2813,7 +2814,7 @@
                          "<span style='color:" + c + ";'>" + d3.format(".4f")(d.r1);
 
                 tooltip.html(html)
-                    .style("left", width + 100 + "px")
+                    .style("left", width + 300 + "px")
                     .style("top", height / 2 + "px")
                     .style("font-size", "14px")
                     .transition()

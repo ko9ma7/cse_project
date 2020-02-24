@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <script src="https://d3js.org/d3.v4.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script>
     <style>
         row2 {
             position: relative;
@@ -30,10 +32,16 @@
             cursor: pointer;
             color: white;
         }
-        .containerTab {
+        .containerTab1 {
+            width: 60%;
+            text-align: center;
+            padding: 13px;
+            color: white;
+        }
+        .containerTab2 {
             width: 75%;
             text-align: center;
-            padding: 10px;
+            padding: 13px;
             color: white;
         }
         input[type=text], select {
@@ -142,12 +150,14 @@
                                     <div class="select">
                                         <label class="selectbtn">Train Data</label>
                                         <select id="train_data">
+                                            <option id="train_data_value"style="display: block;"></option>
                                             {% for f in train_file_list %}
                                                 <option id="train_data_value" value="{{ f }}" style="display: block;">{{ f }}</option>
                                             {% endfor %}
                                         </select><br>
                                         <label class="selectbtn">Test Data</label>
                                         <select id="test_data">
+                                            <option id="test_data_value" style="display: block;"></option>
                                             {% for f in test_file_list %}
                                                 <option id="test_data_value" style="display: block;">{{ f }}</option>
                                             {% endfor %}
@@ -194,7 +204,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>max_df</td>
-                                                    <td><input type="text" value="1" name="TextBar1" style="width: 300px; text-align: center"></td>
+                                                    <td><input type="text" value="1.0" name="TextBar1" style="width: 300px; text-align: center"></td>
                                                 </tr>
                                                 <tr>
                                                     <td>max_features</td>
@@ -223,7 +233,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>max_df</td>
-                                                    <td><input type="text" value="1" name="TextBar2" style="width: 300px; text-align: center"></td>
+                                                    <td><input type="text" value="1.0" name="TextBar2" style="width: 300px; text-align: center"></td>
                                                 </tr>
                                                 <tr>
                                                     <td>max_features</td>
@@ -270,6 +280,11 @@
                                     </div>
                                 </div>
                             </div><br><br><br>
+                            <div class="align-self-sm-auto">
+                                <div id="check_box">
+                                    <input type="checkbox" name="pre-embed" value="pre-embed" onclick="confirm_checkbox1(this)" style="width:50px; height:16px;">Pre-Embed
+                                </div><br>
+                            </div>
                             <div class="align-self-sm-auto">
                                 <div id="radio_group2">
                                     <p style="color: white; font-size: 14pt">기계학습 방식(선택)</p><br>
@@ -420,7 +435,7 @@
                             </div><br><br><br>
                             <div class="align-self-sm-auto">
                                 <div id="check_box">
-                                    <input type="checkbox" name="pre-train" value="pre-train" onclick="confirm_checkbox(this)" style="width:50px; height:16px;">Pre-Train
+                                    <input type="checkbox" name="pre-train" value="pre-train" onclick="confirm_checkbox2(this)" style="width:50px; height:16px;">Pre-Train
                                 </div><br>
                             </div>
                             <div class="align-self-sm-auto">
@@ -452,7 +467,8 @@
                             var e_checked;
                             var m_checked;
                             var d_checked;
-                            var p_checked;
+                            var p_checked1;
+                            var p_checked2;
 
                             var textbar_id1;
                             var textbar_id2;
@@ -464,6 +480,15 @@
                                 }
                             }
 
+                            function confirm_checkbox1(box) {
+                                if (box.checked == true) {
+                                    console.log(box.value);
+                                    p_checked1 = box.value;
+                                } else {
+                                    p_checked1 = '';
+                                }
+                            }
+
                             function confirm_radio_group2(box) {
                                 if (box.checked == true) {
                                     console.log(box.value);
@@ -471,10 +496,12 @@
                                 }
                             }
 
-                            function confirm_checkbox(box) {
+                            function confirm_checkbox2(box) {
                                 if (box.checked == true) {
                                     console.log(box.value);
-                                    p_checked = box.value;
+                                    p_checked2 = box.value;
+                                } else {
+                                    p_checked2 = '';
                                 }
                             }
 
@@ -505,7 +532,7 @@
                                 textbar_id2 = tabName;
                             }
 
-                            function get_check_list(input) {
+                            function get_check_list() {
 
                                 var checked_list = new Array;
                                 var parameters = new Array;
@@ -516,7 +543,8 @@
                                 checked_list.push(e_checked);
                                 checked_list.push(m_checked);
                                 checked_list.push(d_checked);
-                                checked_list.push(p_checked);
+                                checked_list.push(p_checked1);
+                                checked_list.push(p_checked2);
 
                                 for (var i = 1; i < 5; i++) {
                                     if (textbar_id1 == 'a' + String(i)) {
