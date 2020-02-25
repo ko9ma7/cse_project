@@ -547,7 +547,14 @@
             f_test_domain_range_y.push(d3.min(data, function(d) { return parseFloat(d.r1) }) - 1);
             f_test_domain_range_y.push(d3.max(data, function(d) { return parseFloat(d.r1) }) + 1);
 
+            var target_names = new Set();
+
             for (var i = 0; i < data.length; i++) {
+                target_names.add(data[i]['target'])
+            }
+            target_names = Array.from(target_names).sort();
+
+            for(var i = 0; i < target_names.length * 500; i++) {
                 samplingTestdata0.push(data[i]);
             }
 
@@ -590,13 +597,6 @@
             // Customization
             SVG2.selectAll(".tick line").attr("stroke", "black").style("stroke-width", 1)
             SVG2.selectAll(".tick text").attr("stroke", "black").style("stroke-width", 0.2).style("font-size", 13)
-
-            var target_names = new Set();
-
-            for (var i = 0; i < data.length; i++) {
-                target_names.add(data[i]['target'])
-            }
-            target_names = Array.from(target_names).sort();
 
             var color = d3.scaleOrdinal()
                 .domain(target_names)
@@ -1451,7 +1451,7 @@
             }
             target_names = Array.from(target_names).sort();
 
-            for (var i = 0; i < data.length; i++) {
+            for(var i = 0; i < target_names.length * 500; i++) {
                 samplingTestdata1.push(data[i]);
             }
 
@@ -2158,7 +2158,7 @@
             SVG11.append("g")
                 .call(d3.axisLeft(y))
 
-            var target_names = ["0", "1"];
+            var target_names = ["실패", "성공"];
 
             var color = d3.scaleOrdinal()
                 .domain(target_names)
@@ -2251,7 +2251,7 @@
             SVG11.selectAll(".tick line").attr("stroke", "black").style("stroke-width", 1)
             SVG11.selectAll(".tick text").attr("stroke", "black").style("stroke-width", 1).style("font-size", 13)
 
-            var keys = ["0", "1"];
+            var keys = ["실패", "성공"];
 
             trainSuccessGroup = keys.map(function (grpName) {
                 return {
@@ -2351,7 +2351,7 @@
             SVG12.append("g")
                 .call(d3.axisLeft(y))
 
-            var target_names = ["0", "1"]
+            var target_names = ["실패", "성공"]
 
             var color = d3.scaleOrdinal()
                 .domain(target_names)
@@ -2444,7 +2444,7 @@
             SVG12.selectAll(".tick line").attr("stroke", "black").style("stroke-width", 1)
             SVG12.selectAll(".tick text").attr("stroke", "black").style("stroke-width", 1).style("font-size", 13)
 
-            var keys = ["0", "1"];
+            var keys = ["실패", "성공"];
 
             testSuccessGroup = keys.map(function (grpName) {
                 return {
@@ -2621,7 +2621,7 @@
                 .attr("cy", function (d) { return y(d.r1); })
                 .attr("r", 6)
                 .attr("data-legend",function(d) { return d.target } )
-                .style("fill", function (d) { if (d.success == '0') return color(d.target); else return color2(d.target) } )
+                .style("fill", function (d) { if (d.success == '실패') return color(d.target); else return color2(d.target) } )
                 .on("mouseover", tipMouseover)
                 .on("mouseout", tipMouseout)
 
@@ -2842,7 +2842,7 @@
                 .attr("cy", function (d) { return y(d.r1); })
                 .attr("r", 6)
                 .attr("data-legend",function(d) { return d.target})
-                .style("fill", function (d) { if (d.success == '0') return color(d.target); else return color2(d.target) } )
+                .style("fill", function (d) { if (d.success == '실패') return color(d.target); else return color2(d.target) } )
                 .on("mouseover", tipMouseover)
                 .on("mouseout", tipMouseout)
 

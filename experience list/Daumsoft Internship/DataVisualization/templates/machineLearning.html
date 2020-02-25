@@ -15,9 +15,7 @@
     <link href="../static/assets/css/black-dashboard.css?v=1.0.0" rel="stylesheet" />
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <script src="https://d3js.org/d3.v4.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <style>
         row2 {
             position: relative;
@@ -59,7 +57,7 @@
             height: 50px;
             width: 100px;
             position: relative;
-            background-color: #800080;
+            background-color: #422f75;
             color: white;
             padding: 14px 20px;
             margin: 15px 0;
@@ -68,7 +66,7 @@
             cursor: pointer;
         }
         input[type=submit]:hover {
-            background-color: #800080;
+            background-color: #422f75;
         }
         label {
             background-color: #000000;
@@ -81,6 +79,7 @@
             border: none;
             cursor: pointer;
         }
+
         select {
             width: 200px; /* 원하는 너비설정 */
             height: 50px;
@@ -89,9 +88,60 @@
             border: 1px solid #999;
             border-radius: 0px; /* iOS 둥근모서리 제거 */
         }
-        /* IE 10, 11의 네이티브 화살표 숨기기 */
-        select::-ms-expand {
-            display: none;
+
+        .custom-dropdown select {
+            background-color: rgb(66, 47, 117);
+            color: #fff;
+            font-size: inherit;
+            padding: .5em;
+            padding-right: 2.5em;
+            border: 0;
+            margin: 0;
+            border-radius: 3px;
+            text-indent: 0.01px;
+            text-overflow: '';
+            -webkit-appearance: button; /* hide default arrow in chrome OSX */
+        }
+
+        .custom-dropdown::before,
+        .custom-dropdown::after {
+            content: "";
+            position: absolute;
+            pointer-events: none;
+        }
+
+        .custom-dropdown::after { /*  Custom dropdown arrow */
+            content: "\25BC";
+            height: 1em;
+            font-size: .625em;
+            line-height: 1;
+            right: 1.2em;
+            top: 50%;
+            margin-top: -.5em;
+        }
+
+        .custom-dropdown::before { /*  Custom dropdown arrow cover */
+            width: 2em;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            border-radius: 0 3px 3px 0;
+        }
+
+        .custom-dropdown select[disabled] {
+            color: rgba(0,0,0,.3);
+        }
+
+        .custom-dropdown select[disabled]::after {
+            color: rgba(0,0,0,.1);
+        }
+
+        .custom-dropdown::before {
+            background-color: rgba(0,0,0,.15);
+        }
+
+        .custom-dropdown::after {
+            color: rgba(0,0,0,.4);
         }
     </style>
 </head>
@@ -145,25 +195,25 @@
                     <div class="col-12">
                         <form action="./machineLearning" method="POST" enctype="multipart/form-data">
                             <div class="align-self-sm-auto">
-                                <div id="data_selection">
+                                <span id="data_selection">
                                     <p style="color: white; font-size: 14pt">데이터 선택(필수)</p>
-                                    <div class="select">
+                                    <span class="custom-dropdown">
                                         <label class="selectbtn">Train Data</label>
-                                        <select id="train_data">
+                                        <select id="train_data" style="width: 200px">
                                             <option id="train_data_value"style="display: block;"></option>
                                             {% for f in train_file_list %}
                                                 <option id="train_data_value" value="{{ f }}" style="display: block;">{{ f }}</option>
                                             {% endfor %}
                                         </select><br>
                                         <label class="selectbtn">Test Data</label>
-                                        <select id="test_data">
+                                        <select id="test_data" style="width: 200px">
                                             <option id="test_data_value" style="display: block;"></option>
                                             {% for f in test_file_list %}
                                                 <option id="test_data_value" style="display: block;">{{ f }}</option>
                                             {% endfor %}
                                         </select>
-                                    </div>
-                                </div>
+                                    </span>
+                                </span>
                             </div><br>
                             <div class="align-self-sm-auto">
                                 <div id="radio_group1">
@@ -281,9 +331,15 @@
                                 </div>
                             </div><br><br><br>
                             <div class="align-self-sm-auto">
-                                <div id="check_box">
-                                    <input type="checkbox" name="pre-embed" value="pre-embed" onclick="confirm_checkbox1(this)" style="width:50px; height:16px;">Pre-Embed
-                                </div><br>
+                                <span class="custom-dropdown">
+                                    <input type="checkbox" name="pre-embed" value="pre-embed" onclick="confirm_checkbox1(this)" style="width:50px; height:16px;">Pre-Embed&nbsp
+                                    <select id="embeded_model" style="width: 280px">
+                                        <option id="embeded_model_value"style="display: block;"></option>
+                                        {% for e in embed_model_list %}
+                                            <option id="embeded_model_value" value="{{ e }}" style="display: block;">{{ e }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </span><br><br>
                             </div>
                             <div class="align-self-sm-auto">
                                 <div id="radio_group2">
@@ -374,7 +430,7 @@
                                             </table>
                                         </div>
 
-                                       <div id="b3" class="containerTab2" style="display:none;background-color:black">
+                                        <div id="b3" class="containerTab2" style="display:none;background-color:black">
                                             <table style="width: 50%" align="center">
                                                 <tr>
                                                     <td>n_estimators</td>
@@ -434,13 +490,19 @@
                                 </div>
                             </div><br><br><br>
                             <div class="align-self-sm-auto">
-                                <div id="check_box">
-                                    <input type="checkbox" name="pre-train" value="pre-train" onclick="confirm_checkbox2(this)" style="width:50px; height:16px;">Pre-Train
-                                </div><br>
+                                <span class="custom-dropdown">
+                                    <input type="checkbox" name="pre-train" value="pre-train" onclick="confirm_checkbox2(this)" style="width:50px; height:16px;">Pre-Train&nbsp&nbsp&nbsp&nbsp
+                                    <select id="machine_model" style="width: 280px">
+                                        <option id="machine_model_value"style="display: block;"></option>
+                                        {% for m in machine_model_list %}
+                                            <option id="machine_model_value" value="{{ m }}" style="display: block;">{{ m }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </span><br><br>
                             </div>
                             <div class="align-self-sm-auto">
                                 <div id="radio_group3">
-                                    <p style="color: white; font-size: 14pt">차원 축소 방식(선택)</p><br>
+                                    <p style="color: white; font-size: 14pt">차원 축소 방식(필수)</p><br>
                                     <input type=radio name="radio_group3" value="PCA" onclick="confirm_radio_group3(this)" style="width:50px; height:16px;" data-toggle="tooltip" data-placement="bottom" title="CounterVector와 TF-IDF 전용">PCA
                                     <input type=radio name="radio_group3" value="MDS" onclick="confirm_radio_group3(this)" style="width:50px; height:16px;">MDS
                                     <input type=radio name="radio_group3" value="TSNE" onclick="confirm_radio_group3(this)" style="width:56px; height:16px;">TSNE
@@ -453,6 +515,8 @@
 
                             var traindata;
                             var testdata;
+                            var embededmodel;
+                            var machinemodel;
 
                             $("#train_data").click(function() {
                                 var data = document.getElementById('train_data');
@@ -462,6 +526,16 @@
                             $("#test_data").click(function() {
                                 var data = document.getElementById('test_data');
                                 testdata = data.options[data.selectedIndex].value;
+                            })
+
+                            $("#embeded_model").click(function() {
+                                var data = document.getElementById('embeded_model');
+                                embededmodel = data.options[data.selectedIndex].value;
+                            })
+
+                            $("#machine_model").click(function() {
+                                var data = document.getElementById('machine_model');
+                                machinemodel = data.options[data.selectedIndex].value;
                             })
 
                             var e_checked;
@@ -534,23 +608,14 @@
 
                             function get_check_list() {
 
-                                var checked_list = new Array;
-                                var parameters = new Array;
-
-                                checked_list.push(traindata);
-                                checked_list.push(testdata);
-
-                                checked_list.push(e_checked);
-                                checked_list.push(m_checked);
-                                checked_list.push(d_checked);
-                                checked_list.push(p_checked1);
-                                checked_list.push(p_checked2);
+                                var parameter1 = new Array;
+                                var parameter2 = new Array;
 
                                 for (var i = 1; i < 5; i++) {
                                     if (textbar_id1 == 'a' + String(i)) {
                                         var elements = document.getElementsByName("TextBar" + String(i));
                                         for (var i = 0; i < elements.length; i++) {
-                                            parameters.push(elements[i].value);
+                                            parameter1.push(elements[i].value);
                                         }
                                     }
                                 }
@@ -559,14 +624,30 @@
                                     if (textbar_id2 == 'b' + String(i)) {
                                         var elements = document.getElementsByName("TextBar" + String(i+4));
                                         for (var i = 0; i < elements.length; i++) {
-                                            parameters.push(elements[i].value);
+                                            parameter2.push(elements[i].value);
                                         }
                                     }
                                 }
 
-                                checked_list.push(parameters)
-                                document.getElementById('submit').value = checked_list;
+
+                                var json = {
+                                    "trainData": traindata,
+                                    "testData": testdata,
+                                    "embed_type": e_checked,
+                                    "embed_value": parameter1,
+                                    "is_pre_embed": p_checked1,
+                                    "pre_embed_model": embededmodel,
+                                    "machine_type": m_checked,
+                                    "machine_value": parameter2,
+                                    "is_pre_machine": p_checked2,
+                                    "pre_machine_model": machinemodel,
+                                    "dimension_type": d_checked,
+                                }
+
+                                alert(JSON.stringify(json));
+                                document.getElementById('submit').value = JSON.stringify(json);
                             }
+
                         </script>
                     </div>
                 </div>
