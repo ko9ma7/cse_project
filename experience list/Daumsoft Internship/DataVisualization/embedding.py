@@ -2,7 +2,7 @@ from scipy.sparse import csr_matrix
 import time
 from pickle import dump, load
 
-def pre_train_embedding(method, train, test):
+def pre_train_embedding(embed_type, pre_embed_model, train, test):
     # x열은 토크나이징 된 단어들 목록
     # y열은 타겟 라벨
 
@@ -42,11 +42,11 @@ def pre_train_embedding(method, train, test):
         test_corpus1.append(sentence1)
         test_corpus2.append(sentence2)
 
-    if method == "CounterVector":
+    if embed_type == "CounterVector":
 
         start = time.time()
 
-        count_vectorizer = load(open("C:/Users/daumsoft/PycharmProjects/visualization/embedding_model/count_vectorizer.pkl", "rb"))
+        count_vectorizer = load(open("C:/Users/daumsoft/PycharmProjects/visualization/embedding_model/" + pre_embed_model, "rb"))
 
         count_train_vectors = count_vectorizer.transform(train_corpus1)
         count_test_vectors = count_vectorizer.transform(test_corpus1)
@@ -60,11 +60,11 @@ def pre_train_embedding(method, train, test):
 
         return sparse_count_train_x, sparse_count_test_x, train['y'].values, test['y'].values
 
-    elif method == "TF-IDF":
+    elif embed_type == "TF-IDF":
 
         start = time.time()
 
-        tfidf_vectorizer = load(open("C:/Users/daumsoft/PycharmProjects/visualization/embedding_model/tfidf_vectorizer.pkl", "rb"))
+        tfidf_vectorizer = load(open("C:/Users/daumsoft/PycharmProjects/visualization/embedding_model/" + pre_embed_model, "rb"))
 
         tf_train_vectors = tfidf_vectorizer.transform(train_corpus1)
         tf_test_vectors = tfidf_vectorizer.transform(test_corpus1)
@@ -78,7 +78,7 @@ def pre_train_embedding(method, train, test):
 
         return sparse_tf_train_x, sparse_tf_test_x, train['y'].values, test['y'].values
 
-    elif method == "Doc2Vec":
+    elif embed_type == "Doc2Vec":
 
         start = time.time()
 
@@ -90,7 +90,7 @@ def pre_train_embedding(method, train, test):
 
         from gensim.models.doc2vec import Doc2Vec
 
-        doc_vectorizer = Doc2Vec.load('C:/Users/daumsoft/PycharmProjects/visualization/embedding_model/doc_vectorizer.pkl')
+        doc_vectorizer = Doc2Vec.load('C:/Users/daumsoft/PycharmProjects/visualization/embedding_model/' + pre_embed_model)
 
         for epoch in range(doc_vectorizer.epochs):
             doc_vectorizer.train(doc2vec_train_tag, total_examples=doc_vectorizer.corpus_count, epochs=doc_vectorizer.epochs)
@@ -124,7 +124,7 @@ def pre_train_embedding(method, train, test):
         pass
 
 
-def embedding(method, train, test, embed_params):
+def embedding(filename, embed_type, train, test, embed_params):
     # x열은 토크나이징 된 단어들 목록
     # y열은 타겟 라벨
 
@@ -164,7 +164,7 @@ def embedding(method, train, test, embed_params):
         test_corpus1.append(sentence1)
         test_corpus2.append(sentence2)
 
-    if method == "CounterVector":
+    if embed_type == "CounterVector":
 
         start = time.time()
 
@@ -181,7 +181,7 @@ def embedding(method, train, test, embed_params):
         count_test_vectors = count_vectorizer.transform(test_corpus1)
 
         dump(count_vectorizer,
-             open("C:/Users/daumsoft/PycharmProjects/visualization/embedding_model/count_vectorizer.pkl", "wb"))
+             open("C:/Users/daumsoft/PycharmProjects/visualization/embedding_model/" + filename + "_counterVec.pkl", "wb"))
 
         sparse_count_train_x = csr_matrix(count_train_vectors)
         sparse_count_test_x = csr_matrix(count_test_vectors)
@@ -192,7 +192,7 @@ def embedding(method, train, test, embed_params):
 
         return sparse_count_train_x, sparse_count_test_x, train['y'].values, test['y'].values
 
-    elif method == "TF-IDF":
+    elif embed_type == "TF-IDF":
 
         start = time.time()
 
@@ -208,7 +208,7 @@ def embedding(method, train, test, embed_params):
         tf_test_vectors = tfidf_vectorizer.transform(test_corpus1)
 
         dump(tfidf_vectorizer,
-             open("C:/Users/daumsoft/PycharmProjects/visualization/embedding_model/tfidf_vectorizer.pkl", "wb"))
+             open("C:/Users/daumsoft/PycharmProjects/visualization/embedding_model/" + filename + "_tfidf.pkl", "wb"))
 
         sparse_tf_train_x = csr_matrix(tf_train_vectors)
         sparse_tf_test_x = csr_matrix(tf_test_vectors)
@@ -219,7 +219,7 @@ def embedding(method, train, test, embed_params):
 
         return sparse_tf_train_x, sparse_tf_test_x, train['y'].values, test['y'].values
 
-    elif method == "Doc2Vec":
+    elif embed_type == "Doc2Vec":
 
         start = time.time()
 
@@ -253,7 +253,7 @@ def embedding(method, train, test, embed_params):
         doc_test_vectors = [doc_vectorizer.infer_vector(doc.words) for doc in doc2vec_test_tag]
         doc_test_tags = [doc.tags for doc in doc2vec_test_tag]
 
-        doc_vectorizer.save('C:/Users/daumsoft/PycharmProjects/visualization/embedding_model/doc_vectorizer.pkl')
+        doc_vectorizer.save('C:/Users/daumsoft/PycharmProjects/visualization/embedding_model/' + filename + '_doc2vec.pkl')
 
         import numpy as np
 

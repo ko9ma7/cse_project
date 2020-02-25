@@ -3,9 +3,9 @@ import pandas as pd
 import numpy as np
 import time
 
-def dimension_reduction(method, X_train, X_test, y_train, y_test):
+def dimension_reduction(dimension_type, X_train, X_test, y_train, y_test):
 
-    if method == "PCA":
+    if dimension_type == "PCA":
 
         start = time.time()
         pca_red = visualization.myPCA()
@@ -17,7 +17,7 @@ def dimension_reduction(method, X_train, X_test, y_train, y_test):
         print('PCA done time: {}'.format(end - start))
 
     # TSNE는 transform 메소드가 없음 -> 새로운 데이터에 대한 분류를 사용할 수 없음
-    elif method == "MDS":
+    elif dimension_type == "MDS":
 
         start = time.time()
         mds_red = visualization.myMDS()
@@ -34,7 +34,7 @@ def dimension_reduction(method, X_train, X_test, y_train, y_test):
         print('MDS done time: {}'.format(end - start))
 
     # TSNE는 transform 메소드가 없음 -> 새로운 데이터에 대한 분류를 사용할 수 없음
-    elif method == "TSNE":
+    elif dimension_type == "TSNE":
 
         start = time.time()
         tsne_red = visualization.myTSNE()
@@ -50,7 +50,7 @@ def dimension_reduction(method, X_train, X_test, y_train, y_test):
 
         print('TSNE done time: {}'.format(end - start))
 
-    elif method == "user_defined_dimension_reduction":
+    elif dimension_type == "user_defined_dimension_reduction":
         pass
 
     train_df = pd.DataFrame(train_result, columns=['r0', 'r1'])

@@ -2,50 +2,45 @@ import model
 import numpy as np
 import pandas as pd
 import tensorflow as tf
-from scipy.sparse import isspmatrix
 from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
 from joblib import dump, load
 
 
-def pre_train_machine_learning(embedding_model_name, method, X_train, X_test, y_train, y_test):
+def pre_train_machine_learning(embedding_model_name, machine_type, X_train, X_test, y_train, y_test):
 
     target_names = list(set(y_train))
 
-    if isspmatrix(X_train):
-        X_train = X_train.toarray()
-        X_test = X_test.toarray()
-
-    if method == 'Logistic':
+    if machine_type == 'Logistic':
 
         # load the machine_model from disk
-        filename = 'C:/Users/daumsoft/PycharmProjects/visualization/machine_model/' + embedding_model_name + '_logistic_model.pkl'
+        filename = 'C:/Users/daumsoft/PycharmProjects/visualization/machine_model/' + embedding_model_name.lower() + '_logistic.pkl'
         log_clf = load(filename)
 
         train_y_pred = log_clf.predict(X_train)
         test_y_pred = log_clf.predict(X_test)
 
-    elif method == 'SVM':
+    elif machine_type == 'SVM':
 
         # load the machine_model from disk
-        filename = 'C:/Users/daumsoft/PycharmProjects/visualization/machine_model/' + embedding_model_name + '_svm_model.pkl'
+        filename = 'C:/Users/daumsoft/PycharmProjects/visualization/machine_model/' + embedding_model_name.lower() + '_svm.pkl'
         svm_clf = load(filename)
 
         train_y_pred = svm_clf.predict(X_train)
         test_y_pred = svm_clf.predict(X_test)
 
-    elif method == 'RandomForest':
+    elif machine_type == 'RandomForest':
 
         # load the machine_model from disk
-        filename = 'C:/Users/daumsoft/PycharmProjects/visualization/machine_model/' + embedding_model_name + '_randomforest_model.pkl'
+        filename = 'C:/Users/daumsoft/PycharmProjects/visualization/machine_model/' + embedding_model_name.lower() + '_randomforest.pkl'
         rnd_clf = load(filename)
 
         train_y_pred = rnd_clf.predict(X_train)
         test_y_pred = rnd_clf.predict(X_test)
 
-    elif method == 'FNN':
+    elif machine_type == 'FNN':
 
         # load the machine_model from disk
-        fnn_clf = tf.keras.models.load_model('C:/Users/daumsoft/PycharmProjects/visualization/machine_model/' + embedding_model_name + '_fnn_model.h5')
+        fnn_clf = tf.keras.models.load_model('C:/Users/daumsoft/PycharmProjects/visualization/machine_model/' + embedding_model_name.lower() + '_fnn.pkl')
 
         train_prediction = fnn_clf.predict(X_train)
         test_prediction = fnn_clf.predict(X_test)
@@ -58,7 +53,7 @@ def pre_train_machine_learning(embedding_model_name, method, X_train, X_test, y_
         for i in range(len(test_prediction)):
             test_y_pred.append(np.argmax(test_prediction[i]))
 
-    elif method == 'user_defined_machine_learning':
+    elif machine_type == 'user_defined_machine_learning':
         pass
 
     train_df = pd.DataFrame(confusion_matrix(y_train, train_y_pred),
@@ -107,47 +102,47 @@ def pre_train_machine_learning(embedding_model_name, method, X_train, X_test, y_
     return train_y_pred, test_y_pred
 
 
-def machine_learning(embedding_model_name, method, X_train, X_test, y_train, y_test, params):
+def machine_learning(embedding_model_name, machine_type, X_train, X_test, y_train, y_test, params):
 
     target_names = list(set(y_train))
 
-    if method == 'Logistic':
+    if machine_type == 'Logistic':
 
         log_clf = model.myLogisticRegression(params)
         log_clf.fit(X_train, y_train)
 
         # save the machine_model to disk
-        filename = 'C:/Users/daumsoft/PycharmProjects/visualization/machine_model/' + embedding_model_name + '_logistic_model.pkl'
+        filename = 'C:/Users/daumsoft/PycharmProjects/visualization/machine_model/' + embedding_model_name.lower() + '_logistic.pkl'
         dump(log_clf, filename)
 
         train_y_pred = log_clf.predict(X_train)
         test_y_pred = log_clf.predict(X_test)
 
-    elif method == 'SVM':
+    elif machine_type == 'SVM':
 
         svm_clf = model.mySVM(params)
         svm_clf.fit(X_train, y_train)
 
         # save the machine_model to disk
-        filename = 'C:/Users/daumsoft/PycharmProjects/visualization/machine_model/' + embedding_model_name + '_svm_model.pkl'
+        filename = 'C:/Users/daumsoft/PycharmProjects/visualization/machine_model/' + embedding_model_name.lower() + '_svm.pkl'
         dump(svm_clf, filename)
 
         train_y_pred = svm_clf.predict(X_train)
         test_y_pred = svm_clf.predict(X_test)
 
-    elif method == 'RandomForest':
+    elif machine_type == 'RandomForest':
 
         rnd_clf = model.myRandomForestClassifier(params)
         rnd_clf.fit(X_train, y_train)
 
         # save the machine_model to disk
-        filename = 'C:/Users/daumsoft/PycharmProjects/visualization/machine_model/' + embedding_model_name + '_randomforest_model.pkl'
+        filename = 'C:/Users/daumsoft/PycharmProjects/visualization/machine_model/' + embedding_model_name.lower() + '_randomforest.pkl'
         dump(rnd_clf, filename)
 
         train_y_pred = rnd_clf.predict(X_train)
         test_y_pred = rnd_clf.predict(X_test)
 
-    elif method == 'FNN':
+    elif machine_type == 'FNN':
 
         from sklearn.preprocessing import LabelEncoder
 
@@ -179,7 +174,7 @@ def machine_learning(embedding_model_name, method, X_train, X_test, y_train, y_t
         fnn_clf.fit(X_train.toarray(), train_label, epochs=epochs, batch_size=batch_size)
 
         # save the machine_model to disk
-        fnn_clf.save('C:/Users/daumsoft/PycharmProjects/visualization/machine_model/' + embedding_model_name + '_fnn_model.h5')
+        fnn_clf.save('C:/Users/daumsoft/PycharmProjects/visualization/machine_model/' + embedding_model_name.lower() + '_fnn.pkl')
 
         train_prediction = fnn_clf.predict(X_train.toarray())
         test_prediction = fnn_clf.predict(X_test.toarray())
@@ -195,7 +190,7 @@ def machine_learning(embedding_model_name, method, X_train, X_test, y_train, y_t
         train_y_pred = le.inverse_transform(tr_y_pred)
         test_y_pred = le.inverse_transform(te_y_pred)
 
-    elif method == 'user_defined_machine_learning':
+    elif machine_type == 'user_defined_machine_learning':
         pass
 
     train_df = pd.DataFrame(confusion_matrix(y_train, train_y_pred),

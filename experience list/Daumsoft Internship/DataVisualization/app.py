@@ -1,10 +1,11 @@
 import os
-from flask import Flask, render_template, request
+import json
+from flask import Flask, render_template, request, send_file
 from werkzeug.utils import secure_filename
 from embedding import embedding, pre_train_embedding
 from machine_learning import machine_learning, pre_train_machine_learning
 from dimension_reduction import dimension_reduction
-from params import get_params1, get_params2
+from params import get_embed_params, get_machine_params
 import pandas as pd
 
 train_file_path = 'C:/Users/daumsoft/PycharmProjects/visualization/train_list/'
@@ -68,48 +69,24 @@ def page3():
 
     train_file_list = os.listdir(train_file_path)
     test_file_list = os.listdir(test_file_path)
+    embed_model_list = os.listdir(embed_model_path)
+    machine_model_list = os.listdir(machine_model_path)
 
     if request.method == "POST":
 
         # 시각화 버튼을 눌렀을 경우
         if request.form.get("visual_button"):
 
-            checked_list = request.form.getlist("visual_button")
-            checked_list = checked_list[0].split(",")
-            print(checked_list)
+            response_data = request.form.get("visual_button")
+            response_data = json.loads(response_data)
+            print(response_data)
 
-            is_pre_train = False
-            is_pre_embed = False
+            trainFile = response_data['trainData']
+            testFile = response_data['testData']
 
-            embed_params = ''
-            machine_params = ''
-
-            # 1) 임베딩 처음, 모델 처음 -> 모든 파라미터를 받아와야 함
-            if checked_list[5] == '' and checked_list[6] == '':
-
-                embed_params, machine_params = get_params1(checked_list)
-
-            # 2) 임베딩 pretrain, 모델 처음 -> 훈련 파라미터만 받아오면 됨
-            elif checked_list[5] == 'pre-embed' and checked_list[6] == '':
-
-                is_pre_embed = True
-                machine_params = get_params2(checked_list)
-
-            # 3) 임베딩 처음, 모델 pretrain -> 피처가 다르므로 불가능
-            elif checked_list[5] == '' and checked_list[6] == 'pre-train':
-                pass
-
-            # 4) 임베딩 pretrain, 모델 pretrain -> 파라미터를 받아올 필요 없음
-            else:
-
-                is_pre_embed = True
-                is_pre_train = True
-
-            print(embed_params)
-            print(machine_params)
-
-            train = pd.read_csv(train_file_path + checked_list[0])
-            test = pd.read_csv(test_file_path + checked_list[1])
+            # 데이터 읽기
+            train = pd.read_csv(train_file_path + trainFile)
+            test = pd.read_csv(test_file_path + testFile)
 
             # 결측치가 있는지 확인하기(우선은 제거하는 방식)
             if pd.isnull(train['x']).sum() > 0 or pd.isnull(train['y']).sum() > 0:
@@ -120,16 +97,17 @@ def page3():
             train = train.sample(frac=1).reset_index(drop=True)
             test = test.sample(frac=1).reset_index(drop=True)
 
-            # 임베딩만 시각화할 경우
-            if checked_list[3] == '':
+            # 1) 처음 임베딩 및 시각화인 경우 -> 임베딩 파라미터만 받아오면 됨
+            # is_pre_embed 없음, is_pre_train 없음, machine_value []
+            if 'is_pre_embed' not in response_data and 'is_pre_machine' not in response_data and response_data['machine_value'] == []:
 
-                # 미리 학습된 임베딩을 사용할 경우
-                if is_pre_embed == True:
-                    X_train, X_test, y_train, y_test = pre_train_embedding(checked_list[2], train, test)
+                print('first-embed, no-machine')
 
-                # 새로운 임베딩을 사용할 경우
-                else:
-                    X_train, X_test, y_train, y_test = embedding(checked_list[2], train, test, embed_params)
+                embed_type = response_data['embed_type']
+                embed_params = get_embed_params(embed_type, response_data['embed_value'])
+
+                # 임베딩
+                X_train, X_test, y_train, y_test = embedding(trainFile.split(".")[0], embed_type, train, test, embed_params)
 
                 print('X_train type: {}, y_train type: {}'.format(type(X_train), type(y_train)))
                 print('X_test type: {}, y_test type: {}'.format(type(X_test), type(y_test)))
@@ -138,20 +116,22 @@ def page3():
                 print('X_test shape: {}, y_test shape: {}'.format(X_test.shape, y_test.shape))
 
                 # 차원축소
-                dimension_reduction(checked_list[4], X_train, X_test, y_train, y_test)
+                dimension_type = response_data['dimension_type']
+                dimension_reduction(dimension_type, X_train, X_test, y_train, y_test)
 
                 return render_template('visualization.html', visualization="embedding_and_visualization")
 
-            # 임베딩 -> 머신러닝 -> 시각화할 경우
-            else:
+            # 2) pre 임베딩 및 시각화인 경우 -> 어떠한 파라미터도 받을 필요 없음
+            # is_pre_embed 있음, is_pre_train 없음, embed_value [], machine_value []
+            elif 'is_pre_embed' in response_data and 'is_pre_machine' not in response_data and response_data['embed_value'] == [] and response_data['machine_value'] == []:
 
-                # 미리 학습된 임베딩을 사용할 경우
-                if is_pre_embed == True:
-                    X_train, X_test, y_train, y_test = pre_train_embedding(checked_list[2], train, test)
+                print('pre-embed, no-machine')
 
-                # 새로운 임베딩을 사용할 경우
-                else:
-                    X_train, X_test, y_train, y_test = embedding(checked_list[2], train, test, embed_params)
+                embed_type = response_data['embed_type']
+                pre_embed_model = response_data['pre_embed_model']
+
+                # 임베딩
+                X_train, X_test, y_train, y_test = pre_train_embedding(embed_type, pre_embed_model, train, test)
 
                 print('X_train type: {}, y_train type: {}'.format(type(X_train), type(y_train)))
                 print('X_test type: {}, y_test type: {}'.format(type(X_test), type(y_test)))
@@ -160,35 +140,123 @@ def page3():
                 print('X_test shape: {}, y_test shape: {}'.format(X_test.shape, y_test.shape))
 
                 # 차원축소
-                dimension_reduction(checked_list[4], X_train, X_test, y_train, y_test)
+                dimension_type = response_data['dimension_type']
+                dimension_reduction(dimension_type, X_train, X_test, y_train, y_test)
 
-                # 미리 학습된 머신러닝을 사용할 경우
-                if is_pre_train == True:
-                    train_y_pred, test_y_pred = pre_train_machine_learning(checked_list[2], checked_list[3], X_train, X_test, y_train, y_test)
+                return render_template('visualization.html', visualization="embedding_and_visualization")
 
-                # 새로운 머신러닝을 사용할 경우
-                else:
-                    train_y_pred, test_y_pred = machine_learning(checked_list[2], checked_list[3], X_train, X_test, y_train, y_test, machine_params)
+            # 3) 처음 임베딩 및 처음 머신러닝 및 시각화인 경우 -> 임베딩, 머신러닝 파라미터 모두 받아오면 됨
+            # is_pre_embed 없음, is_pre_train 없음, machine_value 있음
+            elif 'is_pre_embed' not in response_data and 'is_pre_machine' not in response_data and response_data['machine_value'] != []:
 
-                train_df = pd.read_csv(path + 'embedding_and_visualization_train.csv')
-                test_df = pd.read_csv(path + 'embedding_and_visualization_test.csv')
+                print('first-embed, first-machine')
 
-                train_df['pred'] = train_y_pred
-                train_df['success'] = train_df['pred'] == train_df['target']
-                train_df['success'] = train_df['success'].astype(int)
+                embed_type = response_data['embed_type']
+                embed_params = get_embed_params(embed_type, response_data['embed_value'])
 
-                test_df['pred'] = test_y_pred
-                test_df['success'] = test_df['pred'] == test_df['target']
-                test_df['success'] = test_df['success'].astype(int)
+                machine_type = response_data['machine_type']
+                machine_params = get_machine_params(machine_type, response_data['machine_value'])
 
-                train_df.to_csv(path + 'embedding_and_machinelearning_visualization_train.csv', index=False)
-                test_df.to_csv(path + 'embedding_and_machinelearning_visualization_test.csv', index=False)
+                # 임베딩
+                X_train, X_test, y_train, y_test = embedding(trainFile.split(".")[0], embed_type, train, test, embed_params)
+
+                print('X_train type: {}, y_train type: {}'.format(type(X_train), type(y_train)))
+                print('X_test type: {}, y_test type: {}'.format(type(X_test), type(y_test)))
+
+                print('X_train shape: {}, y_train shape: {}'.format(X_train.shape, y_train.shape))
+                print('X_test shape: {}, y_test shape: {}'.format(X_test.shape, y_test.shape))
+
+                # 차원축소
+                dimension_type = response_data['dimension_type']
+                dimension_reduction(dimension_type, X_train, X_test, y_train, y_test)
+
+                # 머신러닝
+                train_y_pred, test_y_pred = machine_learning(embed_type, machine_type, X_train, X_test, y_train, y_test, machine_params)
+
+            # 4) pre 임베딩 및 처음 머신러닝 및 시각화인 경우 -> 머신러닝 파라미터만 받아오면 됨
+            # is_pre_embed 있음, is_pre_train 없음, embed_value [], machine_value 있음
+            elif 'is_pre_embed' in response_data and 'is_pre_machine' not in response_data and response_data['embed_value'] == [] and response_data['machine_value'] != []:
+
+                print('pre-embed, first-machine')
+
+                embed_type = response_data['embed_type']
+                pre_embed_model = response_data['pre_embed_model']
+
+                machine_type = response_data['machine_type']
+                machine_params = get_machine_params(machine_type, response_data['machine_value'])
+
+                # 임베딩
+                X_train, X_test, y_train, y_test = pre_train_embedding(embed_type, pre_embed_model, train, test)
+
+                print('X_train type: {}, y_train type: {}'.format(type(X_train), type(y_train)))
+                print('X_test type: {}, y_test type: {}'.format(type(X_test), type(y_test)))
+
+                print('X_train shape: {}, y_train shape: {}'.format(X_train.shape, y_train.shape))
+                print('X_test shape: {}, y_test shape: {}'.format(X_test.shape, y_test.shape))
+
+                # 차원축소
+                dimension_type = response_data['dimension_type']
+                dimension_reduction(dimension_type, X_train, X_test, y_train, y_test)
+
+                # 머신러닝
+                train_y_pred, test_y_pred = machine_learning(embed_type, machine_type, X_train, X_test, y_train, y_test, machine_params)
+
+            # 5) pre 임베딩 및 pre 머신러닝 및 시각화인 경우 -> 어떠한 파라미터도 받을 필요 없음
+            # is_pre_embed 있음, is_pre_train 있음
+            elif 'is_pre_embed' in response_data and 'is_pre_machine' in response_data:
+
+                print('pre-embed, pre-machine')
+
+                embed_type = response_data['embed_type']
+                machine_type = response_data['machine_type']
+
+                pre_embed_model = response_data['pre_embed_model']
+
+                # 임베딩
+                X_train, X_test, y_train, y_test = pre_train_embedding(embed_type, pre_embed_model, train, test)
+
+                print('X_train type: {}, y_train type: {}'.format(type(X_train), type(y_train)))
+                print('X_test type: {}, y_test type: {}'.format(type(X_test), type(y_test)))
+
+                print('X_train shape: {}, y_train shape: {}'.format(X_train.shape, y_train.shape))
+                print('X_test shape: {}, y_test shape: {}'.format(X_test.shape, y_test.shape))
+
+                # 차원축소
+                dimension_type = response_data['dimension_type']
+                dimension_reduction(dimension_type, X_train, X_test, y_train, y_test)
+
+                # 머신러닝
+                train_y_pred, test_y_pred = pre_train_machine_learning(embed_type, machine_type, X_train, X_test, y_train, y_test)
+
+            train_df = pd.read_csv(path + 'embedding_and_visualization_train.csv')
+            test_df = pd.read_csv(path + 'embedding_and_visualization_test.csv')
+
+            train_df['pred'] = train_y_pred
+            train_df['success'] = train_df['pred'] == train_df['target']
+            train_df['success'] = train_df['success'].astype(int)
+
+            test_df['pred'] = test_y_pred
+            test_df['success'] = test_df['pred'] == test_df['target']
+            test_df['success'] = test_df['success'].astype(int)
+
+            success_mapping_table = {0: "실패", 1: "성공"}
+            train_df['success'] = train_df['success'].map(success_mapping_table)
+            test_df['success'] = test_df['success'].map(success_mapping_table)
+
+            train_df.to_csv(path + 'embedding_and_machinelearning_visualization_train.csv', index=False)
+            test_df.to_csv(path + 'embedding_and_machinelearning_visualization_test.csv', index=False)
 
             return render_template('visualization.html', visualization="embedding_and_machineLearning_visualization")
 
-        return render_template('machineLearning.html', train_file_list=train_file_list, test_file_list=test_file_list)
+        return render_template('machineLearning.html', train_file_list=train_file_list,
+                                                       test_file_list=test_file_list,
+                                                       embed_model_list=embed_model_list,
+                                                       machine_model_list=machine_model_list)
     else:
-        return render_template("machineLearning.html", train_file_list=train_file_list, test_file_list=test_file_list)
+        return render_template("machineLearning.html", train_file_list=train_file_list,
+                                                       test_file_list=test_file_list,
+                                                       embed_model_list=embed_model_list,
+                                                       machine_model_list=machine_model_list)
 
 
 @app.route('/visualization', methods=["GET", "POST"])
@@ -285,13 +353,40 @@ def data4_2():
     return df.to_csv()
 
 
-# 데이터 다운로드 라우터
-@app.route('/data')
-def embedding_data():
-    embed_model_list = os.listdir(embed_model_path)
-    print(embed_model_list)
+# 훈련 csv 파일을 확인할 수 있는 라우터
+@app.route('/data/train_csv/<file>', methods=["GET", "POST"])
+def train_csv_file(file):
+    file_name = pd.read_csv(train_file_path + file)
+    return file_name.to_html()
 
-    return embed_model_list
+
+# 테스트 csv 파일을 확인할 수 있는 라우터
+@app.route('/data/test_csv/<file>', methods=["GET", "POST"])
+def test_csv_file(file):
+    file_name = pd.read_csv(test_file_path + file)
+    return file_name.to_html()
+
+
+# 임베딩 모델을 다운로드할 수 있는 라우터
+@app.route('/data/embed/<model>', methods=["GET", "POST"])
+def downloadable_data1(model):
+    print('임베딩 모델 다운 받기')
+    file_name = embed_model_path + model
+    return send_file(file_name,
+                     mimetype='pkl',
+                     attachment_filename=model,
+                     as_attachment=True)
+
+
+# 머신러닝 모델을 다운로드할 수 있는 라우터
+@app.route('/data/machine/<model>', methods=["GET", "POST"])
+def downloadable_data2(model):
+    print('머신러닝 모델 다운 받기')
+    file_name = machine_model_path + model
+    return send_file(file_name,
+                     mimetype='pkl',
+                     attachment_filename=model,
+                     as_attachment=True)
 
 
 if __name__ == "__main__":
