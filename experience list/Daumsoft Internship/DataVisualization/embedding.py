@@ -240,7 +240,7 @@ def embedding(filename, embed_type, train, test, embed_params):
 
         doc_vectorizer.build_vocab(doc2vec_train_tag)
 
-        for epoch in range(doc_vectorizer.epochs):
+        for epoch in range(10):
             doc_vectorizer.train(doc2vec_train_tag, total_examples=doc_vectorizer.corpus_count,
                                  epochs=doc_vectorizer.epochs)
             doc_vectorizer.alpha -= 0.002  # decrease the learning rate
