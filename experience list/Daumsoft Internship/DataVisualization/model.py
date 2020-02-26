@@ -89,9 +89,5 @@ class myRandomForestClassifier(Model):
         return self.model.predict_proba(x)
 
 
-class myFNN(Model):
-    pass
-
-
 class user_defined_machine_learning(Model):
     pass

@@ -8,12 +8,17 @@ from dimension_reduction import dimension_reduction
 from params import get_embed_params, get_machine_params
 import pandas as pd
 
-train_file_path = 'C:/Users/daumsoft/PycharmProjects/visualization/train_list/'
-test_file_path = 'C:/Users/daumsoft/PycharmProjects/visualization/test_list/'
-embed_model_path = 'C:/Users/daumsoft/PycharmProjects/visualization/embedding_model/'
-machine_model_path = 'C:/Users/daumsoft/PycharmProjects/visualization/machine_model/'
+# train_file_path = 'C:/Users/daumsoft/PycharmProjects/visualization/train_list/'
+# test_file_path = 'C:/Users/daumsoft/PycharmProjects/visualization/test_list/'
+# embed_model_path = 'C:/Users/daumsoft/PycharmProjects/visualization/embedding_model/'
+# machine_model_path = 'C:/Users/daumsoft/PycharmProjects/visualization/machine_model/'
+# path = r'C:/Users/daumsoft/PycharmProjects/visualization/csv_files/'
 
-path = r'C:/Users/daumsoft/PycharmProjects/visualization/csv_files/'
+train_file_path = 'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/train_list/'
+test_file_path = 'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/test_list/'
+embed_model_path = 'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/embedding_model/'
+machine_model_path = 'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/machine_model/'
+path = 'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/csv_files/'
 
 app = Flask(__name__)
 
@@ -109,12 +114,6 @@ def page3():
                 # 임베딩
                 X_train, X_test, y_train, y_test = embedding(trainFile.split(".")[0], embed_type, train, test, embed_params)
 
-                print('X_train type: {}, y_train type: {}'.format(type(X_train), type(y_train)))
-                print('X_test type: {}, y_test type: {}'.format(type(X_test), type(y_test)))
-
-                print('X_train shape: {}, y_train shape: {}'.format(X_train.shape, y_train.shape))
-                print('X_test shape: {}, y_test shape: {}'.format(X_test.shape, y_test.shape))
-
                 # 차원축소
                 dimension_type = response_data['dimension_type']
                 dimension_reduction(dimension_type, X_train, X_test, y_train, y_test)
@@ -132,12 +131,6 @@ def page3():
 
                 # 임베딩
                 X_train, X_test, y_train, y_test = pre_train_embedding(embed_type, pre_embed_model, train, test)
-
-                print('X_train type: {}, y_train type: {}'.format(type(X_train), type(y_train)))
-                print('X_test type: {}, y_test type: {}'.format(type(X_test), type(y_test)))
-
-                print('X_train shape: {}, y_train shape: {}'.format(X_train.shape, y_train.shape))
-                print('X_test shape: {}, y_test shape: {}'.format(X_test.shape, y_test.shape))
 
                 # 차원축소
                 dimension_type = response_data['dimension_type']
@@ -157,17 +150,8 @@ def page3():
                 machine_type = response_data['machine_type']
                 machine_params = get_machine_params(machine_type, response_data['machine_value'])
 
-                print(embed_params)
-                print(machine_params)
-
                 # 임베딩
                 X_train, X_test, y_train, y_test = embedding(trainFile.split(".")[0], embed_type, train, test, embed_params)
-
-                print('X_train type: {}, y_train type: {}'.format(type(X_train), type(y_train)))
-                print('X_test type: {}, y_test type: {}'.format(type(X_test), type(y_test)))
-
-                print('X_train shape: {}, y_train shape: {}'.format(X_train.shape, y_train.shape))
-                print('X_test shape: {}, y_test shape: {}'.format(X_test.shape, y_test.shape))
 
                 # 차원축소
                 dimension_type = response_data['dimension_type']
@@ -191,12 +175,6 @@ def page3():
                 # 임베딩
                 X_train, X_test, y_train, y_test = pre_train_embedding(embed_type, pre_embed_model, train, test)
 
-                print('X_train type: {}, y_train type: {}'.format(type(X_train), type(y_train)))
-                print('X_test type: {}, y_test type: {}'.format(type(X_test), type(y_test)))
-
-                print('X_train shape: {}, y_train shape: {}'.format(X_train.shape, y_train.shape))
-                print('X_test shape: {}, y_test shape: {}'.format(X_test.shape, y_test.shape))
-
                 # 차원축소
                 dimension_type = response_data['dimension_type']
                 dimension_reduction(dimension_type, X_train, X_test, y_train, y_test)
@@ -218,18 +196,51 @@ def page3():
                 # 임베딩
                 X_train, X_test, y_train, y_test = pre_train_embedding(embed_type, pre_embed_model, train, test)
 
-                print('X_train type: {}, y_train type: {}'.format(type(X_train), type(y_train)))
-                print('X_test type: {}, y_test type: {}'.format(type(X_test), type(y_test)))
-
-                print('X_train shape: {}, y_train shape: {}'.format(X_train.shape, y_train.shape))
-                print('X_test shape: {}, y_test shape: {}'.format(X_test.shape, y_test.shape))
-
                 # 차원축소
                 dimension_type = response_data['dimension_type']
                 dimension_reduction(dimension_type, X_train, X_test, y_train, y_test)
 
                 # 머신러닝
                 train_y_pred, test_y_pred = pre_train_machine_learning(embed_type, machine_type, X_train, X_test, y_train, y_test)
+
+            # 훈련 종료 후 머신러닝 결과
+            from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
+
+            target_names = list(set(y_train))
+            train_df = pd.DataFrame(confusion_matrix(y_train, train_y_pred), index=target_names, columns=target_names)
+            test_df = pd.DataFrame(confusion_matrix(y_test, test_y_pred), index=target_names, columns=target_names)
+
+            # path = r'C:/Users/daumsoft/PycharmProjects/visualization/csv_files/'
+            path = r'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/csv_files/'
+
+            train_df.to_csv(path + 'confusion_matrix_train.csv', index=False)
+            test_df.to_csv(path + 'confusion_matrix_test.csv', index=False)
+
+            # 분류 평가 지표
+            train_accuracy = accuracy_score(y_train, train_y_pred)
+            train_precision = precision_score(y_train, train_y_pred, average='macro')
+            train_recall = recall_score(y_train, train_y_pred, average='macro')
+            train_f1 = f1_score(y_train, train_y_pred, average='macro')
+
+            test_accuracy = accuracy_score(y_test, test_y_pred)
+            test_precision = precision_score(y_test, test_y_pred, average='macro')
+            test_recall = recall_score(y_test, test_y_pred, average='macro')
+            test_f1 = f1_score(y_test, test_y_pred, average='macro')
+
+            print('train accuracy: {}, test accuracy: {}'.format(train_accuracy, test_accuracy))
+            print('train precision: {}, test precision: {}'.format(train_precision, test_precision))
+            print('train recall: {}, test recall: {}'.format(train_recall, test_recall))
+            print('train f1: {}, test f1: {}'.format(train_f1, test_f1))
+
+            train_score_df = pd.DataFrame(columns=['Metrics', 'Score'])
+            train_score_df['Metrics'] = ['accuracy', 'precision', 'recall', 'f1']
+            train_score_df['Score'] = [round(train_accuracy, 2), round(train_precision, 2), round(train_recall, 2), round(train_f1, 2)]
+            train_score_df.to_csv(path + 'metrics_score_train.csv', index=False)
+
+            test_score_df = pd.DataFrame(columns=['Metrics', 'Score'])
+            test_score_df['Metrics'] = ['accuracy', 'precision', 'recall', 'f1']
+            test_score_df['Score'] = [round(test_accuracy, 2), round(test_precision, 2), round(test_recall, 2), round(test_f1, 2)]
+            test_score_df.to_csv(path + 'metrics_score_test.csv', index=False)
 
             train_df = pd.read_csv(path + 'embedding_and_visualization_train.csv')
             test_df = pd.read_csv(path + 'embedding_and_visualization_test.csv')
@@ -264,7 +275,12 @@ def page3():
 
 @app.route('/visualization', methods=["GET", "POST"])
 def page4():
-    if os.path.isfile('C:/Users/daumsoft/PycharmProjects/visualization/csv_files/metrics_score_train.csv'):
+    # if os.path.isfile('C:/Users/daumsoft/PycharmProjects/visualization/csv_files/metrics_score_train.csv'):
+    #     return render_template('visualization.html', visualization="embedding_and_machineLearning_visualization")
+    # else:
+    #     return render_template('visualization.html', visualization="embedding_and_visualization")
+
+    if os.path.isfile('C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/csv_files/metrics_score_train.csv'):
         return render_template('visualization.html', visualization="embedding_and_machineLearning_visualization")
     else:
         return render_template('visualization.html', visualization="embedding_and_visualization")

@@ -3,24 +3,18 @@ def get_embed_params(embed_type, response_data):
     if embed_type == 'CounterVector':
 
         embed_params = {
-            "tokenizer": None if response_data[0] == 'None' else str(response_data[0]),
-            "stop_words": None if response_data[1] == 'None' else str(response_data[1]),
-            "min_df": int(response_data[2]),
-            "max_df": float(response_data[3]),
-            "max_features": None if response_data[4] == 'None' else int(response_data[4]),
-            "binary": False if response_data[5] == 'False' else True,
+            "min_df": int(response_data[0]),
+            "max_df": float(response_data[1]),
+            "max_features": None if response_data[2] == 'None' else int(response_data[2]),
         }
         return embed_params
 
     elif embed_type == 'TF-IDF':
 
         embed_params = {
-            "tokenizer": None if response_data[0] == 'None' else str(response_data[0]),
-            "stop_words": None if response_data[1] == 'None' else str(response_data[1]),
-            "min_df": int(response_data[2]),
-            "max_df": float(response_data[3]),
-            "max_features": None if response_data[4] == 'None' else int(response_data[4]),
-            "binary": False if response_data[5] == 'False' else True,
+            "min_df": int(response_data[0]),
+            "max_df": float(response_data[1]),
+            "max_features": None if response_data[2] == 'None' else int(response_data[2]),
         }
         return embed_params
 
@@ -94,12 +88,13 @@ def get_machine_params(machine_type, response_data):
         machine_params = {
             "input_layer_units": [int(i) for i in response_data[0]],
             "hidden_layer_units": [int(i) for i in response_data[1]],
-            "input_layer_activation": [str(i) for i in response_data[2]],
-            "hidden_layer_activation": [str(i) for i in response_data[3]],
-            "output_layer_activation": [str(i) for i in response_data[4]],
-            "optimizer": [str(i) for i in response_data[5]],
-            "epochs": [int(i) for i in response_data[6]],
-            "batch_size": [int(i) for i in response_data[7]],
+            "hidden_layer_count": [int(i) for i in response_data[2]],
+            "input_layer_activation": [str(i) for i in response_data[3]],
+            "hidden_layer_activation": [str(i) for i in response_data[4]],
+            "output_layer_activation": [str(i) for i in response_data[5]],
+            "optimizer": [str(i) for i in response_data[6]],
+            "epochs": [int(i) for i in response_data[7]],
+            "batch_size": [int(i) for i in response_data[8]],
         }
         return machine_params
 
