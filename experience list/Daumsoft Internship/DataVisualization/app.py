@@ -157,6 +157,9 @@ def page3():
                 machine_type = response_data['machine_type']
                 machine_params = get_machine_params(machine_type, response_data['machine_value'])
 
+                print(embed_params)
+                print(machine_params)
+
                 # 임베딩
                 X_train, X_test, y_train, y_test = embedding(trainFile.split(".")[0], embed_type, train, test, embed_params)
 

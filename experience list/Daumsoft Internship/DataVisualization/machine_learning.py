@@ -40,7 +40,7 @@ def pre_train_machine_learning(embedding_model_name, machine_type, X_train, X_te
     elif machine_type == 'FNN':
 
         # load the machine_model from disk
-        fnn_clf = tf.keras.models.load_model('C:/Users/daumsoft/PycharmProjects/visualization/machine_model/' + embedding_model_name.lower() + '_fnn.pkl')
+        fnn_clf = tf.keras.models.load_model('C:/Users/daumsoft/PycharmProjects/visualization/machine_model/' + embedding_model_name.lower() + '_fnn.h5')
 
         train_prediction = fnn_clf.predict(X_train)
         test_prediction = fnn_clf.predict(X_test)
@@ -174,7 +174,7 @@ def machine_learning(embedding_model_name, machine_type, X_train, X_test, y_trai
         fnn_clf.fit(X_train.toarray(), train_label, epochs=epochs, batch_size=batch_size)
 
         # save the machine_model to disk
-        fnn_clf.save('C:/Users/daumsoft/PycharmProjects/visualization/machine_model/' + embedding_model_name.lower() + '_fnn.pkl')
+        fnn_clf.save('C:/Users/daumsoft/PycharmProjects/visualization/machine_model/' + embedding_model_name.lower() + '_fnn.h5')
 
         train_prediction = fnn_clf.predict(X_train.toarray())
         test_prediction = fnn_clf.predict(X_test.toarray())

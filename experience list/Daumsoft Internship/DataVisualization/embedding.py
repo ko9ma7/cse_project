@@ -120,7 +120,7 @@ def pre_train_embedding(embed_type, pre_embed_model, train, test):
 
         return sparse_doc_train_x, sparse_doc_test_x, doc_train_tags_np, doc_test_tags_np
 
-    elif method == "user_defined_embedding":
+    elif embed_type == "user_defined_embedding":
         pass
 
 
@@ -232,7 +232,6 @@ def embedding(filename, embed_type, train, test, embed_params):
         from gensim.models.doc2vec import Doc2Vec
 
         doc_vectorizer = Doc2Vec(dm=embed_params['dm'],
-                                 min_alpha=0.025,
                                  alpha=embed_params['alpha'],
                                  vector_size=embed_params['vector_size'],
                                  window=embed_params['window'],
@@ -272,5 +271,5 @@ def embedding(filename, embed_type, train, test, embed_params):
 
         return sparse_doc_train_x, sparse_doc_test_x, doc_train_tags_np, doc_test_tags_np
 
-    elif method == "user_defined_embedding":
+    elif embed_type == "user_defined_embedding":
         pass

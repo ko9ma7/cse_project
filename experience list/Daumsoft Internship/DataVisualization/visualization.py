@@ -44,7 +44,7 @@ class myMDS(Visualization):
         self.visualization = self._build_visualization()
 
     def _build_visualization(self):
-        return MDS(n_components=2, max_iter=80, n_jobs=-1, random_state=42)
+        return MDS(n_components=2, n_jobs=-1, random_state=42)
 
     def fit(self, X, y=None):
         return self.visualization.fit(X, y)
@@ -59,7 +59,7 @@ class myTSNE(Visualization):
         self.visualization = self._build_visualization()
 
     def _build_visualization(self):
-        return TSNE(n_components=2, n_iter=250, n_jobs=-1, random_state=42)
+        return TSNE(n_components=2, n_jobs=-1, random_state=42)
 
     def fit(self, X, y=None):
         return self.visualization.fit(X, y)
