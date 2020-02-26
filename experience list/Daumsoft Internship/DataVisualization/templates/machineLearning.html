@@ -199,14 +199,14 @@
                                     <p style="color: white; font-size: 14pt">데이터 선택(필수)</p>
                                     <span class="custom-dropdown">
                                         <label class="selectbtn">Train Data</label>
-                                        <select id="train_data" style="width: 200px">
+                                        <select id="train_data" style="width: 300px">
                                             <option id="train_data_value"style="display: block;"></option>
                                             {% for f in train_file_list %}
                                                 <option id="train_data_value" value="{{ f }}" style="display: block;">{{ f }}</option>
                                             {% endfor %}
                                         </select><br>
                                         <label class="selectbtn">Test Data</label>
-                                        <select id="test_data" style="width: 200px">
+                                        <select id="test_data" style="width: 300px">
                                             <option id="test_data_value" style="display: block;"></option>
                                             {% for f in test_file_list %}
                                                 <option id="test_data_value" style="display: block;">{{ f }}</option>
@@ -300,7 +300,7 @@
                                             <table style="width: 50%" align="center">
                                                 <tr>
                                                     <td>dm</td>
-                                                    <td><input type="text" value="1" name="TextBar3" style="width: 300px; text-align: center"></td>
+                                                    <td><input type="text" value="0" name="TextBar3" style="width: 300px; text-align: center"></td>
                                                 </tr>
                                                 <tr>
                                                     <td>vector_size</td>
@@ -333,7 +333,7 @@
                             <div class="align-self-sm-auto">
                                 <span class="custom-dropdown">
                                     <input type="checkbox" name="pre-embed" value="pre-embed" onclick="confirm_checkbox1(this)" style="width:50px; height:16px;">Pre-Embed&nbsp
-                                    <select id="embeded_model" style="width: 280px">
+                                    <select id="embeded_model" style="width: 300px">
                                         <option id="embeded_model_value"style="display: block;"></option>
                                         {% for e in embed_model_list %}
                                             <option id="embeded_model_value" value="{{ e }}" style="display: block;">{{ e }}</option>
@@ -492,7 +492,7 @@
                             <div class="align-self-sm-auto">
                                 <span class="custom-dropdown">
                                     <input type="checkbox" name="pre-train" value="pre-train" onclick="confirm_checkbox2(this)" style="width:50px; height:16px;">Pre-Train&nbsp&nbsp&nbsp&nbsp
-                                    <select id="machine_model" style="width: 280px">
+                                    <select id="machine_model" style="width: 300px">
                                         <option id="machine_model_value"style="display: block;"></option>
                                         {% for m in machine_model_list %}
                                             <option id="machine_model_value" value="{{ m }}" style="display: block;">{{ m }}</option>
