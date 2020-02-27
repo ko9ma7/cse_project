@@ -1,6 +1,6 @@
 import logging
 from sklearn.decomposition import PCA
-from sklearn.manifold import TSNE, MDS
+from sklearn.manifold import TSNE, MDS, Isomap
 
 class Visualization(object):
 
@@ -38,13 +38,30 @@ class myPCA(Visualization):
         return self.visualization.fit_transform(X, y)
 
 
+class myISOMAP(Visualization):
+    def __init__(self):
+        self.visualization = self._build_visualization()
+
+    def _build_visualization(self):
+        return Isomap(n_components=2)
+
+    def fit(self, X, y=None):
+        return self.visualization.fit(X, y)
+
+    def transform(self, X):
+        return self.visualization.transform(X)
+
+    def fit_transform(self, X, y=None):
+        return self.visualization.fit_transform(X, y)
+
+
 class myMDS(Visualization):
 
     def __init__(self):
         self.visualization = self._build_visualization()
 
     def _build_visualization(self):
-        return MDS(n_components=2, random_state=42)
+        return MDS(n_components=2, dissimilarity="precomputed", random_state=42)
 
     def fit(self, X, y=None):
         return self.visualization.fit(X, y)

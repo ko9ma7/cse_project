@@ -16,6 +16,17 @@ def dimension_reduction(dimension_type, X_train, X_test, y_train, y_test):
 
         print('PCA done time: {}'.format(end - start))
 
+    elif dimension_type == "ISOMAP":
+
+        start = time.time()
+        iso_red = visualization.myISOMAP()
+
+        train_result = iso_red.fit_transform(X_train.toarray())
+        test_result = iso_red.transform(X_test.toarray())
+        end = time.time()
+
+        print('ISOMAP done time: {}'.format(end - start))
+
     # TSNE는 transform 메소드가 없음 -> 새로운 데이터에 대한 분류를 사용할 수 없음
     elif dimension_type == "MDS":
 
@@ -25,10 +36,10 @@ def dimension_reduction(dimension_type, X_train, X_test, y_train, y_test):
         size = X_train.shape[0]
         total_X = np.vstack((X_train.toarray(), X_test.toarray()))
 
-        X_tsne = mds_red.fit_transform(total_X)
+        X_mds = mds_red.fit_transform(total_X.astype(np.float64))
 
-        train_result = X_tsne[0:size, :]
-        test_result = X_tsne[size:, :]
+        train_result = X_mds[0:size, :]
+        test_result = X_mds[size:, :]
         end = time.time()
 
         print('MDS done time: {}'.format(end - start))
