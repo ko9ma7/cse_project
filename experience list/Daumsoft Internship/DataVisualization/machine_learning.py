@@ -43,8 +43,8 @@ def pre_train_machine_learning(embedding_model_name, machine_type, X_train, X_te
         fnn_clf = tf.keras.models.load_model(
             'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/machine_model/' + embedding_model_name.lower() + '_fnn.h5')
 
-        train_prediction = fnn_clf.predict(X_train)
-        test_prediction = fnn_clf.predict(X_test)
+        train_prediction = fnn_clf.predict(X_train.toarray())
+        test_prediction = fnn_clf.predict(X_test.toarray())
 
         train_y_pred = []
         for i in range(len(train_prediction)):

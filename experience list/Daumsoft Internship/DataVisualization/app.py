@@ -201,7 +201,7 @@ def page3():
                 dimension_reduction(dimension_type, X_train, X_test, y_train, y_test)
 
                 # 머신러닝
-                train_y_pred, test_y_pred = pre_train_machine_learning(embed_type, machine_type, X_train, X_test, y_train, y_test)
+                train_y_pred, test_y_pred = pre_train_machine_learning(embed_type, machine_type, X_train, X_test)
 
             # 훈련 종료 후 머신러닝 결과
             from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score

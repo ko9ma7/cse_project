@@ -48,7 +48,7 @@ def pre_train_embedding(embed_type, pre_embed_model, train, test):
 
         # count_vectorizer = load(open("C:/Users/daumsoft/PycharmProjects/visualization/embedding_model/" + pre_embed_model, "rb"))
         count_vectorizer = load(
-            open("experience list/Daumsoft Internship/DataVisualization/embedding_model/" + pre_embed_model, "rb"))
+            open("C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/embedding_model/" + pre_embed_model, "rb"))
 
         count_train_vectors = count_vectorizer.transform(train_corpus1)
         count_test_vectors = count_vectorizer.transform(test_corpus1)
@@ -68,7 +68,7 @@ def pre_train_embedding(embed_type, pre_embed_model, train, test):
 
         # tfidf_vectorizer = load(open("C:/Users/daumsoft/PycharmProjects/visualization/embedding_model/" + pre_embed_model, "rb"))
         tfidf_vectorizer = load(
-            open("experience list/Daumsoft Internship/DataVisualization/embedding_model/" + pre_embed_model, "rb"))
+            open("C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/embedding_model/" + pre_embed_model, "rb"))
 
         tf_train_vectors = tfidf_vectorizer.transform(train_corpus1)
         tf_test_vectors = tfidf_vectorizer.transform(test_corpus1)
@@ -96,7 +96,7 @@ def pre_train_embedding(embed_type, pre_embed_model, train, test):
 
         # doc_vectorizer = Doc2Vec.load('C:/Users/daumsoft/PycharmProjects/visualization/embedding_model/' + pre_embed_model)
         doc_vectorizer = Doc2Vec.load(
-            'experience list/Daumsoft Internship/DataVisualization/embedding_model/' + pre_embed_model)
+            'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/embedding_model/' + pre_embed_model)
 
         for epoch in range(10):
             doc_vectorizer.train(doc2vec_train_tag, total_examples=doc_vectorizer.corpus_count, epochs=10)
