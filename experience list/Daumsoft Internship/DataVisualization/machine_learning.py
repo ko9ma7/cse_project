@@ -4,13 +4,13 @@ import tensorflow as tf
 from joblib import dump, load
 
 
-def pre_train_machine_learning(embedding_model_name, machine_type, X_train, X_test):
+def pre_train_machine_learning(embedding_model_name, machine_type, X_train, X_test, y_train, y_test):
 
     if machine_type == 'Logistic':
 
         # load the machine_model from disk
-        # filename = 'C:/Users/daumsoft/PycharmProjects/visualization/machine_model/' + embedding_model_name.lower() + '_logistic.pkl'
-        filename = 'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/machine_model/' + embedding_model_name.lower() + '_logistic.pkl'
+        filename = 'C:/Users/daumsoft/PycharmProjects/visualization/machine_model/' + embedding_model_name.lower() + '_logistic.pkl'
+        # filename = 'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/machine_model/' + embedding_model_name.lower() + '_logistic.pkl'
         log_clf = load(filename)
 
         train_y_pred = log_clf.predict(X_train)
@@ -19,8 +19,8 @@ def pre_train_machine_learning(embedding_model_name, machine_type, X_train, X_te
     elif machine_type == 'SVM':
 
         # load the machine_model from disk
-        # filename = 'C:/Users/daumsoft/PycharmProjects/visualization/machine_model/' + embedding_model_name.lower() + '_svm.pkl'
-        filename = 'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/machine_model/' + embedding_model_name.lower() + '_svm.pkl'
+        filename = 'C:/Users/daumsoft/PycharmProjects/visualization/machine_model/' + embedding_model_name.lower() + '_svm.pkl'
+        # filename = 'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/machine_model/' + embedding_model_name.lower() + '_svm.pkl'
         svm_clf = load(filename)
 
         train_y_pred = svm_clf.predict(X_train)
@@ -29,8 +29,8 @@ def pre_train_machine_learning(embedding_model_name, machine_type, X_train, X_te
     elif machine_type == 'RandomForest':
 
         # load the machine_model from disk
-        # filename = 'C:/Users/daumsoft/PycharmProjects/visualization/machine_model/' + embedding_model_name.lower() + '_randomforest.pkl'
-        filename = 'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/machine_model/' + embedding_model_name.lower() + '_randomforest.pkl'
+        filename = 'C:/Users/daumsoft/PycharmProjects/visualization/machine_model/' + embedding_model_name.lower() + '_randomforest.pkl'
+        # filename = 'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/machine_model/' + embedding_model_name.lower() + '_randomforest.pkl'
         rnd_clf = load(filename)
 
         train_y_pred = rnd_clf.predict(X_train)
@@ -38,21 +38,29 @@ def pre_train_machine_learning(embedding_model_name, machine_type, X_train, X_te
 
     elif machine_type == 'FNN':
 
+        from sklearn.preprocessing import LabelEncoder
+
+        le = LabelEncoder()
+        train_label = le.fit_transform(y_train)
+
         # load the machine_model from disk
-        # fnn_clf = tf.keras.models.load_model('C:/Users/daumsoft/PycharmProjects/visualization/machine_model/' + embedding_model_name.lower() + '_fnn.h5')
-        fnn_clf = tf.keras.models.load_model(
-            'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/machine_model/' + embedding_model_name.lower() + '_fnn.h5')
+        fnn_clf = tf.keras.models.load_model('C:/Users/daumsoft/PycharmProjects/visualization/machine_model/' + embedding_model_name.lower() + '_fnn.h5')
+        # fnn_clf = tf.keras.models.load_model(
+        #     'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/machine_model/' + embedding_model_name.lower() + '_fnn.h5')
 
         train_prediction = fnn_clf.predict(X_train.toarray())
         test_prediction = fnn_clf.predict(X_test.toarray())
 
-        train_y_pred = []
+        tr_y_pred = []
         for i in range(len(train_prediction)):
-            train_y_pred.append(np.argmax(train_prediction[i]))
+            tr_y_pred.append(np.argmax(train_prediction[i]))
 
-        test_y_pred = []
+        te_y_pred = []
         for i in range(len(test_prediction)):
-            test_y_pred.append(np.argmax(test_prediction[i]))
+            te_y_pred.append(np.argmax(test_prediction[i]))
+
+        train_y_pred = le.inverse_transform(tr_y_pred)
+        test_y_pred = le.inverse_transform(te_y_pred)
 
     elif machine_type == 'user_defined_machine_learning':
         pass
@@ -70,8 +78,8 @@ def machine_learning(embedding_model_name, machine_type, X_train, X_test, y_trai
         log_clf.fit(X_train, y_train)
 
         # save the machine_model to disk
-        # filename = 'C:/Users/daumsoft/PycharmProjects/visualization/machine_model/' + embedding_model_name.lower() + '_logistic.pkl'
-        filename = 'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/machine_model/' + embedding_model_name.lower() + '_logistic.pkl'
+        filename = 'C:/Users/daumsoft/PycharmProjects/visualization/machine_model/' + embedding_model_name.lower() + '_logistic.pkl'
+        # filename = 'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/machine_model/' + embedding_model_name.lower() + '_logistic.pkl'
         dump(log_clf, filename)
 
         train_y_pred = log_clf.predict(X_train)
@@ -83,8 +91,8 @@ def machine_learning(embedding_model_name, machine_type, X_train, X_test, y_trai
         svm_clf.fit(X_train, y_train)
 
         # save the machine_model to disk
-        # filename = 'C:/Users/daumsoft/PycharmProjects/visualization/machine_model/' + embedding_model_name.lower() + '_svm.pkl'
-        filename = 'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/machine_model/' + embedding_model_name.lower() + '_svm.pkl'
+        filename = 'C:/Users/daumsoft/PycharmProjects/visualization/machine_model/' + embedding_model_name.lower() + '_svm.pkl'
+        # filename = 'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/machine_model/' + embedding_model_name.lower() + '_svm.pkl'
         dump(svm_clf, filename)
 
         train_y_pred = svm_clf.predict(X_train)
@@ -96,8 +104,8 @@ def machine_learning(embedding_model_name, machine_type, X_train, X_test, y_trai
         rnd_clf.fit(X_train, y_train)
 
         # save the machine_model to disk
-        # filename = 'C:/Users/daumsoft/PycharmProjects/visualization/machine_model/' + embedding_model_name.lower() + '_randomforest.pkl'
-        filename = 'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/machine_model/' + embedding_model_name.lower() + '_randomforest.pkl'
+        filename = 'C:/Users/daumsoft/PycharmProjects/visualization/machine_model/' + embedding_model_name.lower() + '_randomforest.pkl'
+        # filename = 'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/machine_model/' + embedding_model_name.lower() + '_randomforest.pkl'
         dump(rnd_clf, filename)
 
         train_y_pred = rnd_clf.predict(X_train)
@@ -139,9 +147,9 @@ def machine_learning(embedding_model_name, machine_type, X_train, X_test, y_trai
         fnn_clf.fit(X_train.toarray(), train_label, epochs=epochs, batch_size=batch_size)
 
         # save the machine_model to disk
-        # fnn_clf.save('C:/Users/daumsoft/PycharmProjects/visualization/machine_model/' + embedding_model_name.lower() + '_fnn.h5')
-        fnn_clf.save(
-            'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/machine_model/' + embedding_model_name.lower() + '_fnn.h5')
+        fnn_clf.save('C:/Users/daumsoft/PycharmProjects/visualization/machine_model/' + embedding_model_name.lower() + '_fnn.h5')
+        # fnn_clf.save(
+        #     'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/machine_model/' + embedding_model_name.lower() + '_fnn.h5')
 
         train_prediction = fnn_clf.predict(X_train.toarray())
         test_prediction = fnn_clf.predict(X_test.toarray())

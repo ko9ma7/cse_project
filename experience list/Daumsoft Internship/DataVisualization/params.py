@@ -103,4 +103,3 @@ def get_machine_params(machine_type, response_data):
         machine_params = {}
         return machine_params
 
-

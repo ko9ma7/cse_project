@@ -59,7 +59,8 @@ def dimension_reduction(dimension_type, X_train, X_test, y_train, y_test):
     test_df = pd.DataFrame(test_result, columns=['r0', 'r1'])
     test_df['target'] = y_test
 
-    path = r'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/csv_files/'
+    path = r'C:/Users/daumsoft/PycharmProjects/visualization/csv_files/'
+    # path = r'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/csv_files/'
 
     train_df.to_csv(path + 'embedding_and_visualization_train.csv', index=False)
     test_df.to_csv(path + 'embedding_and_visualization_test.csv', index=False)
