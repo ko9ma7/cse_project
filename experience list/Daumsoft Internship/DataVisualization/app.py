@@ -8,17 +8,11 @@ from dimension_reduction import dimension_reduction
 from params import get_embed_params, get_machine_params
 import pandas as pd
 
-train_file_path = 'C:/Users/daumsoft/PycharmProjects/visualization/train_list/'
-test_file_path = 'C:/Users/daumsoft/PycharmProjects/visualization/test_list/'
-embed_model_path = 'C:/Users/daumsoft/PycharmProjects/visualization/embedding_model/'
-machine_model_path = 'C:/Users/daumsoft/PycharmProjects/visualization/machine_model/'
-path = r'C:/Users/daumsoft/PycharmProjects/visualization/csv_files/'
-
-# train_file_path = 'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/train_list/'
-# test_file_path = 'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/test_list/'
-# embed_model_path = 'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/embedding_model/'
-# machine_model_path = 'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/machine_model/'
-# path = 'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/csv_files/'
+train_file_path = 'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/train_list/'
+test_file_path = 'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/test_list/'
+embed_model_path = 'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/embedding_model/'
+machine_model_path = 'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/machine_model/'
+path = 'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/csv_files/'
 
 app = Flask(__name__)
 
@@ -210,8 +204,7 @@ def page3():
             train_df = pd.DataFrame(confusion_matrix(y_train, train_y_pred), index=target_names, columns=target_names)
             test_df = pd.DataFrame(confusion_matrix(y_test, test_y_pred), index=target_names, columns=target_names)
 
-            path = r'C:/Users/daumsoft/PycharmProjects/visualization/csv_files/'
-            # path = r'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/csv_files/'
+            path = r'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/csv_files/'
 
             train_df.to_csv(path + 'confusion_matrix_train.csv', index=False)
             test_df.to_csv(path + 'confusion_matrix_test.csv', index=False)
@@ -275,15 +268,10 @@ def page3():
 
 @app.route('/visualization', methods=["GET", "POST"])
 def page4():
-    if os.path.isfile('C:/Users/daumsoft/PycharmProjects/visualization/csv_files/metrics_score_train.csv'):
+    if os.path.isfile('C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/csv_files/metrics_score_train.csv'):
         return render_template('visualization.html', visualization="embedding_and_machineLearning_visualization")
     else:
         return render_template('visualization.html', visualization="embedding_and_visualization")
-
-    # if os.path.isfile('C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/csv_files/metrics_score_train.csv'):
-    #     return render_template('visualization.html', visualization="embedding_and_machineLearning_visualization")
-    # else:
-    #     return render_template('visualization.html', visualization="embedding_and_visualization")
 
 
 # 훈련 데이터 평가 지표 값을 받는 라우터

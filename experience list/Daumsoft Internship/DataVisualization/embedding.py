@@ -46,9 +46,8 @@ def pre_train_embedding(embed_type, pre_embed_model, train, test):
 
         start = time.time()
 
-        count_vectorizer = load(open("C:/Users/daumsoft/PycharmProjects/visualization/embedding_model/" + pre_embed_model, "rb"))
-        # count_vectorizer = load(
-        #     open("C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/embedding_model/" + pre_embed_model, "rb"))
+        count_vectorizer = load(
+            open("C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/embedding_model/" + pre_embed_model, "rb"))
 
         count_train_vectors = count_vectorizer.transform(train_corpus1)
         count_test_vectors = count_vectorizer.transform(test_corpus1)
@@ -66,9 +65,8 @@ def pre_train_embedding(embed_type, pre_embed_model, train, test):
 
         start = time.time()
 
-        tfidf_vectorizer = load(open("C:/Users/daumsoft/PycharmProjects/visualization/embedding_model/" + pre_embed_model, "rb"))
-        # tfidf_vectorizer = load(
-        #     open("C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/embedding_model/" + pre_embed_model, "rb"))
+        tfidf_vectorizer = load(
+            open("C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/embedding_model/" + pre_embed_model, "rb"))
 
         tf_train_vectors = tfidf_vectorizer.transform(train_corpus1)
         tf_test_vectors = tfidf_vectorizer.transform(test_corpus1)
@@ -94,9 +92,8 @@ def pre_train_embedding(embed_type, pre_embed_model, train, test):
 
         from gensim.models.doc2vec import Doc2Vec
 
-        doc_vectorizer = Doc2Vec.load('C:/Users/daumsoft/PycharmProjects/visualization/embedding_model/' + pre_embed_model)
-        # doc_vectorizer = Doc2Vec.load(
-        #     'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/embedding_model/' + pre_embed_model)
+        doc_vectorizer = Doc2Vec.load(
+            'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/embedding_model/' + pre_embed_model)
 
         for epoch in range(10):
             doc_vectorizer.train(doc2vec_train_tag, total_examples=doc_vectorizer.corpus_count, epochs=10)
@@ -184,9 +181,7 @@ def embedding(filename, embed_type, train, test, embed_params):
         count_test_vectors = count_vectorizer.transform(test_corpus1)
 
         dump(count_vectorizer,
-             open("C:/Users/daumsoft/PycharmProjects/visualization/embedding_model/" + filename + "_counterVec.pkl", "wb"))
-        # dump(count_vectorizer,
-        #      open("C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/embedding_model/" + filename + "_counterVec.pkl", "wb"))
+             open("C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/embedding_model/" + filename + "_counterVec.pkl", "wb"))
 
         sparse_count_train_x = csr_matrix(count_train_vectors)
         sparse_count_test_x = csr_matrix(count_test_vectors)
@@ -210,9 +205,7 @@ def embedding(filename, embed_type, train, test, embed_params):
         tf_test_vectors = tfidf_vectorizer.transform(test_corpus1)
 
         dump(tfidf_vectorizer,
-             open("C:/Users/daumsoft/PycharmProjects/visualization/embedding_model/" + filename + "_tfidf.pkl", "wb"))
-        # dump(tfidf_vectorizer,
-        #      open("C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/embedding_model/" + filename + "_tfidf.pkl", "wb"))
+             open("C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/embedding_model/" + filename + "_tfidf.pkl", "wb"))
 
         sparse_tf_train_x = csr_matrix(tf_train_vectors)
         sparse_tf_test_x = csr_matrix(tf_test_vectors)
@@ -249,9 +242,8 @@ def embedding(filename, embed_type, train, test, embed_params):
         doc_test_vectors = [doc_vectorizer.infer_vector(doc.words) for doc in doc2vec_test_tag]
         doc_test_tags = [doc.tags for doc in doc2vec_test_tag]
 
-        doc_vectorizer.save('C:/Users/daumsoft/PycharmProjects/visualization/embedding_model/' + filename + '_doc2vec.pkl')
-        # doc_vectorizer.save(
-        #     'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/embedding_model/' + filename + '_doc2vec.pkl')
+        doc_vectorizer.save(
+            'C:/Users/battl/PycharmProjects/ComputerScienceEngineering/experience list/Daumsoft Internship/DataVisualization/embedding_model/' + filename + '_doc2vec.pkl')
 
         import numpy as np
 
