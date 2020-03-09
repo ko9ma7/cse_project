@@ -197,14 +197,10 @@ dmypy.json
 
 .gitignore
 !/.gitignore
-!/project list/Optimum Capacity Design of Renewable Energy Source Project/keys.py
-.idea/ComputerScienceEngineering.iml
+!/project list/Optimal Capacity Design Web Service of Renewable Energy/keys.py
+.idea/cse_project.iml
 .idea/inspectionProfiles/
 .idea/misc.xml
 .idea/modules.xml
 .idea/vcs.xml
-!/activity list/Service Oriented Programming/keys.py
 .idea/dataSources.xml
-activity list/Service Oriented Programming/keys.py
-activity list/Service Oriented Programming/requirements.txt
-!/activity list/Service Oriented Programming/requirements.txt
