@@ -1,6 +1,7 @@
 ## JMH_CSE_Project
 
-> Everything comes to him who hustles while he waits. - Thomas A. Edison -
+> Everything comes to him who hustles while he waits. - Thomas A. Edison
+
 <br/>
 
 1. profile
@@ -8,6 +9,7 @@
    + Koreatech Computer Science Engineering - senior
    + Koreatech Startup Club - vice president & back-end developer
 <br/>
+
 2. activity list
 
    + Freshman : C
@@ -17,6 +19,7 @@
    + MOSAIC(Koreatech Start Up Club)(2018.12.17 ~ 2019.12.20)
    + Daumsoft AI Lab(Internship)(2020.01.02 ~ 2020.02.28)
 <br/>
+
 3. coding practice
 
    + [BOJ](https://www.acmicpc.net/)
@@ -25,6 +28,7 @@
    + [CodeForces](https://codeforces.com/)
    + [Kaggle](https://www.kaggle.com/)
 <br/>
+
 4. project list
   
    ![#ffff00](https://placehold.it/15/aff92c/000000?text=+)
