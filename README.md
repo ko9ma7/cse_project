@@ -14,6 +14,8 @@
    + Sophomore : C++ / Java / Python / Database
    + Junior : OS / Network / Data Structure / Linux / Computer Graphics / Database System / Software Engineering
    + Senior : Algorithm / OOP / Data Analysis / Infosec  / SOC
+   + MOSAIC(Koreatech Start Up Club)(2018.12.17 ~ 2019.12.20)
+   + Daumsoft AI Lab(Internship)(2020.01.02 ~ 2020.02.28)
 <br/>
 3. coding practice
 
@@ -27,17 +29,17 @@
   
    ![#aff92c](https://placehold.it/15/aff92c/000000?text=+)
    
-   ![#e5e500](https://placehold.it/15/e5e500/000000?text=+)
-   
         【 Rhythm game using Java 】
    
    ![#ffa500](https://placehold.it/15/ffa500/000000?text=+)
    
-        【 Optimal capacity design web service of renewable energy 】
+        【 Cosmetic review data analysis 】
    
    ![#e7641c](https://placehold.it/15/e7641c/000000?text=+)
    
         【 Data acquisition and visualization system for team project 】
+        
+        【 Optimal capacity design web service of renewable energy 】
         
         【 Machine Learning Classification Model Visualization Web Service 】
    
@@ -45,8 +47,3 @@
    
    ![#960a0a](https://placehold.it/15/960a0a/000000?text=+)
    
-<br/>
-5. experience list
-
-   + MOSAIC(Koreatech Start Up Club)
-   + Daumsoft AI Lab(Internship)
