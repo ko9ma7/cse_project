@@ -8,7 +8,6 @@
    + Koreatech Computer Science Engineering - senior
    + Koreatech Startup Club - vice president & back-end developer
 <br/>
-
 2. activity list
 
    + Freshman : C
@@ -16,7 +15,6 @@
    + Junior : OS / Network / Data Structure / Linux / Computer Graphics / Database System / Software Engineering
    + Senior : Algorithm / OOP / Data Analysis / Infosec  / SOC
 <br/>
-
 3. coding practice
 
    + [BOJ](https://www.acmicpc.net/)
@@ -25,29 +23,30 @@
    + [CodeForces](https://codeforces.com/)
    + [Kaggle](https://www.kaggle.com/)
 <br/>
-
 4. project list
   
    ![#aff92c](https://placehold.it/15/aff92c/000000?text=+)
    
    ![#e5e500](https://placehold.it/15/e5e500/000000?text=+)
    
-        【 Engineering design project 】
+        【 Rhythm game using Java 】
    
    ![#ffa500](https://placehold.it/15/ffa500/000000?text=+)
    
+        【 Optimal capacity design web service of renewable energy 】
+   
    ![#e7641c](https://placehold.it/15/e7641c/000000?text=+)
    
-        【 Data Acquisition and Visualization System for Team Projects 】
+        【 Data acquisition and visualization system for team project 】
         
-        【 Optimum capacity design of renewable energy source project 】
+        【 Machine Learning Classification Model Visualization Web Service 】
    
    ![#ff280f](https://placehold.it/15/ff280f/000000?text=+)
    
    ![#960a0a](https://placehold.it/15/960a0a/000000?text=+)
    
 <br/>
-
 5. experience list
 
    + MOSAIC(Koreatech Start Up Club)
+   + Daumsoft AI Lab(Internship)
