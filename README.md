@@ -16,8 +16,8 @@
    + Sophomore : C++ / Java / Python / Database
    + Junior : OS / Network / Data Structure / Linux / Computer Graphics / Database System / Software Engineering
    + Senior : Algorithm / OOP / Data Analysis / Infosec  / SOC
-   + MOSAIC(Koreatech Start Up Club) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2018.12.17 ~ 2019.12.20
-   + Daumsoft AI Lab(Internship)     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   2020.01.02 ~ 2020.02.28
+   + MOSAIC(Koreatech Start Up Club)
+   + Daumsoft AI Lab(Internship)
 <br/>
 
 3. coding practice
