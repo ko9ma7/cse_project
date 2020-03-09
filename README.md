@@ -27,7 +27,7 @@
 <br/>
 4. project list
   
-   ![#aff92c](https://placehold.it/15/aff92c/000000?text=+)
+   ![#eff92c](https://placehold.it/15/aff92c/000000?text=+)
    
         【 Rhythm game using Java 】
    
