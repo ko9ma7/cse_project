@@ -24,6 +24,7 @@ app.config['machine_model_path'] = machine_model_path
 
 
 @app.route("/", methods=["GET", "POST"])
+@app.route("/introduction", methods=["GET", "POST"])
 def page1():
     return render_template('introduction.html')
 

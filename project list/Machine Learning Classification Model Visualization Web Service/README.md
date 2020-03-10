@@ -44,3 +44,31 @@ Daumsoft AI Lab Internship Project
 
 ### 7. 차원축소 모델 2 (사용자가 선택할 수 있는 차원축소 모델의 간략한 설명)
 ![img7](./static/img/ppt/8.png)
+
+웹 페이지 설명
+------
+![img8](./static/img/ppt/explain-1.png)
+
+![img9](./static/img/ppt/explain-2.png)
+
+![img10](./static/img/ppt/explain-3.png)
+
+![img11](./static/img/ppt/explain-4.png)
+
+서비스 결과물
+------
+![img12](./static/img/ppt/result-1.png)
+
+![img13](./static/img/ppt/result-2.png)
+
+![img14](./static/img/ppt/result-3.png)
+
+![img15](./static/img/ppt/result-4.png)
+
+![img12](./static/img/ppt/result-5.png)
+
+![img13](./static/img/ppt/result-6.png)
+
+![img14](./static/img/ppt/result-7.png)
+
+![img15](./static/img/ppt/result-8.png)
