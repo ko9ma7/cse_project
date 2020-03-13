@@ -8,7 +8,8 @@ if __name__ == "__main__":
     loopLimit = 12000
 
     while True:
-        uptempo = "https://smartstore.naver.com/neulhaerangmask/products/4632987981?site_preference=device&NaPm="
+        # uptempo = "https://smartstore.naver.com/neulhaerangmask/products/4632987981?site_preference=device&NaPm="
+        uptempo = 'https://smartstore.naver.com/hana-water/products/4832110630?NaPm='
         req = urllib.request.Request(uptempo)
         res = urllib.request.urlopen(req)
         data = res.read()
@@ -33,7 +34,7 @@ if __name__ == "__main__":
         if ready:
             x, y = pyautogui.position()
             print('x: {}, y: {}'.format(x, y))
-            pyautogui.moveTo(x=840, y=889)
+            pyautogui.moveTo(x=793, y=910)
             pyautogui.click()
             break
 
